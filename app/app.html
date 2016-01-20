@@ -9,6 +9,8 @@
         var path = require('path');
         Module.globalPaths.push( path.join(__dirname, 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
+        Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
+
         function define() {
 
         }

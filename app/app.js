@@ -23,6 +23,8 @@
 //     document.getElementById('env-name').innerHTML = env.name;
 // });
 
+import Module from 'module';
+Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
 import { ipcRenderer } from 'electron';
 import process from 'process';
