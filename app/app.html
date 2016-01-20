@@ -11,6 +11,27 @@
         Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
+        var qs = (function(a) {
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i)
+            {
+                var p=a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        })(window.location.search.substr(1).split('&'));
+
+        // If a token was set in the Query String
+        if(qs['access_token']) {
+            window.localStorage.setItem('githubToken', qs['access_token']);
+            window.localStorage.setItem('githubAccessToken', qs['access_token']);
+        }
+
+
         function define() {
 
         }
