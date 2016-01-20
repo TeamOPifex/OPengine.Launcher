@@ -1,0 +1,140 @@
+<script type="text/ng-template" id="tree_item_renderer.html">
+	<div ng-show="data.type == 'file'">
+		<a href="javascript:void(0);" ng-click="select(data)" ng-right-click="contextMenu(data)">
+			<span class="icon {{data.type}}"></span>
+			<span>{{data.label}}</span>
+			<span ng-if="data.changes"> *</span>
+		</a>
+	</div>
+
+	<div ng-show="data.type == 'folder'">
+		<label ng-right-click="contextMenu(data)" for="{{data.id}}" ng-click="select(data)">{{data.label}}</label>
+		<input type="checkbox" id="{{data.id}}" ng-model="data.open" />
+		<ol ng-show="data.subDir.length > 0">
+			<li ng-repeat="data in data.subDir" ng-class="{file: data.type == 'file', folder: data.type == 'folder', active: data.active}" data-label="{{data.label}}" ng-include="'tree_item_renderer.html'"></li>
+		</ol>
+	</div>
+</script>
+<!--
+<style>
+	#MySplitter {
+		height: 100%;
+		width: 100%;
+	}
+	#MySplitter div {
+		overflow: auto;
+	}
+	.vsplitbar {
+		width: 5px;
+		background: #344c58;
+	}
+</style>
+<div id="MySplitter">
+   <div>
+	   <ol class="codetree">
+		   <li ng-class="{ file: editor.tree[0].type == 'file', folder: editor.tree[0].type == 'folder' }" data-label="{{editor.tree[0].label}}">
+			   <div>
+				   <label ng-right-click="contextMenu(editor.tree[0])" for="{{editor.tree[0].fullPath}}" ng-click="select(editor.tree[0])">{{editor.tree[0].label}}</label>
+				   <input type="checkbox" id="{{editor.tree[0].fullPath}}" checked="checked" />
+				   <ol ng-show="editor.tree[0].subDir.length > 0">
+					   <li ng-repeat="data in editor.tree[0].subDir" ng-class="{file: data.type == 'file', folder: data.type == 'folder', active: data.active}" data-label="{{data.label}}" ng-include="'tree_item_renderer.html'"></li>
+				   </ol>
+			   </div>
+		   </li>
+	   </ol>
+   </div>
+   <div>
+	   <div id="codeHeader">
+		   <div class="file" ng-repeat="file in editor.pinned" ng-class="{ 'active': file.active }">
+			   <a href="javascript:void(0);" ng-click="editor.OpenWebsite(file)">HacknPlan</a> <span class="close" ng-click="">x</span>
+		   </div>
+		   <div class="file" ng-repeat="file in editor.open" ng-class="{ 'active': file.active }">
+			   <a href="javascript:void(0);" ng-click="select(file)">{{file.label}} <span ng-class="{ hidden: !file.changes }">*</span></a> <span class="close" ng-click="closeFile(file)">x</span>
+		   </div>
+	   </div>
+	   <div style="margin-bottom: -40px; padding-bottom: 40px; height: 100%;">
+		   <div id="editor" style="height: 100%; min-height: 200px; text-align: left; ">//Welcome to the OPengine editor.</div>
+		   <div id="newfile" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFile }">
+			   <input id="newFileText" type="text" on-escape="cancelFile();" on-enter="newFile();" placeholder="New File..." ng-model="newFileName" class="form-control" />
+		   </div>
+		   <div id="newfolder" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFolder }">
+   			   <input id="newFolderText" type="text" on-escape="cancelFolder();" on-enter="newFolder();" placeholder="New Folder..." ng-model="newFolderName" class="form-control" />
+   		   </div>
+	   </div>
+   </div>
+ </div> -->
+
+<div class="row" style="height: 100%;">
+
+	<div class="col-xs-6 col-sm-3 col-lg-2" style="height: 100%;padding-right:0px;">
+		<ol class="codetree">
+			<li ng-class="{ file: editor.tree[0].type == 'file', folder: editor.tree[0].type == 'folder' }" data-label="{{editor.tree[0].label}}">
+				<div>
+					<label ng-right-click="contextMenu(editor.tree[0])" for="{{editor.tree[0].fullPath}}" ng-click="select(editor.tree[0])">{{editor.tree[0].label}}</label>
+					<input type="checkbox" id="{{editor.tree[0].fullPath}}" checked="checked" />
+					<ol ng-show="editor.tree[0].subDir.length > 0">
+						<li ng-repeat="data in editor.tree[0].subDir" ng-class="{file: data.type == 'file', folder: data.type == 'folder', active: data.active}" data-label="{{data.label}}" ng-include="'tree_item_renderer.html'"></li>
+					</ol>
+				</div>
+			</li>
+		</ol>
+	</div>
+
+	<div class="col-xs-6 col-sm-9 col-lg-10" style="height: 100%;padding-left:0px;">
+		<div id="codeHeader">
+			<div class="file" ng-repeat="file in editor.pinned" ng-class="{ 'active': file.active }">
+				<a href="javascript:void(0);" ng-click="editor.OpenWebsite(file)">HacknPlan</a> <span class="close" ng-click="">x</span>
+			</div>
+			<div class="file" ng-repeat="file in editor.open" ng-class="{ 'active': file.active }">
+				<a href="javascript:void(0);" ng-click="select(file)">{{file.label}} <span ng-class="{ hidden: !file.changes }">*</span></a> <span class="close" ng-click="closeFile(file)">x</span>
+			</div>
+		</div>
+		<div style="margin-bottom: -40px; padding-bottom: 40px; height: 100%;">
+			<div id="editor" style="height: 100%; min-height: 200px; text-align: left; ">//Welcome to the OPengine editor.</div>
+			<div id="newfile" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFile }">
+				<input id="newFileText" type="text" on-escape="cancelFile();" on-enter="newFile();" placeholder="New File..." ng-model="newFileName" class="form-control" />
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+<div id="deleteFileModal" class="modal fade yes-no-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-body text-left">
+            <h4 class="modal-title">Are you sure you want to delete <b>{{deleteFileNode.label}}</b>?</h4>
+            <div>
+                <small>{{deleteFileNode.fullPath}}</small>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-default form-fill form-control" data-dismiss="modal">Cancel</button>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-primary form-fill form-control" ng-click="deleteFile()">Yes</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="showFileModal" class="modal fade yes-no-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+		<img id="imagePreview" style="max-width: 100%;"></img>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

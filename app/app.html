@@ -1,27 +1,201 @@
 <!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Electron Boilerplate</title>
+<html ng-app="engineApp">
+    <head>
+        <meta charset="utf-8">
+        <title>Electron Boilerplate</title>
 
-    <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <script>
+        function define() {
 
-    <script src="vendor/electron_boilerplate/context_menu.js"></script>
-    <script src="vendor/electron_boilerplate/external_links.js"></script>
+        }
+        </script>
 
-    <script src="app.js"></script>
-</head>
-<body>
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
 
-    <div class="container">
-        <h1 id="greet"></h1>
-        <p class="subtitle">
-            Welcome to <a href="http://electron.atom.io" class="js-external-link">Electron</a> app running on this magnificent <strong id="platform-info"></strong> machine.
-        </p>
-        <p class="subtitle">
-            You are in <strong id="env-name"></strong> environment.
-        </p>
-    </div>
+        <script src="vendor/electron_boilerplate/context_menu.js"></script>
+        <script src="vendor/electron_boilerplate/external_links.js"></script>
 
-</body>
+        <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+        <script src="vendor/bootstrap.min.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="bower_components/blob/Blob.js"></script>
+        <script src="bower_components/FileSaver/FileSaver.js"></script>
+
+
+        <script src="js/engine.js"></script>
+        <script src="js/app/routes.js"></script>
+
+        <script src="js/app/directives/onEnter.js"></script>
+        <script src="js/app/directives/onEscape.js"></script>
+        <script src="js/app/directives/onRightClick.js"></script>
+        <script src="js/app/directives/codeEditor.js"></script>
+
+        <script src="js/app/factories/cmake.js"></script>
+        <script src="js/app/factories/config.js"></script>
+        <script src="js/app/factories/console.js"></script>
+        <script src="js/app/factories/engineReleases.js"></script>
+        <script src="js/app/factories/engines.js"></script>
+        <script src="js/app/factories/git.js"></script>
+        <script src="js/app/factories/make.js"></script>
+        <script src="js/app/factories/projects.js"></script>
+        <script src="js/app/factories/run.js"></script>
+        <script src="js/app/factories/user.js"></script>
+        <script src="js/app/factories/CodeEditor.js"></script>
+
+        <script src="js/app/controllers/engineController.js"></script>
+        <script src="js/app/controllers/engineDetailController.js"></script>
+        <script src="js/app/controllers/projectDetailController.js"></script>
+        <script src="js/app/controllers/projectSettingsController.js"></script>
+        <script src="js/app/controllers/libraryController.js"></script>
+        <script src="js/app/controllers/loginController.js"></script>
+        <script src="js/app/controllers/settingsController.js"></script>
+        <script src="js/app/controllers/toolsController.js"></script>
+        <script src="js/app/controllers/resourcePackController.js"></script>
+
+        <script src="vendor/splitter.js"></script>
+
+        <script>
+            $.browser = $.browser || {};
+            String.prototype.endsWith = function(suffix) {
+                return this.indexOf(suffix, this.length - suffix.length) !== -1;
+            };
+            String.prototype.extension = function() {
+                var ind = this.lastIndexOf('.');
+                if(ind < 0) return '';
+                return this.substr(ind);
+            };
+        </script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-28069191-7', 'auto');
+          ga('send', 'pageview');
+        </script>
+
+        <script src="app.js"></script>
+    </head>
+    <body ng-controller="engineCtrl">
+
+        <div class="visible-xs">
+            <div id="bs-navbar" style="display: none">
+              <ul class="nav navbar-nav">
+                  <li>
+                      <a href="#" onclick="$('#bs-navbar').toggle();">News</a>
+                  </li>
+                  <li>
+                      <a href="#" onclick="$('#bs-navbar').toggle();">Learn</a>
+                  </li>
+                  <li>
+                      <a href="#/tools" onclick="$('#bs-navbar').toggle();">Tools</a>
+                  </li>
+                  <li class="active">
+                      <a href="#/library" onclick="$('#bs-navbar').toggle();">Library</a>
+                  </li>
+              </ul>
+          </div>
+        </div>
+
+        <div class="container" id="mainContainer">
+            <div class="row toolbar">
+                <div class="col-xs-12 text-right nopadding">
+                    <a href="#" id="minimize">
+                        <img src="content/imgs/delete.png" style="width:12px; padding-top: 3px; margin-right: 6px;" />
+                    </a>
+                    <a href="#" id="close">
+                        <img src="content/imgs/delete-2.png" style="width:12px; margin-right: 10px;" />
+                    </a>
+                </div>
+            </div>
+            <div class="row content">
+                <div class="sidebar col-lg-2 col-sm-3 hidden-xs nopadding" ng-class="{ 'hidden': !showSideBar }">
+                    <div class="header row extrapadding">
+                        <div class="logo col-xs-4 nopadding">
+                            <div style="width: 100%; background-color: #fff; border-radius: 0px 0px 3px 0px; border: 3px solid white">
+                                <a href="" ng-click="open('http://opengine.io')"><img style="height: 35px; padding: 2px" src="content/imgs/OPengineLogoSmall.png" /></a>
+                            </div>
+                        </div>
+                        <div class="title col-xs-8 nopadding">
+                            <div style="width: 100%; background-color: #7c9d6a; height: 3px; margin-top: 1px; margin-bottom: 3px;"></div>
+                            <a href="javascript:void()">OPengine</a>
+                        </div>
+                    </div>
+                    <div class="menu">
+                        <!-- <div class="favorites extrapadding">
+                            <div class="btn-group form-fill">
+                              <a href="" class="btn btn-primary form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="header">Generate</span> <br />
+                                <span class="sub">OPengine v0.4.5</span>
+                                <span class="caret"></span>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="">Generate</a></li>
+                                <li><a href="">Update</a></li>
+                                <li><a href="">Build</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="">Delete</a></li>
+                              </ul>
+                            </div>
+                        </div> -->
+                        <div class="sections">
+                            <ul>
+                                <li ng-class="getClass('/news')">
+                                    <a href="#/news">News</a>
+                                </li>
+                                <li ng-class="getClass('/learn')">
+                                    <a href="#/learn">Learn</a>
+                                </li>
+                                <li ng-class="getClass('/tools')">
+                                    <a href="#/tools">Tools</a>
+                                    <ul ng-if="getClass('/tools') != ''">
+                                        <li>
+                                            <a href="#/tools/spriteSheet">OPspriteSheet Creator</a>
+                                        </li>
+                                        <li>
+                                            <a href="#/tools/font">Font Creator</a>
+                                        </li>
+                                        <li>
+                                            <a href="#/tools/opm">FBX to OPM</a>
+                                        </li>
+                                        <li>
+                                            <a href="#/toolsResourcePack">Resource Pack</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-class="getClass('/library')">
+                                    <a href="#/library">Library</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="external global-settings">
+                            <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></a>
+                            <a href="#/bug"><span class="icon-bug"></a>
+                            <a href="#/message"><span class="icon-message-2"></a>
+                            <a href="#/settings"><span class="icon-gear"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="main col-xs-12 nopadding" ng-class="{ 'col-sm-9': showSideBar, 'col-lg-10': showSideBar }">
+                    <div class="text-left" ng-if="console.display && console.task" style="position: absolute; top: 0; width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; z-index: 10001">
+                        {{console.task}}
+                    </div>
+                    <div class="console text-left" ng-if="console.display" ng-click="toggleConsole()" on-enter="hideConsole()">
+                        <div class="line" ng-repeat="line in console.lines track by $index">
+                            <span ng-class="{ error: line.type == 2, success: line.type == 3 }">{{line.text}}</span>
+                        </div>
+                    </div>
+
+                    <div ng-view style="display:block; height: 100%; margin-bottom: 125px;"> </div>
+
+
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

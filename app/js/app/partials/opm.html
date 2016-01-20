@@ -1,0 +1,78 @@
+<script src="vendor/opm.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="vendor/jstorage.js"></script>
+
+<div class="extrapadding text-left" style="height: 100%; padding-bottom: 100px;     overflow: scroll;">
+<div class="opm-tool">
+	<h1>FBX to OPM</h1>
+	<div><i>Note that this will upload your .fbx to the server to
+	convert and then it will delete the .fbx. The .opm and other files
+	will remain for at least a day. Please compile the FBXtoOPM Tool in
+	the OPengine and run it locally if that's a problem.</i></div>
+	<br>
+	<form role="form">
+	<div class="row form-group">
+	<div class="col-sm-2"><label>FBX File to convert</label></div>
+	<div class="col-sm-10"><input type="file"></div>
+	</div>
+	<div class="row form-group">
+	<div class="col-sm-2"><label for="font-size" class=
+	"control-label">Features</label></div>
+	<div class="col-sm-10">
+	<div><input id="Positions" type="checkbox" checked="checked">
+	<span>Positions</span></div>
+	<div><input id="Normals" type="checkbox" checked="checked">
+	<span>Normals</span></div>
+	<div><input id="UVs" type="checkbox" checked="checked">
+	<span>UVs</span></div>
+	<div><input id="Colors" type="checkbox"> <span>Colors</span></div>
+	<div><input id="Indices" type="checkbox" checked="checked">
+	<span>Indices</span></div>
+	<div><input id="Tangents" type="checkbox">
+	<span>Tangents</span></div>
+	<div><input id="Bones" type="checkbox" checked="checked">
+	<span>Bones</span></div>
+	<div><input id="Skinning" type="checkbox" checked="checked">
+	<span>Skinning</span></div>
+	<div><input id="Skeletons" type="checkbox" checked="checked">
+	<span>Skeletons</span></div>
+	<div><input id="Animations" type="checkbox" checked="checked">
+	<span>Animations</span></div>
+	</div>
+	</div>
+	<div class="row form-group">
+	<div class="col-sm-2"><label>Animations</label></div>
+	<div class="col-sm-10"><i>If left empty Take 001 will be used if
+	Animations are checked</i></div>
+	</div>
+	<div class="row form-group">
+	<div class="col-sm-6">
+	<div class="row form-group">
+	<div class="col-sm-12">
+	<textarea id="frameList" placeholder="Convert animation list"
+	class="form-control"></textarea></div>
+	</div>
+	<p><a href="" onclick="ConvertFrames(); return false;" class=
+	"btn btn-primary">Convert Frames</a></p>
+	</div>
+	<div class="col-sm-6">
+	<div id="AnimationsContainer">
+	<div id="AnimationList"></div>
+	</div>
+	<p><a href="" onclick="AddAnim(); return false;" class=
+	"btn btn-primary">Add +</a></p>
+	</div>
+	</div>
+	<div class="row form-group">
+	<div class="col-sm-2"><label>Output Name</label></div>
+	<div class="col-sm-9"><input id="output" type="textbox" class=
+	"form-control"></div>
+	<div class="col-sm-1 text-right"><button type="submit" class=
+	"btn btn-primary">Convert</button></div>
+	</div>
+	</form>
+	<div class="well well-info">
+		<p id="Results">Results:</p>
+	</div>
+</div>
+</div>

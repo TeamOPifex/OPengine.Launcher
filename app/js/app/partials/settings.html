@@ -1,0 +1,76 @@
+<div class="extrapadding section detail">
+
+    <div class="text-left">
+        <h2 class="title">
+            <a href="" onclick="window.history.back()"> <span class="icon-left"></span> </a>
+            Settings
+        </h2>
+    </div>
+
+    <br />
+
+    <div>
+        <input class="form-control" type="text" ng-model="root" ng-change="setRoot()" />
+    </div>
+
+    <br />
+
+    <div class="text-left">
+        <b>PhysX</b> : <a onclick="require('shell').openExternal('https://developer.nvidia.com/programs/gamedev/register')" href="">https://developer.nvidia.com/programs/gamedev/register</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="physx" ng-change="savePhysX()" placeholder="PhysX root source folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setPhysX()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="text-left">
+        <b>V8</b> : <a onclick="require('shell').openExternal('https://code.google.com/p/v8/')" href="">https://code.google.com/p/v8/</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="v8" ng-change="saveV8()" placeholder="V8 root source folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setV8()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="text-left">
+        <b>FMOD</b> : <a onclick="require('shell').openExternal('http://www.fmod.org/')" href="">http://www.fmod.org/</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="fmod" ng-change="saveFMOD()" placeholder="FMOD lowlevel source folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setFMOD()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="text-left">
+        <b>Assimp</b> : <a onclick="require('shell').openExternal('http://assimp.sourceforge.net/')" href="">http://assimp.sourceforge.net/</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="assimp" ng-change="saveAssimp()" placeholder="Assimp binary folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setAssimp()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <a href="" ng-click="logout()" class="btn btn-primary">Logout</a>
+
+</div>

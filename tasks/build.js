@@ -16,8 +16,12 @@ var destDir = projectDir.cwd('./build');
 
 var paths = {
     copyFromAppDir: [
+        './bower_components/**',
         './node_modules/**',
+        './stylesheets/**',
+        './fonts/**',
         './vendor/**',
+        './js/**',
         './**/*.html',
         './**/*.+(jpg|png|svg)'
     ],
@@ -73,6 +77,8 @@ var bundle = function (src, dest) {
 var bundleApplication = function () {
     return Q.all([
         bundle(srcDir.path('background.js'), destDir.path('background.js')),
+        bundle(srcDir.path('launcherWindow.js'), destDir.path('launcherWindow.js')),
+        bundle(srcDir.path('loginWindow.js'), destDir.path('loginWindow.js')),
         bundle(srcDir.path('app.js'), destDir.path('app.js')),
     ]);
 };

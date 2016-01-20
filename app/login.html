@@ -1,0 +1,214 @@
+<!doctype html>
+<html ng-app="engineApp">
+    <head>
+        <meta charset="utf-8">
+        <title>OPengine Launcher</title>
+
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/font-awesome.css" rel="stylesheet" type="text/css">
+
+        <script src="vendor/electron_boilerplate/env_config.js"></script>
+        <script src="vendor/electron_boilerplate/context_menu.js"></script>
+        <script src="vendor/electron_boilerplate/external_links.js"></script>
+
+		<script src="vendor/require.js"></script>
+        <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+        <script>
+            $(function() {
+                requirejs(['app'], function (app) {});
+            });
+        </script>
+        <script src="vendor/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-28069191-7', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+        <style>
+        .not-logged-in {
+            /*display: none;*/
+        }
+        .btn.btn-social.btn-github {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 58px;
+            font-weight: 900;
+            background-color: #7c9d6a;
+        }
+        .btn.btn-social.btn-github .fa-github {
+            padding-top: 5px;
+            width: 44px;
+        }
+        .offline {
+            position: absolute;;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #344c58
+        }
+        body {
+            background-color: #466674;
+        }
+        a:hover {
+            color: #fff;
+
+        }
+        .toolbar {
+            background-color: #344c58;
+        }
+        .toolbar a {
+            color: #fff;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row toolbar">
+                <div class="col-xs-12 text-right nopadding">
+                    <a href="javascript:void(0)" id="close" style="display: block;float:right;width:12px; margin-right: 10px;padding-top: 3px; padding-bottom: 1px;">
+                        <span class="icon-delete-2">
+                        </span>
+                    </a>
+                    <a href="#" id="minimize" style="display: block;float:right;width:12px; padding-top: 5px; margin-right: 10px; height: 20px;">
+                        <span class="icon-delete">
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div style="padding: 0px 25px;">
+
+                <div class="text-center" style="margin-top: 50px; margin-bottom: 50px;">
+                    <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
+                </div>
+
+                <div style="margin-top: 15px;">
+
+                    <a id="githubLogin" href="javascript:void(0)" class="btn btn-block btn-social btn-github not-logged-in">
+                      <span class="fa fa-github"></span>
+                      Sign in with Github
+                    </a>
+
+                </div>
+                <div style="margin-top: 15px;" class="not-logged-in">
+                    <a onclick="require('shell').openExternal('https://opengine.io')" href="">
+                        OPengine Homepage
+                    </a>
+                </div>
+            </div>
+
+            <div class="offline">
+                <div style="margin-top: 5px;">
+                    <a id="offline" href="javascript:void(0);" >Go Offline</a>
+                </div>
+                <div>
+                    <span style="color: #888;">OPengine v0.4</span>
+                </div>
+            </div>
+        </div>
+		<script>
+
+            var ipc = require('electron').ipcRenderer
+
+            $('#githubLogin').click(function() {
+                ipc.send('github');
+            });
+
+            $('#offline').click(function() {
+                ipc.send('signin');
+            });
+
+            var token;
+
+        	function login() {
+
+                window.localStorage.setItem('githubToken', token);
+
+                var tmp = define;
+                define = null;
+                var Github = require('github-api');
+                define = tmp;
+                var github = new Github({
+                    token: token,
+                    auth: "oauth"
+                });
+
+        		var githubUser = github.getUser();
+                //console.log(githubUser);
+
+        		githubUser.orgs(function(err, results) {
+        			if(err) {
+        				if(err.error == 401) {
+        					alert('Failed to authenticate');
+        					return;
+        				}
+        			}
+
+        			var orgs = results;
+                    var OPifex = false;
+        			for(var i = 0; i < orgs.length; i++) {
+        				if(orgs[i].login == 'TeamOPifex') {
+        					OPifex = true;
+        					break;
+        				}
+        			}
+
+        			if(!OPifex) {
+        				alert('Not a part of the Github Organization TeamOPifex');
+        			} else {
+        				githubUser.orgRepos('teamopifex', function(err, results) {
+        					//console.log('org repos', err, results);
+        				});
+
+                        ipc.send('signin', token);
+
+        				// window.location = 'app.html?access_token=' + token;
+        			}
+        		});
+        	}
+
+            var qs = (function(a) {
+                if (a == "") return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i)
+                {
+                    var p=a[i].split('=', 2);
+                    if (p.length == 1)
+                        b[p[0]] = "";
+                    else
+                        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                }
+                return b;
+            })(window.location.search.substr(1).split('&'));
+
+            // If a token was set in the Query String
+            if(qs['access_token']) {
+              window.localStorage.setItem('githubAccessToken', qs['access_token']);
+            }
+
+            require('ipc').on('access', function(args) {
+                window.localStorage.setItem('githubAccessToken', args);
+                token = args;
+                login();
+            });
+
+            // If there was already a token present
+            if(window.localStorage['githubAccessToken']) {
+                $('.logo-icon').addClass('rotating');
+                token =  window.localStorage['githubAccessToken'];
+                login();
+            } else {
+                $('.not-logged-in').removeClass('not-logged-in');
+            }
+		</script>
+    </body>
+</html>

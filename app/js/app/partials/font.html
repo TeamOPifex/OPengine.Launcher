@@ -1,0 +1,38 @@
+<script src="vendor/font.js"></script>
+
+<h1>OPfont Creator</h1>
+<div>
+	<i>Note that this will upload your .ttf to the server to convert and then it will delete the .ttf. The .opf will remain for at least a day. Please compile the FontMaker Tool in the OPengine and run it locally if that's a problem.</i>
+</div>
+<br />
+<form role="form">
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<label class="control-label" for="font-size">Font Size</label>
+		</div>
+		<div class="col-sm-5">
+			<input id="font-size" class="form-control" type="number", value="12" />
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<label>Atlas Size</label>
+		</div>
+		<div class="col-sm-10">
+			<input id="atlas" class="form-control" type="number", value="512" />
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<label>TTF File to convert</label>
+		</div>
+		<div class="col-sm-10">
+			<input type="file" />
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-12 text-right">
+			<button class="btn btn-primary" type="submit">Convert</button>
+		</div>
+	</div>
+</form>

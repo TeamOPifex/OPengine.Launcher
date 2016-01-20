@@ -1,0 +1,31 @@
+<div class="row extrapadding section detail" style="height: 100%">
+    <div class="col-xs-12 text-left">
+        <h2 class="title">
+            <a href="" onclick="window.history.back()"> <span class="icon-left"></span> </a>
+			{{name}} Settings
+        </h2>
+
+		<div class="extrapadding inner-content-padding">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Build</h3>
+                    <h4>Windows .sln</h4>
+					<textarea class="form-control" ng-model="config.solution"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Application Start Command(s)</h3>
+                    <i>Separate multiple commands by new lines</i>
+                    <h4>Windows</h4>
+					<textarea class="form-control" ng-model="config.launchWindows"></textarea>
+                    <h4>OSX</h4>
+					<textarea class="form-control" ng-model="config.launchOSX"></textarea>
+                    <h4>Linux</h4>
+					<textarea class="form-control" ng-model="config.launchLinux"></textarea>
+                </div>
+            </div>
+		</div>
+
+	</div>
+</div>

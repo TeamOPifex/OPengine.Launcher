@@ -1,13 +1,19 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "identifier": "com.example.electron-boilerplate",
-  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
-  "version": "0.1.0",
-  "author": "Mr Gumby",
-  "copyright": "© 2016, your company here",
+  "name": "opengine-launcher",
+  "productName": "OPengine Launcher",
+  "identifier": "com.opifex.opengine-launcher",
+  "description": "OPengine Launcher",
+  "version": "0.2.5",
+  "author": "Garrett Hoofman <garrett@teamopifex.com>",
+  "copyright": "© 2016, OPifex Entertainment",
   "main": "background.js",
   "dependencies": {
-    "fs-jetpack": "^0.7.0"
+    "fs-jetpack": "^0.7.0",
+    "git-cli": "^0.8.3",
+    "github-api": "^0.10.7",
+    "mkdirp": "^0.5.1",
+    "open": "0.0.5",
+    "psd": "^3.1.0",
+    "rimraf": "^2.4.3"
   }
 }

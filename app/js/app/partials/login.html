@@ -1,0 +1,46 @@
+<div class="extrapadding">
+    <h3 class="text-left">GitHub Personal Access Token</h3>
+    <div class="text-left">
+
+
+        <br />
+        <a href="https://github.com/login/oauth/authorize?client_id=6a6535c88ff733bb39c0&scope=user,user:email,repo&redirect_uri=http://launcher.opengine.io/authentication&state=launcher" class="btn btn-primary form-control">Login With Github</a>
+        <br />
+        <h4>Or use a Personal Access Token</h4>
+        <p>Create your Personal Access token here: <a onclick="require('shell').openExternal('https://github.com/settings/tokens')" href="">https://github.com/settings/tokens</a> <br /><small><i>( Only read access is needed on your Access Token )</i></small></p>
+
+        <div class="row">
+            <div class="col-xs-9">
+                <input type="text" ng-model="token" class="form-control" />
+            </div>
+            <div class="col-xs-3">
+                <a href="" ng-click="login()" class="btn btn-primary form-fill">Login</a>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <h3>Haven't been added to the OPengine Github project yet?</h3>
+        <div class="row">
+            <div class="col-xs-9">
+                <input type="text" placeholder="Email Address" ng-model="email" class="form-control" />
+            </div>
+            <div class="col-xs-3">
+                <a href="" ng-click="signup()" class="btn btn-primary form-fill">Add Me</a>
+            </div>
+        </div>
+        <br />
+        <br />
+        <h4>Launcher Requirements</h4>
+        <i>You need command line access to these:</i>
+        <div>
+            <b>Visual Studio Community (or higher)</b> : <a onclick="require('shell').openExternal('https://www.visualstudio.com/products/visual-studio-community-vs')" href="">https://www.visualstudio.com/products/visual-studio-community-vs</a>
+        </div>
+        <div>
+            <b>CMake</b> : <a onclick="require('shell').openExternal('https://cmake.org/download/')" href="">https://cmake.org/download/</a>
+        </div>
+        <div>
+            <b>Git</b> : <a onclick="require('shell').openExternal('http://git-scm.com/downloads')" href="">https://git-scm.com/downloads</a>
+        </div>
+    </div>
+</div>

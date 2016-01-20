@@ -1,0 +1,26 @@
+
+<div class="extrapadding" style="height: 100%; padding-bottom: 100px;     overflow: scroll;">
+	<h3 class="text-left">Select Resource Path</h3>
+	<p class="text-left">If you're packing your entire assets folder, generate your project in Release Mode and then select the assets folder in the build folder of your project.</p>
+	<div class="row">
+		<div class="col-xs-8">
+			<input class="form-control" type="text" ng-model="resourcePath" ng-change="saveResourcePath()" placeholder="Asset folder" />
+		</div>
+		<div class="col-xs-4">
+			<a class="btn btn-primary form-control" href="" ng-click="setResourcePath()">Set...</a>
+		</div>
+	</div>
+
+	<div>
+		<div ng-repeat="file in files">
+			<div class="checkbox">
+				<input ng-model="file.selected" type="checkbox" id="{{file.name}}" />
+				<label class="check" for="{{file.name}}"></label>
+				<label class="text">{{file.name}}</label>
+			</div>
+		</div>
+	</div>
+
+	<a class="btn btn-primary form-control" href="" ng-click="buildResource()">Build...</a>
+
+</div>
