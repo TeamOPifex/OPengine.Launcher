@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>OPengine Launcher</title>
+
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/font-awesome.css" rel="stylesheet" type="text/css">
+
+		<style>
+        body {
+            background-color: #466674;
+        }
+		</style>
+    </head>
+    <body>
+		<div class="text-center" style="margin-top: 50px; margin-bottom: 50px;">
+			<img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="150" alt="..." style="margin-top: -5px;" />
+		</div>
+
+		<div>
+			<h1>Email Address</h1>
+			<p>There was no e-mail address on your Github account. We need that to add you to the Github OPengine organization.</p>
+			<input id="email" type="text" class="form-control" />
+			<a id="signup" href="javascript:void(0);">Complete Signup</a>
+		</div>
+
+		<script>
+			var qs = (function(a) {
+				if (a == "") return {};
+				var b = {};
+				for (var i = 0; i < a.length; ++i)
+				{
+					var p=a[i].split('=', 2);
+					if (p.length == 1)
+						b[p[0]] = "";
+					else
+						b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+				}
+				return b;
+			})(window.location.search.substr(1).split('&'));
+
+			var token = qs['access_token'];
+
+			$(function() {
+				$('#signup').click(function() {
+					var email = $('#email').val();
+					if(!email || email = '') return;
+					// TODO: Determine if it's a valid email
+					
+					$(this).addClass('disabled');
+					window.location = 'http://launcher.opengine.io/addemail?access_token=' + access_token + '&email=' + email;
+				});
+			});
+
+		</script>
+    </body>
+</html>

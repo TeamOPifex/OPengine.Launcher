@@ -46,7 +46,11 @@ app.use(function(req, res) {
 
            if(u && u.email) {
                console.log(u.email);
-           }
+           } else {
+			   res.writeHead(301, { Location: 'http://launcher.opengine.io/noemail.html?access_token=' + params2.access_token });
+			   res.end();
+			   return;
+		   }
 
            request.post({url:'http://opengine.io/add', formData: { email: u.email }}, function(err, res2, body2) {
                //console.log(err, res2, body2);
@@ -66,7 +70,27 @@ app.use(function(req, res) {
 
     });
 
-  } else {
+} else if(req._parsedUrl.pathname == '/signup') {
+
+    var params2 = qs.parse(req._parsedUrl.query);
+
+    request.post({url:'http://opengine.io/add', formData: { email: u.email }}, function(err, res2, body2) {
+        //console.log(err, res2, body2);
+        var res3 = JSON.parse(body2);
+        if(res3.claimed) {
+            res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+            res.end();
+            return;
+        }
+        request({url: 'http://opengine.io/github?state=' + res3.token}, function(err2, res4, body3) {
+            //console.log(err2,res4, body3);
+           res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+           res.end();
+        });
+    });
+
+    }
+  else {
     res.end('Hello from the OPengine Launcher!\n');
   }
 });
