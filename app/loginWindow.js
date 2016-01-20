@@ -4,7 +4,7 @@ import { ipcMain, ipcRenderer } from 'electron';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
 
-function loginWindow(app) {
+function loginWindow(app, signout) {
 	var window = new BrowserWindow({
 		width: 300, height: 450,
 		frame: false, title: 'OPengine'
@@ -16,7 +16,11 @@ function loginWindow(app) {
 	// Here we load from the file path regardless if it's in production
 	// that way if the user doesn't have internet, it will still load
 	// and they can login Offline.
-    window.loadUrl('file://' + __dirname + '/login.html?t=' + (+new Date));
+	var path = 'file://' + __dirname + '/login.html?t=' + (+new Date);
+	if(signout) {
+		path += '&signout=true';
+	}
+    window.loadUrl(path);
 
 
 	var githubWindow;

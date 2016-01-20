@@ -131,7 +131,7 @@ function launcherWindow(app, token) {
 		ipcMain.removeListener('load', load);
 		ipcMain.removeListener('absPath', absPath);
 		console.log(LoginWindow);
-		require('./loginWindow.js')(app);
+		require('./loginWindow.js')(app, true);
 		mainWindow.destroy();
 	});
 
