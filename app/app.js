@@ -26,6 +26,7 @@
 
 import { ipcRenderer } from 'electron';
 import process from 'process';
+import jetpack from 'fs-jetpack';
 
 ipcRenderer.on('asynchronous-reply', function(arg) {
 
