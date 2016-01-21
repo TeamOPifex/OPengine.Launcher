@@ -21,20 +21,31 @@ function InviteToOrg(access_token) {
     });
 
     var githubUser = github.getUser();
-    githubUser.show(null, function(err, data) {
-        var url = 'https://api.github.com/orgs/TeamOPifex/memberships/' + data.login + '?client_id=3a4a417d211d47f1ff03&client_secret=91c847760ce92ec9a41d8664e9bc30104b251ddf&role=member'
-        var request = require('request');
-        request.put({
-        	url: url,
-        	headers: {
-        		'Accept': 'application/vnd.github.v3+json',
-        		'Authorization': 'token ' + process.env.GITHUB_ACCESS_TOKEN,
-        		'User-Agent': 'OPifex.Engine.Web'
-        	}
-        }, function (error, response, body) {
-        	console.log(error, body);
+    githubUser.orgs(function(err, results) {
+    	console.log(err, results);
+        for(var i = 0; i < results.length; i++) {
+            if(results[i].id == 10055531) {
+                // User is already in the Organization
+                return;
+            }
+        }
+
+        // Wasn't found in the Organization, adding them
+        githubUser.show(null, function(err, data) {
+            var url = 'https://api.github.com/orgs/TeamOPifex/memberships/' + data.login + '?client_id=3a4a417d211d47f1ff03&client_secret=91c847760ce92ec9a41d8664e9bc30104b251ddf&role=member'
+            var request = require('request');
+            request.put({
+                url: url,
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Authorization': 'token ' + process.env.GITHUB_ACCESS_TOKEN,
+                    'User-Agent': 'OPifex.Engine.Web'
+                }
+            }, function (error, response, body) {
+                console.log(error, body);
+            });
         });
-    });
+    })
 
 }
 
