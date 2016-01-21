@@ -1,23 +1,95 @@
-<script type="text/javascript">
-	var qs = (function(a) {
-		if (a == "") return {};
-		var b = {};
-		for (var i = 0; i < a.length; ++i)
-		{
-			var p=a[i].split('=', 2);
-			if (p.length == 1)
-				b[p[0]] = "";
-			else
-				b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-		}
-		return b;
-	})(window.location.search.substr(1).split('&'));
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>OPengine Launcher</title>
 
-	// If a token was set in the Query String
-	if(qs['access_token']) {
-		window.localStorage.setItem('githubAccessToken', qs['access_token']);
-	  	require('ipc').send('access', qs['access_token']);
-	} else {
-		alert('No access');
-	}
-</script>
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/font-awesome.css" rel="stylesheet" type="text/css">
+
+		<script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+
+		<style>
+        body {
+            background-color: #466674;
+        }
+		</style>
+    </head>
+    <body>
+		<div class="text-center" style="margin-top: 50px; margin-bottom: 50px;">
+			<img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="150" alt="..." style="margin-top: -5px;" />
+		</div>
+
+		<div id="message">
+			<h1>Join the OPengine Organization</h1>
+			<p>You've been sent an e-mail to join the Team OPifex Github Repository.</p>
+			<p>Once you've accepted the request to join. Try logging in again.</p>
+			<a id="tryagain" href="javascript:void(0)" class="btn btn-primary">Try Again</a>
+		</div>
+		<script type="text/javascript">
+			var qs = (function(a) {
+				if (a == "") return {};
+				var b = {};
+				for (var i = 0; i < a.length; ++i)
+				{
+					var p=a[i].split('=', 2);
+					if (p.length == 1)
+						b[p[0]] = "";
+					else
+						b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+				}
+				return b;
+			})(window.location.search.substr(1).split('&'));
+
+			// If a token was set in the Query String
+			if(qs['access_token']) {
+
+		        var tmp = define;
+		        define = null;
+		        var Github = require('github-api');
+		        define = tmp;
+		        var github = new Github({
+		            token: qs['access_token'],
+		            auth: "oauth"
+		        });
+
+				var githubUser = github.getUser();
+				githubUser.orgs(function(err, results) {
+					if(err) {
+						if(err.error == 401) {
+							// Really this shouldn't ever happen
+							// since we JUST got the access_token
+							alert('Failed to authenticate');
+							return;
+						}
+					}
+
+					var orgs = results;
+		            var OPifex = false;
+					for(var i = 0; i < orgs.length; i++) {
+						if(orgs[i].login == 'TeamOPifex') {
+							OPifex = true;
+							break;
+						}
+					}
+
+					if(!OPifex) {
+						alert('Not a part of the Github Organization TeamOPifex');
+						// Now show how to gain access
+						$('#tryagain').click(function() {
+							window.location.reload();
+						});
+						$('#message').show();
+					} else {
+						window.localStorage.setItem('githubAccessToken', qs['access_token']);
+					  	require('ipc').send('access', qs['access_token']);
+					}
+				});
+			} else {
+				alert('No access');
+			}
+		</script>
+    </body>
+</html>
