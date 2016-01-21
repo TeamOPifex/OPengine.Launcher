@@ -87,15 +87,36 @@
 					}
 
 					if(!OPifex) {
-						alert('Not a part of the Github Organization TeamOPifex');
 						// Now show how to gain access
 						$('#tryagain').click(function() {
 							window.location.reload();
 						});
 						$('#message').show();
 					} else {
-						window.localStorage.setItem('githubAccessToken', qs['access_token']);
-					  	require('ipc').send('access', qs['access_token']);
+                        function HasOPengineAccess(u, cb) {
+                        	u.orgRepos('TeamOPifex', function(err, results) {
+                        		for(var i = 0; i < results.length; i++) {
+                        			if(results[i].id == 27466078) {
+                        				cb && cb(true):
+                        				break;
+                        			}
+                        		}
+                        	});
+                        }
+
+                        HasOPengineAccess(githubUser, function(access) {
+                            if(access) {
+        						window.localStorage.setItem('githubAccessToken', qs['access_token']);
+        					  	require('ipc').send('access', qs['access_token']);
+                            } else {
+                                $.ajax({
+                                    url: 'http://launcher.opengine.io/addteam?access_token=' + qs['access_token'],
+                                    success: function() {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        });
 					}
 				});
 			} else {

@@ -16,7 +16,7 @@ function InviteToOrg(access_token) {
 
     var Github = require('github-api');
     var github = new Github({
-        token: '51ebc5266cfdbd029a4067022bd20f2c5251f77b',
+        token: access_token,
         auth: "oauth"
     });
 
@@ -36,6 +36,32 @@ function InviteToOrg(access_token) {
         });
     });
 
+}
+
+function AddToTeam(access_token) {
+
+
+        var Github = require('github-api');
+        var github = new Github({
+            token: access_token,
+            auth: "oauth"
+        });
+
+        var githubUser = github.getUser();
+        githubUser.show(null, function(err, data) {
+            var url = 'https://api.github.com/teams/1810869/memberships/' + data.login + '?role=member'
+            var request = require('request');
+            request.put({
+            	url: url,
+            	headers: {
+            		'Accept': 'application/vnd.github.v3+json',
+            		'Authorization': 'token 40c7b0217c4843cd02e73d729a48580dca0f4716',
+            		'User-Agent': 'OPifex.Engine.Web'
+            	}
+            }, function (error, response, body) {
+            	console.log(error, body);
+            });
+        });
 
 }
 
@@ -127,7 +153,12 @@ app.use(function(req, res) {
 		   });
 	   });
 
-    } else {
+   } else if(req._parsedUrl.pathname == '/addteam') {
+       var params2 = qs.parse(req._parsedUrl.query);
+       AddToTeam(params2.access_token);
+       res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+       res.end();
+   } else {
 		console.log(req._parsedUrl.pathname);
         res.end('Hello from the OPengine Launcher!\n');
     }

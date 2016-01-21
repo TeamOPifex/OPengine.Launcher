@@ -183,7 +183,7 @@
         			}
 
         			if(!OPifex) {
-        				alert('Not a part of the Github Organization TeamOPifex');
+                        ipc.send('github');
         			} else {
         				githubUser.orgRepos('teamopifex', function(err, results) {
         					//console.log('org repos', err, results);
