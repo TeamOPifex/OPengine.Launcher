@@ -30,16 +30,11 @@
 		</div>
 		<script type="text/javascript">
 
-	        var Module = require('module');
-	        var path = require('path');
-	        Module.globalPaths.push( path.join(__dirname, 'node_modules') );
-	        Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
-	        Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
 	        function define() {
 
 	        }
-			
+
 			var qs = (function(a) {
 				if (a == "") return {};
 				var b = {};
@@ -56,6 +51,11 @@
 
 			// If a token was set in the Query String
 			if(qs['access_token']) {
+				var Module = require('module');
+		        var path = require('path');
+		        Module.globalPaths.push( path.join(__dirname, 'node_modules') );
+		        Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
+		        Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
 		        var tmp = define;
 		        define = null;
