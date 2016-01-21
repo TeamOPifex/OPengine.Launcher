@@ -70,29 +70,41 @@ app.use(function(req, res) {
 
     });
 
-} else if(req._parsedUrl.pathname == '/addemail') {
+    } else if(req._parsedUrl.pathname == '/addemail') {
 
-    var params2 = qs.parse(req._parsedUrl.query);
+        var params2 = qs.parse(req._parsedUrl.query);
 
-    request.post({url:'http://opengine.io/add', formData: { email: u.email }}, function(err, res2, body2) {
-        //console.log(err, res2, body2);
-        var res3 = JSON.parse(body2);
-        if(res3.claimed) {
-            res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
-            res.end();
-            return;
-        }
-        request({url: 'http://opengine.io/github?state=' + res3.token}, function(err2, res4, body3) {
-            //console.log(err2,res4, body3);
-           res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
-           res.end();
-        });
-    });
 
+       var Github = require('github-api');
+       var github = new Github({
+         token: params2.access_token,
+         auth: "oauth"
+       });
+       var user = github.getUser();
+
+       user.show(null, function(err, u) {
+           console.log('ERROR: ', err, u);
+           if(err) return;
+
+           request.post({url:'http://opengine.io/add', formData: { email: params2.email }}, function(err, res2, body2) {
+               //console.log(err, res2, body2);
+               var res3 = JSON.parse(body2);
+               if(res3.claimed) {
+                   res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+                   res.end();
+                   return;
+               }
+               request({url: 'http://opengine.io/github?state=' + res3.token}, function(err2, res4, body3) {
+                   //console.log(err2,res4, body3);
+                  res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+                  res.end();
+               });
+           });
+       });
+
+    } else {
+        res.end('Hello from the OPengine Launcher!\n');
     }
-  else {
-    res.end('Hello from the OPengine Launcher!\n');
-  }
 });
 
 app.listen(3060);
