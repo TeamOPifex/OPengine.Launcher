@@ -24,7 +24,7 @@
 			<h1>Email Address</h1>
 			<p>There was no e-mail address on your Github account. We need that to add you to the Github OPengine organization.</p>
 			<input id="email" type="text" class="form-control" />
-			<a id="signup" href="javascript:void(0);">Complete Signup</a>
+			<a id="signup" href="javascript:void(0);" class="btn btn-primary">Complete Signup</a>
 		</div>
 
 		<script>
@@ -47,9 +47,9 @@
 			$(function() {
 				$('#signup').click(function() {
 					var email = $('#email').val();
-					if(!email || email = '') return;
+					if(!email || email == '') { return; }
 					// TODO: Determine if it's a valid email
-					
+
 					$(this).addClass('disabled');
 					window.location = 'http://launcher.opengine.io/addemail?access_token=' + access_token + '&email=' + email;
 				});
