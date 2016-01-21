@@ -18,7 +18,6 @@ function launcherWindow(app, token) {
 	});
 
 	var mainWindow = new BrowserWindow({
-		x: mainWindowState.x, y: mainWindowState.y,
 		width: mainWindowState.width, height: mainWindowState.height,
 		frame: false, title: 'OPengine'
 	});
