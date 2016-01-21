@@ -98,9 +98,10 @@
                         		for(var i = 0; i < results.length; i++) {
                         			if(results[i].id == 27466078) {
                         				cb && cb(true);
-                        				break;
+                        				return;
                         			}
                         		}
+                                cb && cb(false);
                         	});
                         }
 
