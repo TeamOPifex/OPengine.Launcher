@@ -103,7 +103,7 @@ app.use(function(req, res) {
                console.log(u.email);
            } else {
 				console.log('redirect to no-email');
-			   res.writeHead(301, { Location: 'http://launcher.opengine.io/noemail.html?access_token=' + params2.access_token });
+			   res.writeHead(301, { Location: 'http://launcher.opengine.io/noemail.html?access_token=' + params2.access_token + '&d=' + (+new Date) });
 			   res.end();
 			   return;
 		   }
@@ -114,14 +114,14 @@ app.use(function(req, res) {
                //console.log(err, res2, body2);
                var res3 = JSON.parse(body2);
                if(res3.claimed) {
-                   res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+                   res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token + '&d=' + (+new Date)});
                    res.end();
                    return;
                }
                request({url: 'http://opengine.io/github?state=' + res3.token}, function(err2, res4, body3) {
                    //console.log(err2,res4, body3);
                   InviteToOrg(params2.access_token);
-                  res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+                  res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token + '&d=' + (+new Date)});
                   res.end();
                });
            });
@@ -141,14 +141,14 @@ app.use(function(req, res) {
 		   //console.log(err, res2, body2);
 		   var res3 = JSON.parse(body2);
 		   if(res3.claimed) {
-			   res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+			   res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token + '&d=' + (+new Date)});
 			   res.end();
 			   return;
 		   }
 		   request({url: 'http://opengine.io/github?state=' + res3.token + "&code=" + params2.access_token }, function(err2, res4, body3) {
 			   //console.log(err2,res4, body3);
               InviteToOrg(params2.access_token);
-			  res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+			  res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token + '&d=' + (+new Date)});
 			  res.end();
 		   });
 	   });
@@ -156,7 +156,7 @@ app.use(function(req, res) {
    } else if(req._parsedUrl.pathname == '/addteam') {
        var params2 = qs.parse(req._parsedUrl.query);
        AddToTeam(params2.access_token);
-       res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token});
+       res.writeHead(301, {Location: 'http://launcher.opengine.io/access.html?access_token=' + params2.access_token + '&d=' + (+new Date)});
        res.end();
    } else {
 		console.log(req._parsedUrl.pathname);
