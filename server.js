@@ -70,7 +70,7 @@ app.use(function(req, res) {
 
     });
 
-} else if(req._parsedUrl.pathname == '/signup') {
+} else if(req._parsedUrl.pathname == '/addemail') {
 
     var params2 = qs.parse(req._parsedUrl.query);
 
