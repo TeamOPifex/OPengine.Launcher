@@ -23,6 +23,7 @@
 //     document.getElementById('env-name').innerHTML = env.name;
 // });
 
+import path from 'path';
 import Module from 'module';
 Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
