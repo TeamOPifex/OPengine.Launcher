@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded());
 
 app.use(serveStatic(__dirname + '/build'));
 
+
 app.use(function(req, res) {
   if(req._parsedUrl.pathname == '/authentication') {
 

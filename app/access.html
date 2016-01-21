@@ -29,6 +29,17 @@
 			<a id="tryagain" href="javascript:void(0)" class="btn btn-primary">Try Again</a>
 		</div>
 		<script type="text/javascript">
+
+	        var Module = require('module');
+	        var path = require('path');
+	        Module.globalPaths.push( path.join(__dirname, 'node_modules') );
+	        Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
+	        Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
+
+	        function define() {
+
+	        }
+			
 			var qs = (function(a) {
 				if (a == "") return {};
 				var b = {};
