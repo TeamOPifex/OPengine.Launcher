@@ -66,7 +66,7 @@ function AddToTeam(access_token) {
             	url: url,
             	headers: {
             		'Accept': 'application/vnd.github.v3+json',
-            		'Authorization': 'token 40c7b0217c4843cd02e73d729a48580dca0f4716',
+            		'Authorization': 'token ' + process.env.GITHUB_ACCESS_TOKEN,
             		'User-Agent': 'OPifex.Engine.Web'
             	}
             }, function (error, response, body) {
