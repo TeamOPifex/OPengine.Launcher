@@ -2,10 +2,19 @@ var nodePath = require('path');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 
-angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 'run', function(appConsole, $rootScope, configuration, run){
+angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 'run', 'ios', function(appConsole, $rootScope, configuration, run, ios){
 
     var cmake = {
         addVariables: function(args, config, os) {
+
+
+            var toolchain = configuration.getValue(config, 'OPIFEX_OPTION_EMSCRIPTEN');
+            if(toolchain) {
+                args.push('-DCMAKE_TOOLCHAIN_FILE=~/emsdk_portable/emscripten/1.35.0/cmake/Modules/Platform/Emscripten.cmake');
+                //args.push('-DEMSCRIPTEN_ROOT_PATH=~/emsdk_portable/')
+                args.push('-DCMAKE_BUILD_TYPE=Release');
+                //args.push('-G "Unix Makefiles"');
+            }
 
             for(var i = 0; i < config.options.length; i++) {
                 if(config.options[i].value) {
@@ -82,10 +91,12 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
                 }
                 case 'OPIFEX_IOS': {
                     args.push('-DCMAKE_TOOLCHAIN_FILE=./CMake/engine/toolchains/iOS.cmake');
-                    args.push('-DIOS_PLATFORM=SIMULATOR');
-                    args.push('-G');
-                    args.push('Xcode');
+                    args.push('-DIOS_PLATFORM=SIMULATOR64');
+                    //args.push('-G');
+                    //args.push('Xcode');
                     args.push('-DOPENGL_DESKTOP_TARGET=OPENGL_ES_2');
+
+
                     break;
                 }
             }
@@ -96,6 +107,14 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 	        var buildDir = global.root + '/build/' + path + '_build';
             var engineDir = global.root + '/repos/OPengine/' + engine.id;
             var binariesDir = global.root + '/build/' + engine.id + '_build/Binaries';
+
+            if(os.value.id == 'OPIFEX_IOS') {
+                // create ios project
+                ios.generate(source, buildDir, nodePath.resolve(global.root + '/build/' + engine.id + '_build'), engineDir, {
+                    name: path,
+                    defines: configuration.getDefines(config)
+                });
+            }
 
             console.log(sourceDir, buildDir, engineDir, binariesDir, global.root);
 
@@ -119,6 +138,13 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 		engine: function(path, config, os, cb) {
 			var sourceDir = nodePath.resolve(global.root + '/repos/OPengine/' + path);
 			var buildDir = nodePath.resolve(global.root + '/build/' + path + '_build');
+
+            if(os.value.id == 'OPIFEX_IOS') {
+                // create ios project
+                ios.generate(sourceDir, buildDir, buildDir, sourceDir, {
+                    defines: configuration.getDefines(config)
+                });
+            }
 
             var args = [ sourceDir ];
 

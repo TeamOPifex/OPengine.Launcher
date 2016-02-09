@@ -14,6 +14,8 @@ var envHelper = function() {
 	    // Applications don't inherit the PATH when run outside of the terminal
 	    // So we default to these set locations on OSX
 	    process.env.PATH += ":/usr/local/bin:/Applications:/Applications/CMake.app/Contents/bin"
+		process.env.PATH += ":~/emsdk_portable/";
+		process.env.EMSCRIPTEN = "/Users/garretthoofman/emsdk_portable/emscripten/1.35.0";
 	}
 
 	// Only if it's Windows
