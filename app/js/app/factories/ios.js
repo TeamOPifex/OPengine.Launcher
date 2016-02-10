@@ -60,7 +60,6 @@ angular.module('engineApp').factory("ios", [ '$rootScope', function($rootScope) 
 				// Right now this is the only limitation to using this
 				// eventually it should be possible to add more libraries
 				// programmatically.
-				myProj.addFrameworkFile('OPengine', 'libApplication.a');
 				for(var i = 0; i < opts.libraries.length; i++) {
 					myProj.addFrameworkFile('OPengine', opts.libraries[i]);
 				}
