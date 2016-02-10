@@ -13,8 +13,11 @@ angular.module('engineApp').factory("ios", [ '$rootScope', function($rootScope) 
 		/// opts: can set the name of the xcode project
         generate: function(source, destination, engineBuild, engineSource, opts, cb) {
 			opts = opts || {};
-			opts.name = opts.name || 'OPengine';
+			opts.name = 'OPengine';
 			opts.defines = opts.defines || [];
+            opts.libraryPaths = opts.libraryPaths || [];
+            opts.headerPaths = opts.headerPaths || [];
+            opts.libraries = opts.libraries || [];
 
 			var xcodeProjectSourceFolder =
 				source + '/iOS/' + xcodeProjectSource;
@@ -58,6 +61,9 @@ angular.module('engineApp').factory("ios", [ '$rootScope', function($rootScope) 
 				// eventually it should be possible to add more libraries
 				// programmatically.
 				myProj.addFrameworkFile('OPengine', 'libApplication.a');
+				for(var i = 0; i < opts.libraries.length; i++) {
+					myProj.addFrameworkFile('OPengine', opts.libraries[i]);
+				}
 
 				// Clears the defines for all of the Configs in 'teamopifex.OPengine'
 				myProj.clearConfigDefine('teamopifex.OPengine');
@@ -76,11 +82,20 @@ angular.module('engineApp').factory("ios", [ '$rootScope', function($rootScope) 
 				}
 
 				myProj.clearConfigLibraryPath('teamopifex.OPengine');
+
+                for(var i = 0; i < opts.libraryPaths.length; i++) {
+                    myProj.addConfigLibraryPath('teamopifex.OPengine', opts.libraryPaths[i].path, opts.libraryPaths[i].config);
+                }
+
 				myProj.addConfigLibraryPath('teamopifex.OPengine', engineBuild + '/Binaries/ios/debug', 'Debug');
 				myProj.addConfigLibraryPath('teamopifex.OPengine', engineBuild + '/Binaries/ios/release', 'Release');
 
+
 				myProj.clearConfigHeaderPath('teamopifex.OPengine');
 				myProj.addConfigHeaderPath('teamopifex.OPengine', engineSource);
+				for(var i = 0; i < opts.headerPaths.length; i++) {
+                    myProj.addConfigHeaderPath('teamopifex.OPengine', opts.headerPaths[i].path, opts.headerPaths[i].config);
+                }
 
 			    fs.writeFileSync(xcodeProjectBuildFolder + '/project.pbxproj', myProj.writeSync());
 			});
