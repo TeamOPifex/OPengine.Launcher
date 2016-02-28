@@ -40,7 +40,28 @@ engineControllers.controller('ProjectDetailCtrl', ['$scope', '$routeParams', 'co
 	        ]
 		};
 
+    var osType = require('os').type();
+    var osArch =  require('os').arch();
+
+    if( osType == 'Windows_NT') {
+      if(osArch == 'x64') {
+        $scope.os.value = $scope.os.options[3];
+      } else {
+        $scope.os.value = $scope.os.options[2];
+      }
+    } else if (osType = 'Darwin') {
+      if(osArch == 'x64') {
         $scope.os.value = $scope.os.options[1];
+      } else {
+        $scope.os.value = $scope.os.options[0];
+      }
+    } else {
+      if(osArch == 'x64') {
+        $scope.os.value = $scope.os.options[5];
+      } else {
+        $scope.os.value = $scope.os.options[4];
+      }
+    }
 
 
         var projectRepoPath = global.root + '/repos/projects/' + $scope.path;

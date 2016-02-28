@@ -47,7 +47,7 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
 
         $scope.os = { name: 'Operating System', id: 'OPIFEX_OS', type: 'targetSelector',
 	        options: [
-				{ name: 'Mac x86', id: 'OPIFEX_OSX32' },
+			        { name: 'Mac x86', id: 'OPIFEX_OSX32' },
 	            { name: 'Mac x64', id: 'OPIFEX_OSX64' },
 	            { name: 'Windows x86', id: 'OPIFEX_WIN32' },
 	            { name: 'Windows x64', id: 'OPIFEX_WIN64' },
@@ -57,8 +57,28 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
 	            { name: 'Android', id: 'OPIFEX_ANDROID' }
 	        ]
 		};
+    var osType = require('os').type();
+    var osArch =  require('os').arch();
 
+    if( osType == 'Windows_NT') {
+      if(osArch == 'x64') {
+        $scope.os.value = $scope.os.options[3];
+      } else {
+        $scope.os.value = $scope.os.options[2];
+      }
+    } else if (osType = 'Darwin') {
+      if(osArch == 'x64') {
         $scope.os.value = $scope.os.options[1];
+      } else {
+        $scope.os.value = $scope.os.options[0];
+      }
+    } else {
+      if(osArch == 'x64') {
+        $scope.os.value = $scope.os.options[5];
+      } else {
+        $scope.os.value = $scope.os.options[4];
+      }
+    }
         window.EngineDetailCtrl = $scope;
 
         var projectRepoPath = global.root + '/repos/OPengine/' + $scope.path;
@@ -165,7 +185,7 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
                 GetChanges();
             });
         };
-        
+
         $scope.pull = function(branch) {
             git.pull(nodePath.resolve(projectRepoPath), function() {
                 GetChanges();
