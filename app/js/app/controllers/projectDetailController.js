@@ -225,7 +225,12 @@ engineControllers.controller('ProjectDetailCtrl', ['$scope', '$routeParams', 'co
                 var cmds = $scope.config.launch.replace('\r', '').split('\n');
 
                 function RUN(cmd, cb) {
-                    run.cmd('run ' + $scope.path, cmd, [], buildDir, cb);
+                    if($scope.os.value.id == 'OPIFEX_IOS') {
+                        require('open')(buildDir + '/iOS/OPengine.xcodeproj');
+                        //run.cmd('run ' + $scope.path, buildDir + '/iOS/' + $scope.path + '.xcodeproj', [], buildDir, cb);
+                    } else {
+                        run.cmd('run ' + $scope.path, cmd, [], buildDir, cb);
+                    }
                 }
 
                 var promise = null;

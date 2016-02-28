@@ -90,7 +90,7 @@
                     <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
                 </div>
 
-                <div style="margin-top: 15px;">
+                <div class="token" style="margin-top: 15px;">
 
                     <a id="githubLogin" href="javascript:void(0)" class="btn btn-block btn-social btn-github not-logged-in">
                       <span class="fa fa-github"></span>
@@ -98,10 +98,20 @@
                     </a>
 
                 </div>
-                <div style="margin-top: 15px;" class="not-logged-in">
+                <div class="token" style="margin-top: 15px;" class="not-logged-in">
                     <a onclick="require('shell').openExternal('https://opengine.io')" href="">
                         OPengine Homepage
                     </a>
+                </div>
+                <div style="margin-top: 35px;" class="not-logged-in">
+                    <a class="token" href="javascript:void(0)" onclick="$('.token').toggle(); return false;" href="">
+                        Advanced Settings
+                    </a>
+                    <div class="token" style="display:none">
+                        <span>Github Access Token</span>
+                        <input id="githubAccessToken" type="text" class="form-control" />
+                        <a href="javascript:void(0)" onclick="attemptLogin()" class="btn btn-primary form-control">Login</a>
+                    </div>
                 </div>
             </div>
 
@@ -213,6 +223,15 @@
                 login();
             } else {
                 $('.not-logged-in').removeClass('not-logged-in');
+            }
+
+            function attemptLogin() {
+                var accessToken = $('#githubAccessToken').val();
+                if(accessToken && accessToken != '') {
+                    window.localStorage.setItem('githubAccessToken', accessToken);
+                    token = accessToken;
+                    login();
+                }
             }
 		</script>
     </body>

@@ -307,6 +307,7 @@ engineApp.factory("config",function(){
 					{ name: 'NodeJS', id: 'OPIFEX_OPTION_NODEJS', type: 'option', value: false },
 					{ name: 'Oculus', id: 'OPIFEX_OPTION_OCULUS', type: 'option', value: false },
 					{ name: 'Spine', id: 'OPIFEX_OPTION_SPINE', type: 'option', value: false },
+					{ name: 'Emscripten', id: 'OPIFEX_OPTION_EMSCRIPTEN', type: 'option', value: false },
 
 					{ name: 'NodeJS Version', id: 'OPIFEX_NODE_VERSION', type: 'optionSelector',
 				        options: [
@@ -318,6 +319,24 @@ engineApp.factory("config",function(){
 					{ name: 'Release Mode', id: 'OPIFEX_OPTION_RELEASE', type: 'target', value: false },
 					{ name: 'Shared Library', id: 'OPIFEX_OPTION_SHARED', type: 'target', value: false }
 				];
+		},
+
+		getDefines: function(config) {
+			var result = [];
+
+            for(var i = 0; i < config.options.length; i++) {
+                if(config.options[i].value) {
+					result.push(config.options[i].id);
+                }
+            }
+
+            for(var i = 0; i < config.targets.length; i++) {
+                if(config.targets[i].value) {
+					result.push(config.targets[i].id);
+                }
+            }
+
+			return result;
 		}
 	};
     return configFactory;
