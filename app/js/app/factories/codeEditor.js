@@ -105,12 +105,12 @@ engineApp.factory("CodeEditor",[function(){
             sizeLeft: 200
         });
 
-        if(window.localStorage['open_' + this.label]) {
-            var openFiles = JSON.parse(window.localStorage['open_' + this.label]);
-            for(var i = 0; i < openFiles.length; i++) {
-                this.OpenFile(openFiles[i]);
-            }
-        }
+        // if(window.localStorage['open_' + this.label]) {
+        //     var openFiles = JSON.parse(window.localStorage['open_' + this.label]);
+        //     for(var i = 0; i < openFiles.length; i++) {
+        //         this.OpenFile(openFiles[i]);
+        //     }
+        // }
 	}
 
 	CodeEditor.prototype = {

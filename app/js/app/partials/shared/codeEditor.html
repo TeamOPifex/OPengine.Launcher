@@ -15,54 +15,7 @@
 		</ol>
 	</div>
 </script>
-<!--
-<style>
-	#MySplitter {
-		height: 100%;
-		width: 100%;
-	}
-	#MySplitter div {
-		overflow: auto;
-	}
-	.vsplitbar {
-		width: 5px;
-		background: #344c58;
-	}
-</style>
-<div id="MySplitter">
-   <div>
-	   <ol class="codetree">
-		   <li ng-class="{ file: editor.tree[0].type == 'file', folder: editor.tree[0].type == 'folder' }" data-label="{{editor.tree[0].label}}">
-			   <div>
-				   <label ng-right-click="contextMenu(editor.tree[0])" for="{{editor.tree[0].fullPath}}" ng-click="select(editor.tree[0])">{{editor.tree[0].label}}</label>
-				   <input type="checkbox" id="{{editor.tree[0].fullPath}}" checked="checked" />
-				   <ol ng-show="editor.tree[0].subDir.length > 0">
-					   <li ng-repeat="data in editor.tree[0].subDir" ng-class="{file: data.type == 'file', folder: data.type == 'folder', active: data.active}" data-label="{{data.label}}" ng-include="'tree_item_renderer.html'"></li>
-				   </ol>
-			   </div>
-		   </li>
-	   </ol>
-   </div>
-   <div>
-	   <div id="codeHeader">
-		   <div class="file" ng-repeat="file in editor.pinned" ng-class="{ 'active': file.active }">
-			   <a href="javascript:void(0);" ng-click="editor.OpenWebsite(file)">HacknPlan</a> <span class="close" ng-click="">x</span>
-		   </div>
-		   <div class="file" ng-repeat="file in editor.open" ng-class="{ 'active': file.active }">
-			   <a href="javascript:void(0);" ng-click="select(file)">{{file.label}} <span ng-class="{ hidden: !file.changes }">*</span></a> <span class="close" ng-click="closeFile(file)">x</span>
-		   </div>
-	   </div>
-	   <div style="margin-bottom: -40px; padding-bottom: 40px; height: 100%;">
-		   <div id="editor" style="height: 100%; min-height: 200px; text-align: left; ">//Welcome to the OPengine editor.</div>
-		   <div id="newfile" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFile }">
-			   <input id="newFileText" type="text" on-escape="cancelFile();" on-enter="newFile();" placeholder="New File..." ng-model="newFileName" class="form-control" />
-		   </div>
-		   <div id="newfolder" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFolder }">
-   			   <input id="newFolderText" type="text" on-escape="cancelFolder();" on-enter="newFolder();" placeholder="New Folder..." ng-model="newFolderName" class="form-control" />
-   		   </div>
-	   </div>
-   </div>
- </div> -->
+
 
 <div class="row" style="height: 100%;">
 
@@ -81,14 +34,14 @@
 	</div>
 
 	<div class="col-xs-6 col-sm-9 col-lg-10" style="height: 100%;padding-left:0px;">
-		<div id="codeHeader">
+		<!-- <div id="codeHeader">
 			<div class="file" ng-repeat="file in editor.pinned" ng-class="{ 'active': file.active }">
 				<a href="javascript:void(0);" ng-click="editor.OpenWebsite(file)">HacknPlan</a> <span class="close" ng-click="">x</span>
 			</div>
 			<div class="file" ng-repeat="file in editor.open" ng-class="{ 'active': file.active }">
 				<a href="javascript:void(0);" ng-click="select(file)">{{file.label}} <span ng-class="{ hidden: !file.changes }">*</span></a> <span class="close" ng-click="closeFile(file)">x</span>
 			</div>
-		</div>
+		</div> -->
 		<div style="margin-bottom: -40px; padding-bottom: 40px; height: 100%;">
 			<div id="editor" style="height: 100%; min-height: 200px; text-align: left; ">//Welcome to the OPengine editor.</div>
 			<div id="newfile" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFile }">

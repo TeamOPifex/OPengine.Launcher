@@ -307,6 +307,7 @@ engineApp.factory("config",function(){
 					{ name: 'NodeJS', id: 'OPIFEX_OPTION_NODEJS', type: 'option', value: false },
 					{ name: 'Oculus', id: 'OPIFEX_OPTION_OCULUS', type: 'option', value: false },
 					{ name: 'Spine', id: 'OPIFEX_OPTION_SPINE', type: 'option', value: false },
+					{ name: 'ASIO', id: 'OPIFEX_OPTION_ASIO', type: 'option', value: false },
 					{ name: 'Emscripten', id: 'OPIFEX_OPTION_EMSCRIPTEN', type: 'option', value: false },
 
 					{ name: 'NodeJS Version', id: 'OPIFEX_NODE_VERSION', type: 'optionSelector',

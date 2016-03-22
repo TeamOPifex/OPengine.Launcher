@@ -68,6 +68,10 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
                 args.push('-DASSIMP_PATH=' + window.localStorage['assimp']);
             }
 
+            if(window.localStorage['asio'] && window.localStorage['asio'] != '') {
+                args.push('-DASIO_PATH=' + window.localStorage['asio']);
+            }
+
 
             args.push('-DGLFW_BUILD_DOCS=OFF');
             args.push('-DGLFW_BUILD_EXAMPLES=OFF');

@@ -55,6 +55,18 @@ engineControllers.controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
             }
         }
 
+        $scope.saveAsio = function() {
+            window.localStorage.setItem('asio', $scope.asio);
+        }
+        $scope.setAsio = function() {
+            var folders = ipc.sendSync('folder');
+
+            if(folders.length > 0) {
+                $scope.asio = folders[0].split('\\').join('/');
+                $scope.saveFAsio();
+            }
+        }
+
         $scope.saveAssimp = function() {
             window.localStorage.setItem('assimp', $scope.assimp);
         }

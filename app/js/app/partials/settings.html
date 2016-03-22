@@ -58,6 +58,20 @@
     <br />
 
     <div class="text-left">
+        <b>Asio</b> : <a onclick="require('shell').openExternal('http://think-async.com/')" href="">http://think-async.com/</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="asio" ng-change="saveAsio()" placeholder="Asio folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setAsio()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="text-left">
         <b>Assimp</b> : <a onclick="require('shell').openExternal('http://assimp.sourceforge.net/')" href="">http://assimp.sourceforge.net/</a>
     </div>
     <div class="row">
