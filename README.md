@@ -4,7 +4,11 @@ The launcher is in a very beta state. Once installed you'll need to create a Git
 
 # Building
 
-* Install Node.js
+### Requirements
+* Node.js
+* Bower (npm install bower -g)
+
+### Running
 * In repository root run "npm install"
 * In repository root run "npm start"
 
