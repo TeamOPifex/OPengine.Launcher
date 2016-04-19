@@ -317,6 +317,14 @@ engineApp.factory("config",function(){
 				        ]
 					},
 
+					{ name: 'OpenGL Version', id: 'OPENGL_DESKTOP_TARGET', type: 'optionSelector', value: { name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
+								options: [
+							{ name: 'OpenGL 2.0', id: 'OPENGL_2_0' },
+							{ name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
+							{ name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' }
+								]
+					},
+
 					{ name: 'Release Mode', id: 'OPIFEX_OPTION_RELEASE', type: 'target', value: false },
 					{ name: 'Shared Library', id: 'OPIFEX_OPTION_SHARED', type: 'target', value: false }
 				];

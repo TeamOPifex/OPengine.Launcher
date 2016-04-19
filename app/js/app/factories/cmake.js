@@ -77,6 +77,8 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
             args.push('-DGLFW_BUILD_EXAMPLES=OFF');
             args.push('-DGLFW_BUILD_TESTS=OFF');
 
+            args.push('-Wno-dev')
+
             //console.log(config.visualStudio);
 
             // Set Generator
@@ -145,14 +147,14 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 
             cmake.addVariables(args, config, os);
 
-            rimraf(buildDir + '/CMakeCache.txt', function() {
-
-                rimraf(buildDir + '/CMakeFiles', function() {
-    		        mkdirp(buildDir, function(err) {
+            // rimraf(buildDir + '/CMakeCache.txt', function() {
+            //
+            //     rimraf(buildDir + '/CMakeFiles', function() {
+    		         mkdirp(buildDir, function(err) {
                         run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
-    		        });
-                });
-            });
+    		         });
+            //     });
+            // });
 		},
 
 		engine: function(path, config, os, cb) {
@@ -173,13 +175,13 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 
             cmake.addVariables(args, config, os);
 
-            rimraf(buildDir + '/CMakeCache.txt', function() {
-                rimraf(buildDir + '/CMakeFiles', function() {
-        			mkdirp(buildDir, function(err) {
+            // rimraf(buildDir + '/CMakeCache.txt', function() {
+            //     rimraf(buildDir + '/CMakeFiles', function() {
+        		 	mkdirp(buildDir, function(err) {
                         run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
-        			});
-                });
-            });
+        		 	});
+            //     });
+            // });
 		}
 
     }
