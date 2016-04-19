@@ -72,6 +72,11 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
                 args.push('-DASIO_PATH=' + window.localStorage['asio']);
             }
 
+            if(window.localStorage['raknet'] && window.localStorage['raknet'] != '') {
+                args.push('-DRAKNET_PATH=' + window.localStorage['raknet']);
+                console.log('RAKNET', window.localStorage['raknet']);
+            }
+
 
             args.push('-DGLFW_BUILD_DOCS=OFF');
             args.push('-DGLFW_BUILD_EXAMPLES=OFF');
