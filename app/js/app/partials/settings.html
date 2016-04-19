@@ -72,6 +72,20 @@
     <br />
 
     <div class="text-left">
+        <b>RakNet</b> : <a onclick="require('shell').openExternal('https://github.com/TeamOPifex/RakNet')" href="">https://github.com/TeamOPifex/RakNet</a>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <input class="form-control" type="text" ng-model="raknet" ng-change="saveRakNet()" placeholder="RakNet folder" />
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary form-control" href="" ng-click="setRakNet()">Set...</a>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="text-left">
         <b>Assimp</b> : <a onclick="require('shell').openExternal('http://assimp.sourceforge.net/')" href="">http://assimp.sourceforge.net/</a>
     </div>
     <div class="row">

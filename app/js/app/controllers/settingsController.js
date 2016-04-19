@@ -14,6 +14,8 @@ engineControllers.controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
         $scope.v8 = window.localStorage['v8'];
         $scope.fmod = window.localStorage['fmod'];
         $scope.assimp = window.localStorage['assimp'];
+        $scope.asio = window.localStorage['asio'];
+        $scope.raknet = window.localStorage['raknet'];
 
         $scope.setRoot = function() {
             global.root = $scope.root;
@@ -63,7 +65,19 @@ engineControllers.controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
 
             if(folders.length > 0) {
                 $scope.asio = folders[0].split('\\').join('/');
-                $scope.saveFAsio();
+                $scope.saveAsio();
+            }
+        }
+
+        $scope.saveRakNet = function() {
+            window.localStorage.setItem('raknet', $scope.raknet);
+        }
+        $scope.setRakNet = function() {
+            var folders = ipc.sendSync('folder');
+
+            if(folders.length > 0) {
+                $scope.raknet = folders[0].split('\\').join('/');
+                $scope.saveRakNet();
             }
         }
 

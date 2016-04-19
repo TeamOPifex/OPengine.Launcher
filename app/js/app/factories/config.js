@@ -308,6 +308,7 @@ engineApp.factory("config",function(){
 					{ name: 'Oculus', id: 'OPIFEX_OPTION_OCULUS', type: 'option', value: false },
 					{ name: 'Spine', id: 'OPIFEX_OPTION_SPINE', type: 'option', value: false },
 					{ name: 'ASIO', id: 'OPIFEX_OPTION_ASIO', type: 'option', value: false },
+					{ name: 'RakNet', id: 'OPIFEX_OPTION_RAKNET', type: 'option', value: false },
 					{ name: 'Emscripten', id: 'OPIFEX_OPTION_EMSCRIPTEN', type: 'option', value: false },
 
 					{ name: 'NodeJS Version', id: 'OPIFEX_NODE_VERSION', type: 'optionSelector',
@@ -315,14 +316,6 @@ engineApp.factory("config",function(){
 							{ name: 'NodeJS 0_10', id: '0_10' },
 				            { name: 'NodeJS 0_12', id: '0_12' }
 				        ]
-					},
-
-					{ name: 'OpenGL Version', id: 'OPENGL_DESKTOP_TARGET', type: 'optionSelector', value: { name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
-								options: [
-							{ name: 'OpenGL 2.0', id: 'OPENGL_2_0' },
-							{ name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
-							{ name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' }
-								]
 					},
 
 					{ name: 'Release Mode', id: 'OPIFEX_OPTION_RELEASE', type: 'target', value: false },
