@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 var engineApp = angular.module('engineApp');
-engineApp.factory("config",function(){
+engineApp.factory("config",[ 'marketplace', function(marketplace) {
 	var configFactory = {
 		getLauncher: function() {
 		    var configFilePath = global.root + '/opifex.json';
@@ -88,6 +88,11 @@ engineApp.factory("config",function(){
 					return config.options[i].value;
 				}
 			}
+			for(var i = 0; i < config.addons.length; i++) {
+				if(config.addons[i].id == key) {
+					return config.addons[i].value;
+				}
+			}
 			for(var i = 0; i < config.optionSelectors.length; i++) {
 				if(config.optionSelectors[i].id == key) {
 					return config.optionSelectors[i].value.id;
@@ -113,6 +118,15 @@ engineApp.factory("config",function(){
 				for(var j = 0; j < two.options.length; j++) {
 					if(one.options[i].id == two.options[j].id) {
 						if(one.options[i].value != two.options[j].value) return false;
+						break;
+					}
+				}
+			}
+
+			for(var i = 0; i < one.addons.length; i++) {
+				for(var j = 0; j < two.addons.length; j++) {
+					if(one.addons[i].id == two.addons[j].id) {
+						if(one.addons[i].value != two.addons[j].value) return false;
 						break;
 					}
 				}
@@ -155,6 +169,7 @@ engineApp.factory("config",function(){
 			if(!proj.optionSelectors) proj.optionSelectors = [];
 			if(!proj.targets) proj.targets = [];
 			if(!proj.targetSelectors) proj.targetSelectors = [];
+			if(!proj.addons) proj.addons = [];
 
 			base.engine = proj.engine;
 			base.visualStudio = proj.visualStudio;
@@ -169,6 +184,15 @@ engineApp.factory("config",function(){
 				for(var j = 0; j < proj.options.length; j++) {
 					if(base.options[i].id == proj.options[j].id) {
 						base.options[i].value = proj.options[j].value;
+						break;
+					}
+				}
+			}
+
+			for(var i = 0; i < base.addons.length; i++) {
+				for(var j = 0; j < proj.addons.length; j++) {
+					if(base.addons[i].id == proj.addons[j].id) {
+						base.addons[i].value = proj.addons[j].value;
 						break;
 					}
 				}
@@ -216,7 +240,8 @@ engineApp.factory("config",function(){
 				options: [],
 				optionSelectors: [],
 				targets: [],
-				targetSelectors: []
+				targetSelectors: [],
+				addons: []
 			};
 
 			var options = configFactory.defaultOptions();
@@ -225,6 +250,14 @@ engineApp.factory("config",function(){
 				switch(options[i].type) {
 					case 'option': {
 						tmp.options.push({
+							id: options[i].id,
+							name: options[i].name,
+							value: options[i].value
+						});
+						break;
+					}
+					case 'addon': {
+						tmp.addons.push({
 							id: options[i].id,
 							name: options[i].name,
 							value: options[i].value
@@ -298,7 +331,7 @@ engineApp.factory("config",function(){
 			return tmp;
 		},
 		defaultOptions: function() {
-			return [
+			var options = [
 					{ name: 'Audio', id: 'OPIFEX_OPTION_AUDIO', type: 'option', value: false },
 					{ name: 'Myo', id: 'OPIFEX_OPTION_MYO', type: 'option', value: false },
 					{ name: 'V8', id: 'OPIFEX_OPTION_V8', type: 'option', value: false },
@@ -318,9 +351,25 @@ engineApp.factory("config",function(){
 				        ]
 					},
 
+					{ name: 'OpenGL', id: 'OPENGL_DESKTOP_TARGET', type: 'optionSelector',
+				        options: [
+							{ name: 'OpenGL 2.0', id: 'OPENGL_2_0' },
+				            { name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
+							            { name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' }
+				        ]
+					},
+
 					{ name: 'Release Mode', id: 'OPIFEX_OPTION_RELEASE', type: 'target', value: false },
 					{ name: 'Shared Library', id: 'OPIFEX_OPTION_SHARED', type: 'target', value: false }
 				];
+
+				console.log(marketplace);
+				for(var i = 0; i < marketplace.length; i++) {
+					options.push({name: marketplace[i].name, id: marketplace[i].name, type: 'addon', value: false})
+				}
+
+
+				return options;
 		},
 
 		getDefines: function(config) {
@@ -342,4 +391,4 @@ engineApp.factory("config",function(){
 		}
 	};
     return configFactory;
-});
+}]);

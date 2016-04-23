@@ -22,14 +22,14 @@ function extension(name) {
 }
 
 var engineControllers = angular.module('engineControllers');
-engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'console', '$rootScope', 'config', 'cmake', 'make', 'run', 'git', 'CodeEditor',
-    function($scope, $routeParams, appConsole, $rootScope, config, cmake, make, run, git, CodeEditor) {
+engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'console', '$rootScope', 'config', 'cmake', 'make', 'run', 'git', 'marketplace', 'CodeEditor',
+    function($scope, $routeParams, appConsole, $rootScope, config, cmake, make, run, git, marketplace, CodeEditor) {
         $scope.path = $routeParams.versionId;
         $scope.config = config.getEngine($scope.path);
 
 
         $scope.version = $scope.config.engine.version;
-
+        $scope.addons = marketplace;
 
 
         $scope.windows = false;

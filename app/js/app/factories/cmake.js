@@ -7,6 +7,8 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
     var cmake = {
         addVariables: function(args, config, os) {
 
+            var root = require('os').homedir() + '/.opengine';
+            args.push('-DOPIFEX_MARKETPLACE=' + root + '/marketplace');
 
             var toolchain = configuration.getValue(config, 'OPIFEX_OPTION_EMSCRIPTEN');
             if(toolchain) {
@@ -81,6 +83,17 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
             args.push('-DGLFW_BUILD_DOCS=OFF');
             args.push('-DGLFW_BUILD_EXAMPLES=OFF');
             args.push('-DGLFW_BUILD_TESTS=OFF');
+
+
+            var addons = [];
+            for(var i = 0; i < config.addons.length; i++) {
+                if(config.addons[i].value) {
+                  addons.push(config.addons[i].id);
+                  //args.push('-D' + config.options[i].id + '=ON');
+                }
+            }
+
+            args.push('-DOPENGINE_ADDONS=' + addons.join(';'));
 
             //console.log(config.visualStudio);
 
@@ -178,13 +191,13 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 
             cmake.addVariables(args, config, os);
 
-            rimraf(buildDir + '/CMakeCache.txt', function() {
-                rimraf(buildDir + '/CMakeFiles', function() {
+            //rimraf(buildDir + '/CMakeCache.txt', function() {
+                //rimraf(buildDir + '/CMakeFiles', function() {
         			mkdirp(buildDir, function(err) {
                         run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
         			});
-                });
-            });
+                //});
+            //});
 		}
 
     }

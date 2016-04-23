@@ -69,6 +69,7 @@
         <script src="js/app/factories/engines.js"></script>
         <script src="js/app/factories/git.js"></script>
         <script src="js/app/factories/make.js"></script>
+        <script src="js/app/factories/marketplace.js"></script>
         <script src="js/app/factories/projects.js"></script>
         <script src="js/app/factories/run.js"></script>
         <script src="js/app/factories/user.js"></script>
@@ -121,10 +122,16 @@
                       <a href="#" onclick="$('#bs-navbar').toggle();">Learn</a>
                   </li>
                   <li>
+                      <a href="#/marketplace" onclick="$('#bs-navbar').toggle();">Marketplace</a>
+                  </li>
+                  <li>
                       <a href="#/tools" onclick="$('#bs-navbar').toggle();">Tools</a>
                   </li>
                   <li class="active">
                       <a href="#/library" onclick="$('#bs-navbar').toggle();">Library</a>
+                  </li>
+                  <li>
+                      <a href="#/settings" onclick="$('#bs-navbar').toggle();">Settings</a>
                   </li>
               </ul>
           </div>
@@ -179,6 +186,9 @@
                                 <li ng-class="getClass('/learn')">
                                     <a href="#/learn">Learn</a>
                                 </li>
+                                <li ng-class="getClass('/marketplace')">
+                                    <a href="#/marketplace">Marketplace</a>
+                                </li>
                                 <li ng-class="getClass('/tools')">
                                     <a href="#/tools">Tools</a>
                                     <ul ng-if="getClass('/tools') != ''">
@@ -198,6 +208,9 @@
                                 </li>
                                 <li ng-class="getClass('/library')">
                                     <a href="#/library">Library</a>
+                                </li>
+                                <li ng-class="getClass('/settings')">
+                                    <a href="#/settings">Settings</a>
                                 </li>
                             </ul>
                         </div>
