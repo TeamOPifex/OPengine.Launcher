@@ -54,7 +54,7 @@
 
     <div class="row extrapadding code" ng-class="{ hidden: !showCode }" style="height: 100%;padding-top: 104px;margin-top: -104px;">
 
-        <code-editor path="projectRepoPath" pinned="pinned"></code-editor>
+        <code-editor path="engine.repo.absolute" pinned="pinned"></code-editor>
 
     </div>
 
@@ -83,14 +83,14 @@
     		<div class="extrapadding inner-content-padding">
                 <h3 class="title">Options</h3>
     			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in config.options">
+                    <div class="col-sm-3" ng-repeat="opt in engine.config.options">
                         <div class="checkbox">
                         	<input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
                         	<label class="check" for="{{opt.id}}"></label>
                         	<label class="text">{{opt.name}}</label>
                         </div>
                     </div>
-                    <div class="col-sm-3" ng-repeat="opt in config.optionSelectors">
+                    <div class="col-sm-3" ng-repeat="opt in engine.config.optionSelectors">
                         <div class="styled-select">
                             <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
                             </select>
@@ -106,7 +106,7 @@
                     </div>
                     <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
                         <div class="styled-select">
-                            <select class="form-control" ng-model="config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
+                            <select class="form-control" ng-model="engine.config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
                             </select>
                             <span class="caret"></span>
                         </div>
@@ -114,14 +114,14 @@
     			</div>
                 <h3 class="title">Target</h3>
     			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in config.targets">
+                    <div class="col-sm-3" ng-repeat="opt in engine.config.targets">
                         <div class="checkbox">
                             <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
                             <label class="check" for="{{opt.id}}"></label>
                             <label class="text">{{opt.name}}</label>
                         </div>
                     </div>
-                    <div class="col-sm-3" ng-repeat="opt in config.targetSelectors">
+                    <div class="col-sm-3" ng-repeat="opt in engine.config.targetSelectors">
                         <div class="styled-select">
                             <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
                             </select>
@@ -131,7 +131,7 @@
     			</div>
                 <h3 class="title">Tools</h3>
     			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in config.tools">
+                    <div class="col-sm-3" ng-repeat="opt in engine.config.tools">
                         <div class="checkbox">
                             <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
                             <label class="check" for="{{opt.id}}"></label>
@@ -157,7 +157,7 @@
 
             <h3 class="title">Addons</h3>
             <div class="row">
-                <div class="col-sm-3" ng-repeat="opt in config.addons">
+                <div class="col-sm-3" ng-repeat="opt in engine.config.addons">
                     <div class="checkbox">
                       <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
                       <label class="check" for="{{opt.id}}"></label>

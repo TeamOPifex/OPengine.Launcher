@@ -27,21 +27,21 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
         // Manage running/building/generating the project
         this.$scope.cmake = function(force) {
-            me.$scope.project.cmake(me.rebuild, force, me.OS, function() {
+            me.cmake(me.rebuild, force, me.OS, function() {
                 me.rebuild = false;
                 me.$scope.$digest();
             });
         };
 
         this.$scope.make = function(force) {
-            me.$scope.project.make(me.rebuild, force, me.OS, function() {
+            me.make(me.rebuild, force, me.OS, function() {
                 me.rebuild = false;
                 me.$scope.$digest();
             });
         };
 
-        this.$scope.run = function(force) {W
-            me.$scope.project.run(me.rebuild, force, me.OS, function() {
+        this.$scope.run = function(force) {
+            me.run(me.rebuild, force, me.OS, function() {
                 me.rebuild = false;
                 me.$scope.$digest();
             });
@@ -126,7 +126,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                         config.saveBuildConfig(me.config.engine, me.config);
 
                         // Finally, CMake the project
-                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, os, function() {
+                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, OS, function() {
                             cb && cb();
                         });
                     });
@@ -134,7 +134,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
             } else {
                 // CMake the project
-                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, os, function() {
+                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, OS, function() {
                     cb && cb();
                 });
             }
@@ -158,7 +158,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             me.make(rebuild, force, OS, function() {
 
                 var launchCmd = './YOURAPPNAME';
-                switch(os.type()) {
+                switch(require('os').type()) {
                     case 'Darwin': {
                         launchCmd = me.config.launchOSX || launchCmd;
                         break;
