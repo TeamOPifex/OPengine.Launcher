@@ -1,82 +1,91 @@
-var fs = require('fs');
-
-var engineApp = angular.module('engineApp');
-engineApp.factory("config",[ 'marketplace', function(marketplace) {
+angular.module('engineApp').factory("config",[ 'marketplace', function(marketplace) {
+	var fs = require('fs');
+	
 	var configFactory = {
+		// Get the configuration for the OPengine Launcher
 		getLauncher: function() {
 		    var configFilePath = global.root + '/opifex.json';
-			if(!fs.existsSync(configFilePath)) {
-				return {
-					engines: [],
-					projects: []
-				};
-			}
+				if(!fs.existsSync(configFilePath)) {
+						return {
+							engines: [],
+							projects: []
+						};
+				}
 		    var content = fs.readFileSync(configFilePath);
 			return JSON.parse(content);
 		},
+		// Save the configuration for the OPengine Launcher
 		saveLauncher: function(config) {
 		    var configFilePath = global.root + '/opifex.json';
 		    fs.writeFileSync(configFilePath, JSON.stringify(config));
 		},
+
+		// Get the configuration for a project
 		getProject: function(projectPath) {
 		    var configFilePath = projectPath + '/opifex.json';
-			var baseConfig = configFactory.defaultConfig();
-			if(!fs.existsSync(configFilePath)) {
-				return baseConfig;
-			}
+				var baseConfig = configFactory.defaultConfig();
+				if(!fs.existsSync(configFilePath)) {
+					return baseConfig;
+				}
 		    var content = fs.readFileSync(configFilePath);
-			var config = JSON.parse(content);
-			return configFactory.mergeConfig(baseConfig, config);
+				var config = JSON.parse(content);
+				return configFactory.mergeConfig(baseConfig, config);
 		},
+		// Save the configuration for a project
 		saveProject: function(projectPath, config) {
 		    var configFilePath = projectPath + '/opifex.json';
 		    fs.writeFileSync(configFilePath, JSON.stringify(config));
 		},
+
+		// Get the configuration for the current OPengine version
 		getEngine: function(projectPath) {
 		    var configFilePath = global.root + '/repos/OPengine/' + projectPath + '/opifex.json';
-			var baseConfig = configFactory.defaultConfig();
-			baseConfig.tools = [
-				{ name: 'FBXtoOPM', id: 'OPIFEX_TOOLS_FBXTOOPM', value: false },
-				{ name: 'Font Maker', id: 'OPIFEX_TOOLS_FONTMAKER', value: false },
-				{ name: 'Project Builder', id: 'OPIFEX_TOOLS_PROJECTBUILDER', value: false },
-				{ name: 'Assimp Exporter', id: 'OPIFEX_TOOLS_ASSIMPEXPORTER', value: false }
-			];
-			if(!fs.existsSync(configFilePath)) {
-				//console.log('ENGINE CONFIG WAS NOT PRESENT. LOADING DEFAULT.');
-				return baseConfig;
-			}
-		    var content = fs.readFileSync(configFilePath);
-			var config = JSON.parse(content);
-			//console.log(config);
-			return configFactory.mergeConfig(baseConfig, config);
+				var baseConfig = configFactory.defaultConfig();
+				baseConfig.tools = [
+						{ name: 'FBXtoOPM', id: 'OPIFEX_TOOLS_FBXTOOPM', value: false },
+						{ name: 'Font Maker', id: 'OPIFEX_TOOLS_FONTMAKER', value: false },
+						{ name: 'Project Builder', id: 'OPIFEX_TOOLS_PROJECTBUILDER', value: false },
+						{ name: 'Assimp Exporter', id: 'OPIFEX_TOOLS_ASSIMPEXPORTER', value: false }
+				];
+				if(!fs.existsSync(configFilePath)) {
+						return baseConfig;
+				}
+			  var content = fs.readFileSync(configFilePath);
+				var config = JSON.parse(content);
+				return configFactory.mergeConfig(baseConfig, config);
 		},
+		// Save the configuration for the current OPengine version
 		saveEngine: function(projectPath, config) {
 		    var configFilePath = global.root + '/repos/OPengine/' + projectPath + '/opifex.json';
 		    fs.writeFileSync(configFilePath, JSON.stringify(config));
 		},
+
+		// Get the configuration that was last used when building the engine
 		getBuildConfig: function(engine) {
-            var buildDir = global.root + '/build/' + engine.id + '_build';
+        var buildDir = global.root + '/build/' + engine.id + '_build';
 		    var configFilePath = buildDir + '/Binaries/opifex.json';
-			var baseConfig = configFactory.defaultConfig();
-			if(!fs.existsSync(configFilePath)) {
-				return baseConfig;
-			}
+				var baseConfig = configFactory.defaultConfig();
+				if(!fs.existsSync(configFilePath)) {
+					return baseConfig;
+				}
 		    var content = fs.readFileSync(configFilePath);
-			var config = JSON.parse(content);
-			return configFactory.mergeConfig(baseConfig, config);
+				var config = JSON.parse(content);
+				return configFactory.mergeConfig(baseConfig, config);
 		},
+		// Save the current configuration to the build folder for the OPengine
 		saveBuildConfig: function(engine, config) {
-            var buildDir = global.root + '/build/' + engine.id + '_build';
+        var buildDir = global.root + '/build/' + engine.id + '_build';
 		    var configFilePath = buildDir + '/Binaries/opifex.json';
 		    fs.writeFileSync(configFilePath, JSON.stringify(config));
 		},
+
 		getEngineOptions: function(projectPath) {
 		    var configFilePath = projectPath + '/options.json';
-			if(!fs.existsSync(configFilePath)) {
-				var options = config.defaultOptions();
-			    fs.writeFileSync(configFilePath, JSON.stringify(options));
-				return options;
-			}
+				if(!fs.existsSync(configFilePath)) {
+						var options = config.defaultOptions();
+				    fs.writeFileSync(configFilePath, JSON.stringify(options));
+						return options;
+				}
 		    var content = fs.readFileSync(configFilePath);
 		    return JSON.parse(content);
 		},
@@ -330,6 +339,7 @@ engineApp.factory("config",[ 'marketplace', function(marketplace) {
 
 			return tmp;
 		},
+
 		defaultOptions: function() {
 			var options = [
 					{ name: 'Audio', id: 'OPIFEX_OPTION_AUDIO', type: 'option', value: false },
