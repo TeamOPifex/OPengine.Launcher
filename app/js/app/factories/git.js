@@ -160,5 +160,64 @@ angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
         }
 	};
 
-    return git;
+
+    function GitManager(path, $scope) {
+        this.path = path;
+        this.$scope = $scope;
+        this.changes = 0;
+
+        this.localBranches = [];
+        this.remoteBranches = [];
+
+        var me = this;
+        function RepoChanges(err, changes) {
+            me.changes = changes;
+            me.$scope.$digest();
+        }
+
+        function RepoBranches(err, localBranches, remoteBranches) {
+            me.localBranches = localBranches;
+            me.remoteBranches = remoteBranches;
+            me.$scope.$digest();
+        }
+
+        function RepoCheckout() {
+            me.getChanges(RepoChanges);
+            me.getBranches(RepoBranches);
+        }
+
+        this.$scope.checkout = function(branch) { me.checkout(branch, RepoCheckout); };
+        this.$scope.pull = function(branch) { me.pull(branch, RepoCheckout); };
+        RepoCheckout();
+    }
+
+    GitManager.prototype = {
+        path: null,
+        changes: 0,
+
+        getChanges: function(cb) {
+            git.hasChangesToPull(this.path, function(err, changes) {
+                cb && cb(err, changes);
+            });
+        },
+
+        getBranches: function(cb) {
+            git.branches(this.path, function(err, result) {
+                cb && cb(err, result.local, result.remote);
+            });
+        },
+
+        checkout: function(branch, cb) {
+            git.checkout(this.path, branch.name, cb);
+        },
+
+        pull: function(branch, cb) {
+            git.pull(this.path, cb);
+        }
+    };
+
+    return {
+      CLI: git,
+      Manager: GitManager
+    };
 }]);

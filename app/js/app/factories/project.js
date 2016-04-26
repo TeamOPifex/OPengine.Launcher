@@ -1,14 +1,51 @@
 angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'console', 'cmake', 'make', function(config, run, git, appConsole, cmake, make) {
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
-    var open = require('open')
+    var open = require('open');
 
-    function Project(path) {
+    function Project(path, OS, $scope) {
         this.path = path;
+        this.$scope = $scope;
+        this.OS = OS;
         this.name = path;
         this.setRepoPath();
         this.setBuildPath();
         this.config = config.getProject(this.repo.relative);
+        this.rebuild = false;
+
+
+        var me = this;
+
+        // If the config changes, then a rebuild (re-cmake) is necessary
+        var firstWatch = false;
+        this.$scope.$watch(function() { return me.config; }, function() {
+            if(firstWatch) {
+                me.rebuild = true;
+            }
+            firstWatch = true;
+        }, true);
+
+        // Manage running/building/generating the project
+        this.$scope.cmake = function(force) {
+            me.$scope.project.cmake(me.rebuild, force, me.OS, function() {
+                me.rebuild = false;
+                me.$scope.$digest();
+            });
+        };
+
+        this.$scope.make = function(force) {
+            me.$scope.project.make(me.rebuild, force, me.OS, function() {
+                me.rebuild = false;
+                me.$scope.$digest();
+            });
+        };
+
+        this.$scope.run = function(force) {W
+            me.$scope.project.run(me.rebuild, force, me.OS, function() {
+                me.rebuild = false;
+                me.$scope.$digest();
+            });
+        };
     }
 
     Project.prototype = {
@@ -24,29 +61,6 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                     spawn(program, [ me.repo.absolute ], {
                         env: process.env
                     });
-                },
-
-                git: {
-                    changes: 0,
-                    getChanges: function(cb) {
-                        git.hasChangesToPull(me.repo.absolute, function(err, changes) {
-                            cb && cb(err, changes);
-                        });
-                    },
-
-                    getBranches: function(cb) {
-                        git.branches(me.repo.absolute, function(err, result) {
-                            cb && cb(err, result.local, result.remote);
-                        });
-                    },
-
-                    checkout: function(branch, cb) {
-                        git.checkout(me.repo.absolute, branch.name, cb);
-                    },
-
-                    pull: function(branch, cb) {
-                        git.pull(me.repo.absolute, cb);
-                    }
                 }
             };
 
@@ -60,6 +74,8 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             }
 
             this.repo.absolute = nodePath.resolve(this.repo.relative);
+
+            this.repo.git = new git.Manager(this.repo.absolute, this.$scope);
         },
 
         setBuildPath: function() {
@@ -137,9 +153,9 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             }
         },
 
-        run: function(rebuild, OS, cb) {
+        run: function(rebuild, force, OS, cb) {
             var me = this;
-            me.make(rebuild, false, OS, function() {
+            me.make(rebuild, force, OS, function() {
 
                 var launchCmd = './YOURAPPNAME';
                 switch(os.type()) {

@@ -10,9 +10,9 @@
               <ul class="dropdown-menu">
                   <li ng-if="project.repo.git.changes > 0"><a href="javascript:void(0);" ng-click="pull()">Pull Changes ({{project.repo.git.changes}})</a></li>
                   <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">local</a></li>
-                  <li ng-repeat="branch in localBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
+                  <li ng-repeat="branch in project.repo.git.localBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
                   <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">remote</a></li>
-                  <li ng-repeat="branch in remoteBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
+                  <li ng-repeat="branch in project.repo.git.remoteBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
               </ul>
             </div>
             <div class="btn-group">
@@ -198,7 +198,7 @@
     color: #fff;
     width: 32px;
     font-size: 24px;
-">{{Directories[CurrentDir].symbol}}</a>
+">{{terminal.Directories[CurrentDir].symbol}}</a>
 
             <span style="
     display: inline;
@@ -208,4 +208,4 @@
     padding-left: 8px;
 ">&gt; </span>
 
-<input style="outline:none;width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; padding-left: 40px; margin-left: 15px;border: none;" type="text" ng-model="cmd" on-enter="runCmd()" /></div>
+<input style="outline:none;width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; padding-left: 40px; margin-left: 15px;border: none;" type="text" ng-model="terminal.cmd" on-enter="runCmd()" /></div>

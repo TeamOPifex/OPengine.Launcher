@@ -162,7 +162,7 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
         }
 
         function GetChanges() {
-            git.hasChangesToPull(nodePath.resolve(projectRepoPath), function(err, changes) {
+            git.CLI.hasChangesToPull(nodePath.resolve(projectRepoPath), function(err, changes) {
                 //console.log('Changes', changes);
                 $scope.changes = changes;
                 $scope.$digest();
@@ -171,7 +171,7 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
         GetChanges();
 
         function GetBranches() {
-            git.branches(nodePath.resolve(projectRepoPath), function(err, result) {
+            git.CLI.branches(nodePath.resolve(projectRepoPath), function(err, result) {
                 $scope.localBranches = result.local;
                 $scope.remoteBranches = result.remote;
                 $scope.$digest();
@@ -180,14 +180,14 @@ engineControllers.controller('EngineDetailCtrl', ['$scope', '$routeParams', 'con
         GetBranches();
 
         $scope.checkout = function(branch) {
-            git.checkout(nodePath.resolve(projectRepoPath), branch.name, function() {
+            git.CLI.checkout(nodePath.resolve(projectRepoPath), branch.name, function() {
                 GetBranches();
                 GetChanges();
             });
         };
 
         $scope.pull = function(branch) {
-            git.pull(nodePath.resolve(projectRepoPath), function() {
+            git.CLI.pull(nodePath.resolve(projectRepoPath), function() {
                 GetChanges();
             });
         };
