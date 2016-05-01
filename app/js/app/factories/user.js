@@ -1,4 +1,3 @@
-var engineApp = angular.module('engineApp');
-engineApp.factory("user",function(){
+angular.module('engineApp').factory("user",function(){
     return {};
 });

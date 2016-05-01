@@ -1,6 +1,4 @@
-var engineControllers = angular.module('engineControllers');
-
-engineControllers.controller('ResourcePackCtrl', ['$scope', '$routeParams', 'user',
+angular.module('engineControllers').controller('ResourcePackCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
 
 		$scope.files = [];

@@ -27,22 +27,19 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
 
         // Manage running/building/generating the project
         this.$scope.cmake = function(force) {
-            me.cmake(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.cmake(force, function() {
                 me.$scope.$digest();
             });
         };
 
         this.$scope.make = function(force) {
-            me.make(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.make(force, function() {
                 me.$scope.$digest();
             });
         };
 
         this.$scope.run = function(force) {
-            me.run(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.run(force, function() {
                 me.$scope.$digest();
             });
         };
@@ -89,13 +86,13 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
             shell.openItem(this.build.relative + '/OPifexEngine.sln');
         },
 
-        cmake: function(rebuild, force, OS, cb) {
+        cmake: function(force, cb) {
             appConsole.task = 'CMake OPengine';
             config.saveEngine(this.path, this.config);
-            cmake.engine(this.path, this.config, OS, cb);
+            cmake.engine(this.path, this.config, this.OS, cb);
         },
 
-        make: function(rebuild, force, OS, cb) {
+        make: function(force, cb) {
             var me = this;
             make.engine(this.path, this.config, function(err) {
                 if(err) return;
@@ -105,9 +102,9 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
             });
         },
 
-        run: function(rebuild, force, OS, cb) {
+        run: function(force, cb) {
             var me = this;
-            me.make(rebuild, force, OS, function() {
+            me.make(force, this.OS, function() {
                 var appPath = './Application/Application';
                 if(require('os').platform() == 'win32') {
                     appPath = 'Application\\Debug\\Application.exe';

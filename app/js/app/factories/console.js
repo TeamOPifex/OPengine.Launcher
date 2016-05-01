@@ -1,5 +1,4 @@
-var engineApp = angular.module('engineApp');
-engineApp.factory("console",function(){
+angular.module('engineApp').factory("console",function(){
     var consoleObj = {
         display: false,
         lines: [

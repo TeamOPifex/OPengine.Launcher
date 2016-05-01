@@ -1,5 +1,4 @@
-var engineControllers = angular.module('engineControllers');
-engineControllers.controller('LoginCtrl', ['$scope', '$routeParams', 'user',
+angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
 
     	var Github = require('github-api');

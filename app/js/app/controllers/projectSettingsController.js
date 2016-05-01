@@ -1,5 +1,4 @@
-var engineControllers = angular.module('engineControllers');
-engineControllers.controller('ProjectSettingsCtrl', ['$scope', '$routeParams', 'console', '$rootScope', 'engines', 'config',
+angular.module('engineControllers').controller('ProjectSettingsCtrl', ['$scope', '$routeParams', 'console', '$rootScope', 'engines', 'config',
 	function($scope, $routeParams, appConsole, $rootScope, engines, config) {
         $scope.path = $routeParams.versionId;
         $scope.engines = engines;

@@ -27,22 +27,19 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
         // Manage running/building/generating the project
         this.$scope.cmake = function(force) {
-            me.cmake(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.cmake(force, function() {
                 me.$scope.$digest();
             });
         };
 
         this.$scope.make = function(force) {
-            me.make(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.make(force, function() {
                 me.$scope.$digest();
             });
         };
 
         this.$scope.run = function(force) {
-            me.run(me.rebuild, force, me.OS, function() {
-                me.rebuild = false;
+            me.run(force, function() {
                 me.$scope.$digest();
             });
         };
@@ -103,7 +100,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             }
         },
 
-        cmake: function(rebuild, force, OS, cb) {
+        cmake: function(force, cb) {
             var me = this;
 
             appConsole.task = "cmake project " + this.name;
@@ -112,10 +109,10 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
             // Check to see if the OPengine needs rebuilding
             //   Likely due to options that have been turned on/off
-            if(rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
+            if(this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
 
                 // CMake OPengine
-                cmake.engine(this.config.engine.id, this.config, OS, function(err) {
+                cmake.engine(this.config.engine.id, this.config, this.OS, function(err) {
                     if(err) return;
 
                     // Build OPengine
@@ -126,7 +123,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                         config.saveBuildConfig(me.config.engine, me.config);
 
                         // Finally, CMake the project
-                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, OS, function() {
+                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, me.OS, function() {
                             cb && cb();
                         });
                     });
@@ -134,18 +131,19 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
             } else {
                 // CMake the project
-                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, OS, function() {
+                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, this.OS, function() {
+                    me.rebuild = false;
                     cb && cb();
                 });
             }
         },
 
-        make: function(rebuild, force, OS, cb) {
+        make: function(force, cb) {
             var me = this;
 
             var lastBuildConfig = config.getBuildConfig(this.config.engine);
-            if(rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
-                this.cmake(rebuild, force, OS, function() {
+            if(this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
+                this.cmake(force, function() {
                     make.project(me.path, me.config, cb);
                 });
             } else {
@@ -153,9 +151,9 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             }
         },
 
-        run: function(rebuild, force, OS, cb) {
+        run: function(force, cb) {
             var me = this;
-            me.make(rebuild, force, OS, function() {
+            me.make(force, function() {
 
                 var launchCmd = './YOURAPPNAME';
                 switch(require('os').type()) {
@@ -179,11 +177,11 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
                 var cmds = me.config.launch.replace('\r', '').split('\n');
 
-                function RUN(cmd, cb) {
-                    if(OS.value.id == 'OPIFEX_IOS') {
+                function RUN(cmd, runCallback) {
+                    if(me.OS.value.id == 'OPIFEX_IOS') {
                         open(me.build.relative + '/iOS/OPengine.xcodeproj');
                     } else {
-                        run.cmd('run ' + me.path, cmd, [], me.build.relative, cb);
+                        run.cmd('run ' + me.path, cmd, [], me.build.relative, runCallback);
                     }
                 }
 
@@ -195,7 +193,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                             appConsole.task = 'run ' + cmds[i];
                             RUN(cmds[i], function() {
                                 proc.resolve();
-                            })
+                            });
                         });
                         promise = proc.promise();
                     } else {

@@ -52,7 +52,8 @@
             left: 0;
             right: 0;
             height: 50px;
-            background-color: #344c58
+            background-color: #344c58;
+            border-radius: 0px 0px 4px 4px;
         }
         body {
             background-color: #466674;
@@ -63,9 +64,28 @@
         }
         .toolbar {
             background-color: #344c58;
+            box-shadow: 0px 2px 3px #142c38;
         }
         .toolbar a {
             color: #fff;
+        }
+
+        body {
+          border-radius: 5px;
+          background-color: transparent;
+        }
+
+        body .container {
+          background-color: #466674;
+        }
+
+        .message {
+          position: absolute;
+          top: 60px;
+          width: 80%;
+          background-color: #344c58;
+          color: #fff;
+          border: 3px solid #fff;
         }
         </style>
     </head>
@@ -73,37 +93,119 @@
         <div class="container">
             <div class="row toolbar">
                 <div class="col-xs-12 text-right nopadding">
-                    <a href="javascript:void(0)" id="close" style="display: block;float:right;width:12px; margin-right: 10px;padding-top: 3px; padding-bottom: 1px;">
+                    <a href="javascript:void(0)" id="close" style="display: block;float:right;width:40px; padding-right: 15px;padding-top: 7px; padding-bottom: 4px; font-size: 10px;">
                         <span class="icon-delete-2">
-                        </span>
-                    </a>
-                    <a href="#" id="minimize" style="display: block;float:right;width:12px; padding-top: 5px; margin-right: 10px; height: 20px;">
-                        <span class="icon-delete">
                         </span>
                     </a>
                 </div>
             </div>
 
-            <div style="padding: 0px 25px;">
+            <div style="padding: 0px 25px;" id="login-panel" class="inner-panel">
 
-                <div class="text-center" style="margin-top: 50px; margin-bottom: 50px;">
+                <div class="text-center" style="margin-top: 50px; margin-bottom: 30px;">
                     <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
                 </div>
 
-                <div class="token" style="margin-top: 15px;">
-
-                    <a id="githubLogin" href="javascript:void(0)" class="btn btn-block btn-social btn-github not-logged-in">
-                      <span class="fa fa-github"></span>
-                      Sign in with Github
-                    </a>
-
+                <div class="message" style="display:none">
+                  <p>
+                    <b>Account Created Successfully</b>
+                  </p>
+                  <p>
+                    Before you can sign in, you must verify your e-mail with the verification link sent to <b><span id="message-email">gambitsunob@gmail.com</span></b>.
+                  </p>
                 </div>
-                <div class="token" style="margin-top: 15px;" class="not-logged-in">
-                    <a onclick="require('shell').openExternal('https://opengine.io')" href="">
-                        OPengine Homepage
+
+                <style>
+                #close:hover {
+                    background-color: #c13333;
+                }
+                  .input-box {
+                      background-color: #fff;
+                      border-radius: 10px;
+                      border: 3px solid #fff;
+                      width: 100%;
+                      padding: 7px 10px;
+                      text-align: left;
+                      color: #000;
+                      font-family: monospace;
+                      margin-bottom: 10px;
+                  }
+                  .input-box span {
+
+                  }
+
+                  .input-box.error span {
+                    color: #f00;
+                  }
+
+                  .input-box input {
+                    width: 100%;
+                    border: 0px;
+                    background-color: #fff;
+                    color: #000;
+                    line-height: 1.0;
+                    font-size: 20px;
+                  }
+                  .input-box input:focus{
+                      outline: none;
+                  }
+                  .input-box.active {
+                    border: 3px solid #344c58;
+                  }
+
+                  .input-box-small {
+                    padding-top: 2px;
+                  }
+                  .input-box-small span {
+                    font-size: 0.75em;
+                  }
+
+                  .btn-big {
+                    font-size: 20px;
+                    height: 42px;
+                    border-radius: 10px;
+                    padding: 6px 35px;
+                  }
+
+                  .token a:hover {
+                      text-decoration: underline;
+                  }
+
+                  .checkbox.error  label.text {
+                      color: #f00;
+                  }
+                  .checkbox.error  label.text a {
+                      color: #f00;
+                  }
+                  .checkbox  label.text a {
+                      text-decoration: underline;
+                  }
+                </style>
+                <div class="input-box">
+                  <span>EMAIL</span>
+                  <input type="text" id="username" />
+                </div>
+                <div class="input-box">
+                  <span>PASSWORD</span>
+                  <input type="password" id="password" />
+                </div>
+                <div class="checkbox" style="margin: 20px 0px; font-size: 14px;">
+                    <input type="checkbox" id="rememberMe" />
+                    <label class="check" for="rememberMe"></label>
+                    <label class="text">Remember me?</label>
+                </div>
+                <div>
+                    <a id="login" href="javascript:void(0)" class="btn btn-primary btn-big">Sign In</a>
+                </div>
+
+                <br />
+                <div class="token" style="margin-top: 15px;font-size: 16px;" class="not-logged-in">
+                    <a onclick="$('.inner-panel').toggle()" href="javascript:void(0)">
+                        Create Account
                     </a>
                 </div>
-                <div style="margin-top: 35px;" class="not-logged-in">
+
+                <!-- <div style="margin-top: 35px;" class="not-logged-in">
                     <a class="token" href="javascript:void(0)" onclick="$('.token').toggle(); return false;" href="">
                         Advanced Settings
                     </a>
@@ -112,20 +214,206 @@
                         <input id="githubAccessToken" type="text" class="form-control" />
                         <a href="javascript:void(0)" onclick="attemptLogin()" class="btn btn-primary form-control">Login</a>
                     </div>
+                </div> -->
+
+                <div class="offline">
+                    <div style="margin-top: 5px;">
+                        <a id="offline" href="javascript:void(0);" >Go Offline</a>
+                    </div>
+                    <div>
+                        <span style="color: #888;">OPengine v0.4</span>
+                    </div>
                 </div>
             </div>
+            <div style="padding: 0px 25px;display:none;" id="signup-panel" class="inner-panel">
+              <div class="text-center" style="margin-top: 30px; margin-bottom: 15px;">
+                  <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
+              </div>
 
-            <div class="offline">
-                <div style="margin-top: 5px;">
-                    <a id="offline" href="javascript:void(0);" >Go Offline</a>
+              <div class="row" style="margin-left: -8px; margin-right: -8px;">
+                <div class="col-xs-6" style="padding-right: 8px;padding-left: 8px;">
+                  <div class="input-box input-box-small">
+                    <span>*FIRST NAME</span>
+                    <input type="text" id="signup-firstname" />
+                  </div>
                 </div>
-                <div>
-                    <span style="color: #888;">OPengine v0.4</span>
+                <div class="col-xs-6" style="padding-right: 8px;padding-left: 8px;">
+                  <div class="input-box input-box-small">
+                    <span>*LAST NAME</span>
+                    <input type="text" id="signup-lastname" />
+                  </div>
                 </div>
+              </div>
+
+              <div class="input-box input-box-small">
+                <span>*EMAIL</span>
+                <input type="text" id="signup-username" />
+              </div>
+
+              <div class="input-box input-box-small">
+                <span>*PASSWORD</span>
+                <input type="password" id="signup-password" />
+              </div>
+
+              <div class="checkbox" style="margin: 20px 0px; font-size: 14px;">
+                  <input type="checkbox" id="termsOfService" />
+                  <label class="check" for="termsOfService"></label>
+                  <label class="text">I have read and agree to the <a href="#">terms of service</a></label>
+              </div>
+
+              <div style="margin: 5px;">
+                <a id="signup" href="javascript:void(0)" class="btn btn-primary btn-big">Create Account</a>
+              </div>
+
+              <div class="offline">
+                  <div style="margin-top: 5px;">
+                      <a onclick="$('.inner-panel').toggle()" id="signin-toggle" href="javascript:void(0);" >Sign In</a>
+                  </div>
+                  <div>
+                      <span style="color: #888;">OPengine v0.4</span>
+                  </div>
+              </div>
             </div>
         </div>
 		<script>
 
+      var ipc = require('electron').ipcRenderer;
+
+      var inputBoxes = $('.input-box input');
+      for(var i = 0; i < inputBoxes.length; i++) {
+          $(inputBoxes[i]).focus(function() {
+            $(this).parent().addClass('active');
+          });
+          $(inputBoxes[i]).focusout(function() {
+            $(this).parent().removeClass('active');
+          });
+          $(inputBoxes[i]).parent().click(function() {
+            $(this).find('input').focus();
+          });
+          $(inputBoxes[i]).parent().find('span').click(function() {
+            $(this).parent().find('input').focus();
+          });
+      }
+
+      $('#signup').click(function() {
+          var username = $('#signup-username').val();
+          var password = $('#signup-password').val();
+          var firstname = $('#signup-firstname').val();
+          var lastname = $('#signup-lastname').val();
+          var termsOfService = $('#termsOfService')[0].checked;
+
+          var error = false;
+
+          $('#signup-username').parent().removeClass('error');
+          $('#signup-password').parent().removeClass('error');
+          $('#signup-firstname').parent().removeClass('error');
+          $('#signup-lastname').parent().removeClass('error');
+          $('#termsOfService').parent().removeClass('error');
+
+          if(!username || username == '') {
+              $('#signup-username').parent().addClass('error');
+              error = true;
+          }
+          if(!password || password == '') {
+              $('#signup-password').parent().addClass('error');
+              error = true;
+          }
+          if(!firstname || firstname == '') {
+              $('#signup-firstname').parent().addClass('error');
+              error = true;
+          }
+          if(!lastname || lastname == '') {
+              $('#signup-lastname').parent().addClass('error');
+              error = true;
+          }
+          if(!termsOfService) {
+              $('#termsOfService').parent().addClass('error');
+              error = true;
+          }
+
+          if(error) {
+            return;
+          }
+
+          $('.logo-icon').addClass('rotating');
+
+          $.ajax({
+              url: 'http://api.opengine.io/api/v1/login',
+              method: 'POST',
+              data: {
+                email: username,
+                password: password,
+                firstname: firstname,
+                lastname: lastname
+              },
+              success: function(res) {
+                console.log(res);
+                $('.logo-icon').removeClass('rotating');
+                if(res.success) {
+                  $('#message-email').text(username);
+                  $('#username').text(username);
+                  $('.message').show();
+                  $('.inner-panel').toggle();
+                } else {
+                  alert(res.message);
+                }
+              }
+          });
+      });
+
+      $('#login').click(function() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var remember = $('#rememberMe')[0].checked;
+
+        var error = false;
+
+        $('#username').parent().removeClass('error');
+        $('#password').parent().removeClass('error');
+
+        if(!username || username == '') {
+            $('#username').parent().addClass('error');
+            error = true;
+        }
+        if(!password || password == '') {
+            $('#password').parent().addClass('error');
+            error = true;
+        }
+
+        if(error) {
+          return;
+        }
+
+        $('.logo-icon').addClass('rotating');
+        $.ajax({
+            url: 'http://api.opengine.io/api/v1/login?username=' + username + '&password=' + password,
+            method: 'GET',
+            success: function(res) {
+              $('.logo-icon').removeClass('rotating');
+              console.log(res);
+
+              if(res.success) {
+                window.localStorage.setItem('login-username', username);
+                window.localStorage.setItem('login-remember', remember);
+                if(remember) {
+                    window.localStorage.setItem('login-token', res.token);
+                }
+                ipc.send('signin', res.token);
+              } else {
+                alert(res.message);
+              }
+            }
+        });
+
+      });
+
+
+      if(window.localStorage['login-username']) {
+        $('#username').val(window.localStorage['login-username']);
+      }
+      if(window.localStorage['login-remember']) {
+        ipc.send('signin', window.localStorage['login-token']);
+      }
 
             var qs = (function(a) {
                 if (a == "") return {};
@@ -146,7 +434,6 @@
             }
 
 
-            var ipc = require('electron').ipcRenderer
 
             $('#githubLogin').click(function() {
                 ipc.send('github');

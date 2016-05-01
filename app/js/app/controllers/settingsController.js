@@ -1,11 +1,10 @@
-var engineControllers = angular.module('engineControllers');
-
-engineControllers.controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
+angular.module('engineControllers').controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
 
         $scope.logout = function() {
         	user.OPifex = false;
             window.localStorage.removeItem('githubAccessToken');
+            window.localStorage.removeItem('login-remember');
             require('electron').ipcRenderer.send('signout');
         }
 

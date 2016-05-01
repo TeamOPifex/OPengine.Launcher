@@ -1,5 +1,4 @@
-var engineApp = angular.module('engineApp');
-engineApp.factory("CodeEditor",[function(){
+angular.module('engineApp').factory("CodeEditor",[function(){
 
     var fs = require('fs'), path = require('path');
 	var remote = require('remote');

@@ -6,8 +6,9 @@ import LauncherWindow from './launcherWindow.js';
 
 function loginWindow(app, signout) {
 	var window = new BrowserWindow({
-		width: 300, height: 450,
-		frame: false, title: 'OPengine'
+		width: 400, height: 575,
+		frame: false, title: 'OPengine',
+  	transparent: true,
 	});
 
 	// Creating developer menu for debugging purposes

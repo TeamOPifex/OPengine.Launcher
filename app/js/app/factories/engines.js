@@ -1,5 +1,4 @@
-var engineApp = angular.module('engineApp');
-engineApp.factory("engines", [ 'config', function(config){
+angular.module('engineApp').factory("engines", [ 'config', function(config){
 
     var root = require('os').homedir() + '/.opengine';
     window.localStorage.setItem('oproot', root);

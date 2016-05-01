@@ -1,8 +1,7 @@
 var ipc = require('ipc');
 var fs = require('fs');
 
-var engineControllers = angular.module('engineControllers');
-engineControllers.controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config',
+angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config',
   function ($scope, $http, user, git, engines, projects, engineReleases, config) {
 
 

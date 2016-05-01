@@ -1,7 +1,6 @@
-var engineApp = angular.module('engineApp');
 var spawn = require('child_process').spawn;
 
-engineApp.factory("run", [ 'console', '$rootScope', function(appConsole, $rootScope) {
+angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(appConsole, $rootScope) {
 
     var run = {
 

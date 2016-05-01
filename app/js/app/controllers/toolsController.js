@@ -1,6 +1,4 @@
-var engineControllers = angular.module('engineControllers');
-
-engineControllers.controller('ToolsCtrl', ['$scope', '$routeParams', 'user',
+angular.module('engineControllers').controller('ToolsCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
         var IPC = require('electron').ipcRenderer;
 

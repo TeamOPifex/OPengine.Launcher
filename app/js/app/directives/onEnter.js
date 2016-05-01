@@ -1,5 +1,4 @@
-var engineApp = angular.module('engineApp');
-engineApp.directive('onEnter', function () {
+angular.module('engineApp').directive('onEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
             if(event.which === 13) {

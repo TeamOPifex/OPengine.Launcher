@@ -6,6 +6,11 @@ var gulp = require('gulp');
 var rollup = require('rollup');
 var less = require('gulp-less');
 var jetpack = require('fs-jetpack');
+var compressor = require('node-minify');
+var fs = require('fs');
+var uglify = require("uglify-js");
+var concat = require('concat-files');
+var walk    = require('walk');
 
 var utils = require('./utils');
 var generateSpecsImportFile = require('./generate_specs_import');
@@ -45,6 +50,40 @@ var copyTask = function () {
 gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
+var appBundle = function (src, destName) {
+    var deferred = Q.defer();
+
+    var files   = [];
+
+    // Walker options
+    var walker  = walk.walk(srcDir.path(src), { followLinks: false });
+
+    walker.on('file', function(root, stat, next) {
+        // Add this file to the list of files
+        if(stat.name.indexOf('.js') > -1)
+          files.push(root + '\\' + stat.name);
+        next();
+    });
+
+    walker.on('end', function() {
+        console.log(files);
+
+        concat(files, destName + '.js', function() {
+          console.log('done');
+          var uglified = uglify.minify([destName + '.js']);
+          fs.writeFile(destName + '.min.js', uglified.code, function (err){
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("Script generated and saved:", 'concat.min.js');
+            }
+            deferred.resolve();
+          });
+        });
+    });
+
+    return deferred.promise;
+};
 
 var bundle = function (src, dest) {
     var deferred = Q.defer();
@@ -80,6 +119,7 @@ var bundleApplication = function () {
         bundle(srcDir.path('launcherWindow.js'), destDir.path('launcherWindow.js')),
         bundle(srcDir.path('loginWindow.js'), destDir.path('loginWindow.js')),
         bundle(srcDir.path('app.js'), destDir.path('app.js')),
+        appBundle('js/app/', destDir.path('appBundle'))
     ]);
 };
 
