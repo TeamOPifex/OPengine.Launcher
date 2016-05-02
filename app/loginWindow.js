@@ -3,6 +3,8 @@ import BrowserWindow from 'browser-window';
 import { ipcMain, ipcRenderer } from 'electron';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
+import InstallWindow from './installWindow.js';
+import isInstalled from 'is-installed';
 
 function loginWindow(app, signout) {
 	var window = new BrowserWindow({
@@ -47,11 +49,30 @@ function loginWindow(app, signout) {
 	}
 
 	function signin(event, arg) {
-		ipcMain.removeListener('signin', signin);
-		ipcMain.removeListener('github', github);
-		ipcMain.removeListener('access', access);
-		LauncherWindow(app, arg);
-		window.destroy();
+		//LauncherWindow(app, arg);
+		isInstalled(null, {}, function(err, results) {
+			console.log(err, results);
+			var allInstalled = true;
+			for(var i = 0; i < results.length; i++) {
+				if(!results[i].installed) {
+					allInstalled = false;
+					break;
+				}
+			}
+			if(allInstalled) {
+				ipcMain.removeListener('signin', signin);
+				ipcMain.removeListener('github', github);
+				ipcMain.removeListener('access', access);
+				window.destroy();
+				LauncherWindow(app, arg);
+			} else {
+				ipcMain.removeListener('signin', signin);
+				ipcMain.removeListener('github', github);
+				ipcMain.removeListener('access', access);
+				//window.destroy();
+				InstallWindow(app, arg);
+			}
+		});
 	}
 
 	ipcMain.on('signin', signin);

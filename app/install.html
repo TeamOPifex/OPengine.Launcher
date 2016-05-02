@@ -1,0 +1,214 @@
+<!doctype html>
+<html ng-app="engineApp">
+    <head>
+        <meta charset="utf-8">
+        <title>OPengine Launcher</title>
+
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <link href="./stylesheets/font-awesome.css" rel="stylesheet" type="text/css">
+
+        <script src="vendor/electron_boilerplate/context_menu.js"></script>
+        <script src="vendor/electron_boilerplate/external_links.js"></script>
+
+		<script src="vendor/require.js"></script>
+        <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+        <script>
+            $(function() {
+                requirejs(['app'], function (app) {});
+            });
+        </script>
+        <script src="vendor/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-28069191-7', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+        <style>
+        .not-logged-in {
+            /*display: none;*/
+        }
+        .btn.btn-social.btn-github {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 58px;
+            font-weight: 900;
+            background-color: #7c9d6a;
+        }
+        .btn.btn-social.btn-github .fa-github {
+            padding-top: 5px;
+            width: 44px;
+        }
+        .offline {
+            position: absolute;;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #344c58;
+            border-radius: 0px 0px 4px 4px;
+        }
+        body {
+            background-color: #466674;
+        }
+        a:hover {
+            color: #fff;
+
+        }
+        .toolbar {
+            background-color: #344c58;
+            box-shadow: 0px 2px 3px #142c38;
+        }
+        .toolbar a {
+            color: #fff;
+        }
+
+        body {
+          border-radius: 5px;
+          background-color: transparent;
+        }
+
+        body .container {
+          background-color: #466674;
+        }
+
+        .message {
+          position: absolute;
+          top: 60px;
+          width: 80%;
+          background-color: #344c58;
+          color: #fff;
+          border: 3px solid #fff;
+        }
+        #close:hover {
+            background-color: #c13333;
+        }
+          .input-box {
+              background-color: #fff;
+              border-radius: 3px;
+              border: 3px solid #fff;
+              width: 100%;
+              padding: 7px 10px;
+              text-align: left;
+              color: #000;
+              font-family: monospace;
+              margin-bottom: 10px;
+          }
+          .input-box span {
+
+          }
+
+          .input-box.error span {
+            color: #f00;
+          }
+
+          .input-box input {
+            width: 100%;
+            border: 0px;
+            background-color: #fff;
+            color: #000;
+            line-height: 1.0;
+            font-size: 20px;
+          }
+          .input-box input:focus{
+              outline: none;
+          }
+          .input-box.active {
+            border: 3px solid #344c58;
+          }
+
+          .input-box-small {
+            padding-top: 2px;
+          }
+          .input-box-small span {
+            font-size: 0.75em;
+          }
+
+          .btn-big {
+            font-size: 20px;
+            height: 42px;
+            border-radius: 3px;
+            padding: 6px 35px;
+          }
+
+          .token a:hover {
+              text-decoration: underline;
+          }
+
+          .checkbox.error  label.text {
+              color: #f00;
+          }
+          .checkbox.error  label.text a {
+              color: #f00;
+          }
+          .checkbox  label.text a {
+              text-decoration: underline;
+          }
+          .btn-group .btn {
+            height: 30px;
+          }
+          .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+              padding: 5px;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row toolbar">
+                <div class="col-xs-12 text-right nopadding">
+                    <a href="javascript:void(0)" id="close" style="display: block;float:right;width:40px; padding-right: 15px;padding-top: 7px; padding-bottom: 4px; font-size: 10px;">
+                        <span class="icon-delete-2">
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div style="padding: 0px 25px;" id="login-panel" class="inner-panel">
+
+                <div class="text-center" style="margin-top: 30px; margin-bottom: 15px;">
+                    <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
+                </div>
+
+                <h2 style="margin-bottom: 30px">Missing Apps</h2>
+
+                <p>The OPengine Launcher requires command line access to the following programs:</p>
+                <table id="install-table" class="table">
+
+                </table>
+
+                <div>
+                    <a id="login" href="javascript:void(0)" class="btn btn-primary btn-big">Check Again</a>
+                </div>
+
+                <div class="offline">
+                    <div style="margin-top: 5px;">
+                        <a id="offline" href="javascript:void(0);" >Go Offline</a>
+                    </div>
+                    <div>
+                        <span style="color: #888;">OPengine v0.4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var ipc = require('electron').ipcRenderer;
+            var installed = ipc.sendSync('installed');
+            console.log(installed);
+            for(var i = 0; i < installed.length; i++) {
+              if(installed[i].installed) {
+                $('#install-table').append($('<tr> <td width="25" style="padding: 0px; padding-top: 5px;padding-bottom: 0px;"><span class="fa fa-check-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span></td>  <td class="text-left" style="padding-bottom: 0px;"> <span style="font-size: 22px;">' + installed[i].program.name + '</span> </td> <td width="90" style="padding-right: 0px;padding-bottom: 0px;"> Installed</td> </tr><tr><td style="border: 0;padding-top: 0px;"></td><td colspan="2" style="border: 0; padding-top: 0px; text-align: left"><div style="font-size:12px">' + installed[i].program.desc + '</div></td></tr>'))
+              } else {
+                var btnDropDown = '<div class="btn-group"><button type="button" class="btn btn-primary">Install</button>  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">    <span class="caret"></span>    <span class="sr-only">Toggle Dropdown</span>  </button><ul class="dropdown-menu"><li><a href="#">Install</a></li><li><a href="#">Set .exe location</a></li></ul></div>';
+                $('#install-table').append($('<tr> <td width="25" style="padding: 0px; padding-top: 5px; padding-bottom: 0px;"><span class="fa fa-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span></td>  <td class="text-left" style="padding-bottom: 0px;"> <span style="font-size: 22px;">' + installed[i].program.name + '</span> </td> <td width="90" style="padding-right: 0px;padding-bottom: 0px;"> ' + btnDropDown + ' </td> </tr><tr><td style="border: 0;padding-top: 0px;"></td><td colspan="2" style="border: 0; padding-top: 0px; text-align: left"><div style="font-size:12px">' + installed[i].program.desc + '</div></td></tr>'))
+              }
+            }
+        </script>
+    </body>
+</html>

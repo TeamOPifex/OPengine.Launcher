@@ -8,6 +8,8 @@
   "copyright": "© 2016, OPifex Entertainment",
   "main": "background.js",
   "dependencies": {
+    "array-async": "^3.0.0",
+    "forEachAsync": "^3.0.0",
     "fs-extra": "^0.26.5",
     "fs-jetpack": "^0.7.0",
     "git-cli": "^0.8.3",
