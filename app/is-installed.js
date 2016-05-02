@@ -2,10 +2,32 @@ var fs = require('fs');
 var os = require('os');
 
 
-function cmake(cb) {
+function prg_make(cb) {
+    var child = require('child_process').spawn('make', ['--version'], { env: process.env });
+    var output = '';
+    child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('close', function(result) {
+      var strToFind = 'GNU Make ';
+      var index = output.indexOf(strToFind);
+      var version = '';
+      if(index > -1) {
+        var startPosition = index + strToFind.length;
+        var length = output.indexOf('\n') - startPosition;
+        version = output.substr(startPosition, length);
+      }
+      //console.log('Make: ', output);
+      console.log('Make Version:', version);
+      cb && cb(false, {
+        installed: true,
+        version: version
+      });
+    });
+}
+
+function prg_cmake(cb) {
     var child = require('child_process').spawn('cmake', ['--version'], { env: process.env });
     var output = '';
-    child.stdout.on('data', function(data) { output += data + ''; console.log(data + ''); });
+    child.stdout.on('data', function(data) { output += data + ''; });
     child.on('close', function(result) {
       var strToFind = 'cmake version ';
       var index = output.indexOf(strToFind);
@@ -15,6 +37,30 @@ function cmake(cb) {
         var length = output.indexOf('\n') - startPosition;
         version = output.substr(startPosition, length);
       }
+      //console.log('CMake: ', output);
+      console.log('CMake Version:', version);
+      cb && cb(false, {
+        installed: true,
+        version: version
+      });
+    });
+}
+
+function prg_git(cb) {
+    var child = require('child_process').spawn('git', ['--version'], { env: process.env });
+    var output = '';
+    child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('close', function(result) {
+      var strToFind = 'git version ';
+      var index = output.indexOf(strToFind);
+      var version = '';
+      if(index > -1) {
+        var startPosition = index + strToFind.length;
+        var length = output.indexOf(' ', startPosition) - startPosition;
+        version = output.substr(startPosition, length);
+      }
+      //console.log('Git: ', output);
+      console.log('Git Version:', version);
       cb && cb(false, {
         installed: true,
         version: version
@@ -23,12 +69,24 @@ function cmake(cb) {
 }
 
 function IsInstalled (program, options, cb) {
-    if(program == 'cmake') {
-        cmake(cb);
-        return;
+    switch(program) {
+        case 'cmake': {
+            prg_cmake(cb);
+            return;
+        }
+        case 'git': {
+            prg_git(cb);
+            return;
+        }
+        case 'make': {
+            prg_make(cb);
+            return;
+        }
+        default: break;
     }
 
-    path = process.env.Path;
+    console.log(process.env, process.env.Path);
+    var path = process.env.Path || process.env.PATH;
     if(options && options.Path) {
         path = options.Path;
     }
@@ -60,26 +118,36 @@ function Installed(programs, options, cb) {
 
     if(!programs) {
       programs = [
-        {
-          exe: 'cmake',
-          name: 'CMake',
-          desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>'
-        },
-        {
-          exe: 'git',
-          name: 'Git',
-          desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>'
-        },
-        {
-          exe: 'msvc',
-          name: 'MS Visual Studio',
-          desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>'
+            {
+              exe: 'cmake',
+              name: 'CMake',
+              desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>'
+            },
+            {
+              exe: 'git',
+              name: 'Git',
+              desc: 'Distributed version control: <a href="https://git-scm.com">https://git-scm.com</a>'
+            }
+        ];
+
+
+        if(require('os').type() == 'Windows_NT') {
+            programs.push({
+              exe: 'msvc',
+              name: 'MS Visual Studio',
+              desc: 'Microsoft Visual Studio: <a href="https://www.visualstudio.com/products/free-developer-offers-vs">http://visualstudio.com</a>'
+            });
+        } else {
+            programs.push({
+              exe: 'make',
+              name: 'Make',
+              desc: 'Controls the generation of executables: <a href="https://www.gnu.org/software/make/">http://gnu.org</a>'
+            });
         }
-      ]
     }
 
     var Async = require('async');
-    Async.each(programs, function iteratee(item, callback) {
+    Async.eachSeries(programs, function iteratee(item, callback) {
         IsInstalled(item.exe, options, function(err, result) {
             results.push({
                 program: item,
@@ -89,8 +157,12 @@ function Installed(programs, options, cb) {
             callback();
         });
     }, function done() {
+        console.log('Have the results');
+
         cb && cb(false, results);
     });
 }
 
 module.exports = Installed;
+
+export default Installed;

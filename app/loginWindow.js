@@ -4,13 +4,13 @@ import { ipcMain, ipcRenderer } from 'electron';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
 import InstallWindow from './installWindow.js';
-import isInstalled from 'is-installed';
+import isInstalled from './is-installed.js';
 
 function loginWindow(app, signout) {
 	var window = new BrowserWindow({
 		width: 400, height: 575,
 		frame: false, title: 'OPengine',
-  	transparent: true,
+  	     transparent: true,
 	});
 
 	// Creating developer menu for debugging purposes
@@ -50,8 +50,7 @@ function loginWindow(app, signout) {
 
 	function signin(event, arg) {
 		//LauncherWindow(app, arg);
-		isInstalled(null, {}, function(err, results) {
-			console.log(err, results);
+        isInstalled(null, {}, function(err, results) {
 			var allInstalled = true;
 			for(var i = 0; i < results.length; i++) {
 				if(!results[i].installed) {
@@ -59,19 +58,21 @@ function loginWindow(app, signout) {
 					break;
 				}
 			}
+            allInstalled = false;
 			if(allInstalled) {
-				ipcMain.removeListener('signin', signin);
+    			ipcMain.removeListener('signin', signin);
 				ipcMain.removeListener('github', github);
 				ipcMain.removeListener('access', access);
-				window.destroy();
 				LauncherWindow(app, arg);
+				window.destroy();
 			} else {
-				ipcMain.removeListener('signin', signin);
+    			ipcMain.removeListener('signin', signin);
 				ipcMain.removeListener('github', github);
 				ipcMain.removeListener('access', access);
 				//window.destroy();
-				InstallWindow(app, arg);
-			}
+    			InstallWindow(app, arg);
+				window.destroy();
+    		}
 		});
 	}
 
