@@ -61,7 +61,7 @@ var appBundle = function (src, destName) {
     walker.on('file', function(root, stat, next) {
         // Add this file to the list of files
         if(stat.name.indexOf('.js') > -1)
-          files.push(root + '\\' + stat.name);
+          files.push(root + '/' + stat.name);
         next();
     });
 
