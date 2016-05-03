@@ -18,7 +18,7 @@
         Module.globalPaths.push( path.join(__dirname, 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
-        
+
         path = undefined;
 
         var qs = (function(a) {
@@ -170,28 +170,11 @@
                                 <li ng-class="getClass('/marketplace')">
                                     <a href="#/marketplace">Marketplace</a>
                                 </li>
-                                <li ng-class="getClass('/tools')">
-                                    <a href="#/tools">Tools</a>
-                                    <ul ng-if="getClass('/tools') != ''">
-                                        <li>
-                                            <a href="#/tools/spriteSheet">OPspriteSheet Creator</a>
-                                        </li>
-                                        <li>
-                                            <a href="#/tools/font">Font Creator</a>
-                                        </li>
-                                        <li>
-                                            <a href="#/tools/opm">FBX to OPM</a>
-                                        </li>
-                                        <li>
-                                            <a href="#/toolsResourcePack">Resource Pack</a>
-                                        </li>
-                                    </ul>
-                                </li>
                                 <li ng-class="getClass('/library')">
                                     <a href="#/library">Library</a>
                                 </li>
-                                <li ng-class="getClass('/settings')">
-                                    <a href="#/settings">Settings</a>
+                                <li ng-class="getClass('/tools')">
+                                    <a href="#/tools">Tools</a>
                                 </li>
                             </ul>
                         </div>

@@ -73,13 +73,18 @@
             <div>
             	<div class="engine-version" ng-repeat="project in projects track by project.id">
                     <a href="#/library/project/{{project.id}}">
-                        <div style="float:left; width: 50px;">
+                        <div style="text-align: center; padding-top: 27px;">
                             <span>{{project.name}}</span>
                         </div>
                         <span ng-if="project.cloning">Cloning...</span>
                     </a>
             	</div>
             </div>
+        </div>
+    </div>
+    <div class="row extrapadding library">
+        <div class="col-xs-12 text-left">
+            <h2 class="title"> My Games</h2>
         </div>
     </div>
 </div>
