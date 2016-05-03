@@ -5,11 +5,21 @@
         <title>Electron Boilerplate</title>
 
         <script>
-        var Module = require('module');
         var path = require('path');
+
+        module.paths.push(path.resolve('node_modules'));
+        module.paths.push(path.resolve('../node_modules'));
+        module.paths.push(path.resolve(__dirname, '..', '..', 'electron', 'node_modules'));
+        module.paths.push(path.resolve(__dirname, '..', '..', 'electron.asar', 'node_modules'));
+        module.paths.push(path.resolve(__dirname, '..', '..', 'app', 'node_modules'));
+        module.paths.push(path.resolve(__dirname, '..', '..', 'app.asar', 'node_modules'));
+
+        var Module = require('module');
         Module.globalPaths.push( path.join(__dirname, 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
         Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
+        
+        path = undefined;
 
         var qs = (function(a) {
             if (a == "") return {};
@@ -114,7 +124,7 @@
                     <a href="javascript:void(0);" id="minimize">
                         <img src="content/imgs/delete.png" style="width:12px; padding-top: 3px; margin-right: 6px;" />
                     </a>
-                    <a href="javascript:void(0);" id="close">
+                    <a href="javascript:void(0);" id="close" ng-click="close()">
                         <img src="content/imgs/delete-2.png" style="width:12px; margin-right: 10px;" />
                     </a>
                 </div>

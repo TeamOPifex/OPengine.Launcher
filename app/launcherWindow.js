@@ -50,7 +50,6 @@ function launcherWindow(app, token) {
     	mainWindow.loadUrl(global.webRoot + '/app.html');
 	}
 
-
 	// Helper function for using the ipcMain stuff with shortcut keys
 	function ipcMainMethod(m) {
 		return function() {
