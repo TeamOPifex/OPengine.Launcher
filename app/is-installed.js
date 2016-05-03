@@ -57,10 +57,35 @@ function prg_git(cb) {
       if(index > -1) {
         var startPosition = index + strToFind.length;
         var length = output.indexOf(' ', startPosition) - startPosition;
+        if(require('os').platform() == 'win32') {
+          length = output.indexOf('\n', startPosition) - startPosition;
+        }
         version = output.substr(startPosition, length);
       }
       //console.log('Git: ', output);
       console.log('Git Version:', version);
+      cb && cb(false, {
+        installed: true,
+        version: version
+      });
+    });
+}
+
+function prg_msvs(cb) {
+    var child = require('child_process').spawn('msbuild.exe', ['/version'], { env: process.env });
+    var output = '';
+    child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('close', function(result) {
+      var strToFind = 'Microsoft (R) Build Engine version ';
+      var index = output.indexOf(strToFind);
+      var version = '';
+      if(index > -1) {
+        var startPosition = index + strToFind.length;
+        var length = output.indexOf('\n') - startPosition;
+        version = output.substr(startPosition, length);
+      }
+      //console.log('Make: ', output);
+      console.log('MSBuild Version:', version);
       cb && cb(false, {
         installed: true,
         version: version
@@ -80,6 +105,10 @@ function IsInstalled (program, options, cb) {
         }
         case 'make': {
             prg_make(cb);
+            return;
+        }
+        case 'msvc': {
+            prg_msvs(cb);
             return;
         }
         default: break;

@@ -176,6 +176,21 @@
                     <img class="logo-icon" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
                 </div>
 
+                <div class="message" style="display:none">
+                  <p>
+                    <b>Downloading <span id="message-program"></span></b>
+                  </p>
+                  <p>
+                    <span id="message-progress">0</span>% downloaded
+                  </p>
+                  <p>
+                    <span id="message-remaining">0</span>s remaining
+                  </p>
+                  <p>
+                    <span id="message-downloaded"></span> / <span id="message-total"></span> @ <span id="message-rate"></span>/s
+                  </p>
+                </div>
+
                 <h2 style="margin-bottom: 30px">Missing Apps</h2>
 
                 <p>The OPengine Launcher requires command line access to the following programs:</p>
@@ -197,20 +212,196 @@
                 </div>
             </div>
         </div>
+        <div style="display: none">
+          <table id="template-installed">
+            <tr>
+              <td width="25" style="padding: 0px; padding-top: 5px;padding-bottom: 0px;">
+                <span class="fa fa-check-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span>
+              </td>
+              <td class="text-left" style="padding-bottom: 0px;">
+                <span style="font-size: 22px;" class="program-name"></span>
+              </td>
+              <td width="90" style="padding-right: 0px;padding-bottom: 0px;">
+                <span class="program-version"></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="border: 0;padding-top: 0px;"></td><td colspan="2" style="border: 0; padding-top: 0px; text-align: left">
+                <div style="font-size:12px" class="program-desc">
+                </div>
+              </td>
+            </tr>
+          </table>
+          <table id="template-not-installed">
+            <tr>
+              <td width="25" style="padding: 0px; padding-top: 5px; padding-bottom: 0px;">
+                <span class="fa fa-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span>
+              </td>
+              <td class="text-left" style="padding-bottom: 0px;">
+                <span style="font-size: 22px;" class="program-name"></span>
+              </td>
+              <td width="90" style="padding-right: 0px;padding-bottom: 0px;">
+                 <div class="btn-group">
+                   <button type="button" class="btn btn-primary" class="program-install">Install</button>
+                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <span class="caret"></span>
+                     <span class="sr-only">Toggle Dropdown</span>
+                   </button>
+                   <ul class="dropdown-menu">
+                     <li>
+                       <a href="#" class="program-install">Install</a>
+                     </li>
+                     <li>
+                       <a href="#">Set .exe location</a>
+                     </li>
+                   </ul>
+                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="border: 0;padding-top: 0px;">
+              </td>
+              <td colspan="2" style="border: 0; padding-top: 0px; text-align: left">
+                <div style="font-size:12px" class="program-desc">
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
         <script>
             var ipc = require('electron').ipcRenderer;
-            var installed = ipc.sendSync('installed');
-            console.log(installed);
-            for(var i = 0; i < installed.length; i++) {
-              if(installed[i].installed) {
-                $('#install-table').append($('<tr> <td width="25" style="padding: 0px; padding-top: 5px;padding-bottom: 0px;"><span class="fa fa-check-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span></td>  <td class="text-left" style="padding-bottom: 0px;"> <span style="font-size: 22px;">' + installed[i].program.name + '</span> </td> <td width="90" style="padding-right: 0px;padding-bottom: 0px;">' + installed[i].version + '</td> </tr><tr><td style="border: 0;padding-top: 0px;"></td><td colspan="2" style="border: 0; padding-top: 0px; text-align: left"><div style="font-size:12px">' + installed[i].program.desc + '</div></td></tr>'))
-              } else {
-                var btnDropDown = '<div class="btn-group"><button type="button" class="btn btn-primary">Install</button>  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">    <span class="caret"></span>    <span class="sr-only">Toggle Dropdown</span>  </button><ul class="dropdown-menu"><li><a href="#">Install</a></li><li><a href="#">Set .exe location</a></li></ul></div>';
-                $('#install-table').append($('<tr> <td width="25" style="padding: 0px; padding-top: 5px; padding-bottom: 0px;"><span class="fa fa-circle" style=" font-size: 20px; line-height: 1.5; color: #fff;"> </span></td>  <td class="text-left" style="padding-bottom: 0px;"> <span style="font-size: 22px;">' + installed[i].program.name + '</span> </td> <td width="90" style="padding-right: 0px;padding-bottom: 0px;"> ' + btnDropDown + ' </td> </tr><tr><td style="border: 0;padding-top: 0px;"></td><td colspan="2" style="border: 0; padding-top: 0px; text-align: left"><div style="font-size:12px">' + installed[i].program.desc + '</div></td></tr>'))
+
+    				var cmake = {
+              exe: 'cmake',
+              name: 'CMake',
+              desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>',
+    					windows: {
+    						x86_x64: {
+    							file: 'cmake-3.5.2-win32-x86.msi',
+    							url: 'https://cmake.org/files/v3.5/cmake-3.5.2-win32-x86.msi'
+    						}
+    					},
+    					osx: {
+    						x86_x64: {
+    							file: 'cmake-3.5.2-Darwin-x86_64.dmg',
+    							url: 'https://cmake.org/files/v3.5/cmake-3.5.2-Darwin-x86_64.dmg'
+    						}
+    					},
+    					linux: {
+    						x86_x64: {
+    							file: 'cmake-3.5.2-Linux-i386.sh',
+    							url: 'https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.sh'
+    						}
+    					}
+    				};
+
+            var git = {
+              exe: 'git',
+              name: 'Git',
+              desc: 'Distributed version control: <a href="https://git-scm.com">https://git-scm.com</a>',
+    					windows: {
+    						x86: {
+    							file: 'Git-2.8.1-32-bit.exe',
+    							url: 'https://github.com/git-for-windows/git/releases/download/v2.8.1.windows.1/Git-2.8.1-32-bit.exe'
+    						},
+                x64: {
+                  file: 'Git-2.8.1-64-bit.exe',
+                  url: 'https://github.com/git-for-windows/git/releases/download/v2.8.1.windows.1/Git-2.8.1-64-bit.exe'
+                }
+    					},
+    					osx: {
+    						x86_x64: {
+    							file: 'git-2.8.1-intel-universal-mavericks.dmg',
+    							url: 'http://downloads.sourceforge.net/project/git-osx-installer/git-2.8.1-intel-universal-mavericks.dmg?r=&ts=1462224482&use_mirror=iweb'
+    						}
+    					},
+    					linux: {
+                // apt-get install git
+    					}
+            };
+
+            var programsToCheck = [ cmake, git ];
+            if(require('os').platform() == 'win32') {
+              programsToCheck.push({
+                exe: 'msvc',
+                name: 'MS Visual Studio',
+                desc: 'Microsoft Visual Studio: <a href="https://www.visualstudio.com/products/free-developer-offers-vs">http://visualstudio.com</a>',
+      					windows: {
+      						x86_x64: {
+      							file: 'vs_community_ENU.exe',
+      							url: 'http://go.microsoft.com/fwlink/?LinkID=626924&clcid=0x409'
+      						}
+      					}
+              });
+            } else {
+              programsToCheck.push({
+                exe: 'make',
+                name: 'Make',
+                desc: 'Controls the generation of executables: <a href="https://www.gnu.org/software/make/">http://gnu.org</a>',
+      					osx: {
+                  // apt-get
+      					},
+                linux: {
+                  // apt-get
+                }
+              });
+            }
+
+            function CheckInstalled() {
+
+
+              $('#install-table').html('');
+
+              var installed = ipc.sendSync('installed', programsToCheck);
+
+              console.log(installed);
+
+              for(var i = 0; i < installed.length; i++) {
+                  var temp;
+                  if(installed[i].installed) {
+                      temp = $('#template-installed').clone();
+                      temp.find('.program-version').text(installed[i].version);
+                  } else {
+                      temp = $('#template-not-installed').clone();
+                      temp.find('.program-install').data('index', i);
+                      temp.find('.program-install').click(function() {
+                        $('.message').show();
+                        var install = installed[$(this).data('index')];
+                        $('#message-program').text(install.program.name);
+                        ipc.send('install', install.program);
+                      });
+                  }
+
+                  temp.removeAttr('id');
+                  temp.find('.program-name').text(installed[i].program.name);
+                  temp.find('.program-desc').html(installed[i].program.desc);
+                  var rows = temp.find('tr');
+                  for(var j = 0; j < rows.length; j++) {
+                      $('#install-table').append($(rows[j]));
+                  }
               }
             }
 
-            ipc.send('install-cmake');
+            CheckInstalled();
+
+            ipc.on('progress', function(event, state){
+              console.log(state);
+              $('#message-progress').text((state.percentage * 100).toFixed(2));
+              $('#message-downloaded').text((state.size.transferred / 1024).toFixed(2) + ' KB');
+              $('#message-total').text((state.size.total / 1024).toFixed(2) + ' KB');
+              $('#message-rate').text((state.speed / 1024).toFixed(2) + ' KB');
+              $('#message-remaining').text(state.time.remaining.toFixed(0));
+            });
+
+            ipc.on('finished', function() {
+              $('.message').hide();
+            });
+
+            ipc.on('install-closed', function() {
+                CheckInstalled();
+            });
+
         </script>
     </body>
 </html>

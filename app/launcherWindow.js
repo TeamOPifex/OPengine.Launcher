@@ -134,6 +134,11 @@ function launcherWindow(app, token) {
 		mainWindow.destroy();
 	});
 
+	function exit(event, arg) {
+		mainWindow.destroy();
+	}
+	ipcMain.on('exit', exit);
+
 	return mainWindow;
 }
 

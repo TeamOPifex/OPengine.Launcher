@@ -5,6 +5,7 @@ import env from './env';
 import LauncherWindow from './launcherWindow.js';
 import InstallWindow from './installWindow.js';
 import isInstalled from './is-installed.js';
+import LauncherConfig from './launcher-config.js';
 
 function loginWindow(app, signout) {
 	var window = new BrowserWindow({
@@ -49,31 +50,23 @@ function loginWindow(app, signout) {
 	}
 
 	function signin(event, arg) {
-		//LauncherWindow(app, arg);
-        isInstalled(null, {}, function(err, results) {
-			var allInstalled = true;
-			for(var i = 0; i < results.length; i++) {
-				if(!results[i].installed) {
-					allInstalled = false;
-					break;
-				}
-			}
-            allInstalled = false;
-			if(allInstalled) {
-    			ipcMain.removeListener('signin', signin);
+
+		var config = LauncherConfig.config() || {};
+
+		if(config.installed) {
+				ipcMain.removeListener('signin', signin);
 				ipcMain.removeListener('github', github);
 				ipcMain.removeListener('access', access);
 				LauncherWindow(app, arg);
 				window.destroy();
-			} else {
-    			ipcMain.removeListener('signin', signin);
+		} else {
+				ipcMain.removeListener('signin', signin);
 				ipcMain.removeListener('github', github);
 				ipcMain.removeListener('access', access);
 				//window.destroy();
-    			InstallWindow(app, arg);
+				InstallWindow(app, arg);
 				window.destroy();
-    		}
-		});
+		}
 	}
 
 	ipcMain.on('signin', signin);

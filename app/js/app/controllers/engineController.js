@@ -73,4 +73,16 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 		$('.console').focus();
         $scope.$digest();
     });
+
+
+		$scope.close = function() {
+				require('ipc').send('exit');
+		};
+		$('#close').click(function() {
+				require('ipc').send('exit');
+		});
+
+		$('#minimize').click(function() {
+			require('ipc').send('minimize');
+		});
 }]);
