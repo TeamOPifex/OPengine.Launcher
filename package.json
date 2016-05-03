@@ -29,6 +29,7 @@
     "mkdirp": "^0.5.1",
     "node-minify": "^1.3.7",
     "node-xcode-opifex": "^0.8.5",
+    "uglify-js": "^2.6.2",
     "walk": "^2.3.9"
   }
 }
