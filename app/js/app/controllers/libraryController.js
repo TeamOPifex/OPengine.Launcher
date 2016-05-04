@@ -10,6 +10,8 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
     window.localStorage.setItem('oproot', $scope.root);
     global.root = $scope.root;
 
+    $('.current-tab').text('Library');
+
     var Github = require('github-api');
     // user.github = new Github({
     //     token: $scope.token,

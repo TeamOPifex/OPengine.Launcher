@@ -59,7 +59,7 @@ angular.module('engineApp').factory("CodeEditor",[function(){
 	function CodeEditor(el, options) {
 		this.el = el || "editor";
 		this.editor = ace.edit(this.el);
-		this.editor.setTheme("ace/theme/chaos");
+		this.editor.setTheme("ace/theme/solarized_dark");
 		var self = this;
         var label = options.label || 'OPengine';
         this.label = label;
@@ -533,7 +533,7 @@ angular.module('engineApp').factory("CodeEditor",[function(){
 				this.editor.destroy();
 			}
 			this.editor = ace.edit(this.el);
-			this.editor.setTheme("ace/theme/chaos");
+			this.editor.setTheme("ace/theme/solarized_dark");
             $('#editor').show();
 
 			this.editor.setValue(node.fileData);

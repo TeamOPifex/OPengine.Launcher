@@ -1,6 +1,6 @@
 angular.module('engineApp').factory("config",[ 'marketplace', function(marketplace) {
 	var fs = require('fs');
-	
+
 	var configFactory = {
 		// Get the configuration for the OPengine Launcher
 		getLauncher: function() {
@@ -39,7 +39,7 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 
 		// Get the configuration for the current OPengine version
 		getEngine: function(projectPath) {
-		    var configFilePath = global.root + '/repos/OPengine/' + projectPath + '/opifex.json';
+		    var configFilePath = projectPath + '/opifex.json';
 				var baseConfig = configFactory.defaultConfig();
 				baseConfig.tools = [
 						{ name: 'FBXtoOPM', id: 'OPIFEX_TOOLS_FBXTOOPM', value: false },
