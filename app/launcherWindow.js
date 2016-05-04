@@ -19,7 +19,12 @@ function launcherWindow(app, token) {
 
 	var mainWindow = new BrowserWindow({
 		width: mainWindowState.width, height: mainWindowState.height,
-		frame: false, title: 'OPengine'
+		frame: false, title: 'OPengine',
+		webPreferences: {
+			webSecurity: false,
+			allowDisplayingInsecureContent: true,
+			allowRunningInsecureContent: true
+		}
 	});
 
     if (mainWindowState.isMaximized) {
