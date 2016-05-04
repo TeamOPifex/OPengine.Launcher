@@ -104,7 +104,7 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
 
         run: function(force, cb) {
             var me = this;
-            me.make(force, this.OS, function() {
+            me.make(force, function() {
                 var appPath = './Application/Application';
                 if(require('os').platform() == 'win32') {
                     appPath = 'Application\\Debug\\Application.exe';

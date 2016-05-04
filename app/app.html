@@ -93,100 +93,73 @@
     </head>
     <body ng-controller="engineCtrl">
 
-        <div class="visible-xs">
-            <div id="bs-navbar" style="display: none">
-              <ul class="nav navbar-nav">
-                  <li>
-                      <a href="#" onclick="$('#bs-navbar').toggle();">News</a>
-                  </li>
-                  <li>
-                      <a href="#" onclick="$('#bs-navbar').toggle();">Learn</a>
-                  </li>
-                  <li>
-                      <a href="#/marketplace" onclick="$('#bs-navbar').toggle();">Marketplace</a>
-                  </li>
-                  <li>
-                      <a href="#/tools" onclick="$('#bs-navbar').toggle();">Tools</a>
-                  </li>
-                  <li class="active">
-                      <a href="#/library" onclick="$('#bs-navbar').toggle();">Library</a>
-                  </li>
-                  <li>
-                      <a href="#/settings" onclick="$('#bs-navbar').toggle();">Settings</a>
-                  </li>
-              </ul>
-          </div>
+        <div class="launcher-side-menu">
+            <div class="logo nopadding">
+                <div style="width: 100%; background-color: #fff; padding: 8px;height: 50px;">
+                    <a href="" ng-click="open('http://opengine.io')"><img style="height: 35px" src="content/imgs/OPengineLogoSmall.png" /></a>
+                </div>
+            </div>
+            <div class="sections">
+                <ul>
+                    <li class="news" ng-class="getClass('/news')">
+                        <a href="#/news"><span class="icon-newspaper-o"></span><span class="text">News</span></a>
+                    </li>
+                    <li class="learn" ng-class="getClass('/learn')">
+                        <a href="#/learn"><span class="icon-mortar-board2"></span><span class="text">Learn</span></a>
+                    </li>
+                    <li class="marketplace" ng-class="getClass('/marketplace')">
+                        <a href="#/marketplace"><span class="icon-rocket"></span><span class="text">Marketplace</span></a>
+                    </li>
+                    <li class="library" ng-class="getClass('/library')">
+                        <a href="#/library"><span class="icon-books"></span><span class="text">Library</span></a>
+                    </li>
+                    <li class="tools" ng-class="getClass('/tools')">
+                        <a href="#/tools"><span class="icon-tools"></span><span class="text">Tools</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sections sections-bottom">
+                <ul>
+                    <li class="terminal">
+                        <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></span><span class="text">Terminal</span></a>
+                    </li>
+                    <li class="bug" ng-class="getClass('/bug')">
+                        <a href="#/bug"><span class="icon-bug"></span><span class="text">Report a bug</span></a>
+                    </li>
+                    <li class="message" ng-class="getClass('/message')">
+                        <a href="#/message"><span class="icon-message-2"></span><span class="text">Contact</span></a>
+                    </li>
+                    <li class="settings" ng-class="getClass('/settings')">
+                        <a href="#/settings"><span class="icon-gear"></span><span class="text">Settings</span></a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
 
+
         <div class="container" id="mainContainer">
-            <div class="row toolbar">
-                <div class="col-xs-12 text-right nopadding">
-                    <a href="javascript:void(0);" id="minimize">
-                        <img src="content/imgs/delete.png" style="width:12px; padding-top: 3px; margin-right: 6px;" />
+
+            <div class="toolbar">
+                <div class="tabs">
+                  <div class="tab current-tab">Library</div>
+                </div>
+                <div class="window">
+                    <a class="window-minimize" href="javascript:void(0);" id="minimize">
+                        <span class="icon-delete"></span>
                     </a>
-                    <a href="javascript:void(0);" id="close" ng-click="close()">
-                        <img src="content/imgs/delete-2.png" style="width:12px; margin-right: 10px;" />
+                    <a class="window-maximize" href="javascript:void(0);" id="maximize">
+                        <span class="icon-square-o"></span>
+                    </a>
+                    <a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">
+                        <span class="icon-close2"></span>
                     </a>
                 </div>
             </div>
-            <div class="row content">
-                <div class="sidebar col-lg-2 col-sm-3 hidden-xs nopadding" ng-class="{ 'hidden': !showSideBar }">
-                    <div class="header row extrapadding">
-                        <div class="logo col-xs-4 nopadding">
-                            <div style="width: 100%; background-color: #fff; border-radius: 0px 0px 3px 0px; border: 3px solid white">
-                                <a href="" ng-click="open('http://opengine.io')"><img style="height: 35px; padding: 2px" src="content/imgs/OPengineLogoSmall.png" /></a>
-                            </div>
-                        </div>
-                        <div class="title col-xs-8 nopadding">
-                            <div style="width: 100%; background-color: #7c9d6a; height: 3px; margin-top: 1px; margin-bottom: 3px;"></div>
-                            <a href="javascript:void()">OPengine</a>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <!-- <div class="favorites extrapadding">
-                            <div class="btn-group form-fill">
-                              <a href="" class="btn btn-primary form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="header">Generate</span> <br />
-                                <span class="sub">OPengine v0.4.5</span>
-                                <span class="caret"></span>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="">Generate</a></li>
-                                <li><a href="">Update</a></li>
-                                <li><a href="">Build</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="">Delete</a></li>
-                              </ul>
-                            </div>
-                        </div> -->
-                        <div class="sections">
-                            <ul>
-                                <li ng-class="getClass('/news')">
-                                    <a href="#/news">News</a>
-                                </li>
-                                <li ng-class="getClass('/learn')">
-                                    <a href="#/learn">Learn</a>
-                                </li>
-                                <li ng-class="getClass('/marketplace')">
-                                    <a href="#/marketplace">Marketplace</a>
-                                </li>
-                                <li ng-class="getClass('/library')">
-                                    <a href="#/library">Library</a>
-                                </li>
-                                <li ng-class="getClass('/tools')">
-                                    <a href="#/tools">Tools</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="external global-settings">
-                            <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></a>
-                            <a href="#/bug"><span class="icon-bug"></a>
-                            <a href="#/message"><span class="icon-message-2"></a>
-                            <a href="#/settings"><span class="icon-gear"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="main col-xs-12 nopadding" ng-class="{ 'col-sm-9': showSideBar, 'col-lg-10': showSideBar }">
+
+            <div class="content">
+                <div class="main nopadding">
                     <div class="text-left" ng-if="console.display && console.task" style="position: absolute; top: 0; width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; z-index: 10001">
                         {{console.task}}
                     </div>
@@ -196,8 +169,7 @@
                         </div>
                     </div>
 
-                    <div ng-view style="display:block; height: 100%; margin-bottom: 125px;"> </div>
-
+                    <div ng-view style="display:block; height: 100%;"> </div>
 
                 </div>
             </div>
