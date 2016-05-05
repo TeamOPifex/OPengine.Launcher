@@ -2,22 +2,24 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
     return {
         restrict: 'E',
         templateUrl: 'js/app/partials/shared/codeEditor.html',
+        transclude: true,
         scope: {
             path: '=',
             label: '@',
-            pinned: '&'
+            pinned: '&',
+            showCode: '='
         },
         link: function ($scope) {
-            //console.log($scope.path);
-
             var ipc = require('ipc');
 
             var editor = new CodeEditor('editor',
                 {
                     path: $scope.path,
                     label: $scope.label || 'OPengine',
-                    pinned: $scope.pinned()
+                    pinned: $scope.pinned(),
+                    showCode: $scope.showCode
                 });
+
 
             $scope.$on('$destroy', function() {
                 console.log('SCOPE DESTROYED');

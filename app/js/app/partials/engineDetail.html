@@ -52,15 +52,101 @@
         		</div> -->
         </div>
 
-      <div class="code" ng-class="{ hidden: !showCode }" style="height: 100%;overflow: hidden;">
+      <div class="code" style="height: 100%;overflow: hidden;">
+          <code-editor path="engine.repo.absolute" pinned="pinned" show-code="showCode">
+            <div style="text-align: left; padding: 20px;" class="section detail" >
+            <h3 class="title" style="margin-top: 0px;">Options</h3>
+            <div class="row">
+                      <div class="col-sm-3" ng-repeat="opt in engine.config.options">
+                          <div class="checkbox">
+                            <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                            <label class="check" for="{{opt.id}}"></label>
+                            <label class="text">{{opt.name}}</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-3" ng-repeat="opt in engine.config.optionSelectors">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="os.value" ng-options="option.name for option in os.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                      <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="engine.config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+            </div>
+                  <h3 class="title">Target</h3>
+            <div class="row">
+                      <div class="col-sm-3" ng-repeat="opt in engine.config.targets">
+                          <div class="checkbox">
+                              <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                              <label class="check" for="{{opt.id}}"></label>
+                              <label class="text">{{opt.name}}</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-3" ng-repeat="opt in engine.config.targetSelectors">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+            </div>
+                  <h3 class="title">Tools</h3>
+            <div class="row">
+                      <div class="col-sm-3" ng-repeat="opt in engine.config.tools">
+                          <div class="checkbox">
+                              <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                              <label class="check" for="{{opt.id}}"></label>
+                              <label class="text">{{opt.name}}</label>
+                          </div>
+                      </div>
+            </div>
+                  <!-- <br />
+            <div class="project-controls">
+              <div class="row">
+                <div class="col-sm-4">
+                          <a href="" ng-click="cmake()" class="btn btn-primary form-control">Generate</a>
+                </div>
+                <div class="col-sm-4">
+                          <a href="" ng-click="make()" class="btn btn-primary form-control">Build</a>
+                </div>
+                <div class="col-sm-4">
+                          <a href="" ng-click="run()" class="btn btn-primary form-control">Launch</a>
+                </div>
+              </div>
+            </div> -->
 
-          <code-editor path="engine.repo.absolute" pinned="pinned"></code-editor>
+
+              <h3 class="title">Addons</h3>
+              <div class="row">
+                  <div class="col-sm-3" ng-repeat="opt in engine.config.addons">
+                      <div class="checkbox">
+                        <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                        <label class="check" for="{{opt.id}}"></label>
+                        <label class="text">{{opt.name}}</label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </code-editor>
 
       </div>
 
 
-    <div class="section detail"  ng-class="{ hidden: showCode }">
-        <div class="col-xs-12 text-left">
+    <!-- <div class="section detail"  ng-class="{ hidden: showCode }">
+        <div class="col-xs-12 text-left"> -->
             <!-- <h2 class="title">
                 <a href="" onclick="window.history.back()"> <span class="icon-left"></span> </a>
     			OPengine v{{version}}
@@ -79,98 +165,15 @@
 
                 <a ng-if="windows" href="" ng-click="openSLN()" class="btn btn-default" style="padding: 4px 12px;"><span style="font-size: 16px;line-height: 1.5;" class="icon-Visual_Studio_2012_logo_and_wordmark"></span></a>
             </div> -->
-
+<!--
     		<div class="extrapadding inner-content-padding">
-                <h3 class="title">Options</h3>
-    			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in engine.config.options">
-                        <div class="checkbox">
-                        	<input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                        	<label class="check" for="{{opt.id}}"></label>
-                        	<label class="text">{{opt.name}}</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-3" ng-repeat="opt in engine.config.optionSelectors">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="os.value" ng-options="option.name for option in os.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                    <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="engine.config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-    			</div>
-                <h3 class="title">Target</h3>
-    			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in engine.config.targets">
-                        <div class="checkbox">
-                            <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                            <label class="check" for="{{opt.id}}"></label>
-                            <label class="text">{{opt.name}}</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-3" ng-repeat="opt in engine.config.targetSelectors">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-    			</div>
-                <h3 class="title">Tools</h3>
-    			<div class="row">
-                    <div class="col-sm-3" ng-repeat="opt in engine.config.tools">
-                        <div class="checkbox">
-                            <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                            <label class="check" for="{{opt.id}}"></label>
-                            <label class="text">{{opt.name}}</label>
-                        </div>
-                    </div>
-    			</div>
-                <!-- <br />
-    			<div class="project-controls">
-    				<div class="row">
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="cmake()" class="btn btn-primary form-control">Generate</a>
-    					</div>
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="make()" class="btn btn-primary form-control">Build</a>
-    					</div>
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="run()" class="btn btn-primary form-control">Launch</a>
-    					</div>
-    				</div>
-    			</div> -->
 
-
-            <h3 class="title">Addons</h3>
-            <div class="row">
-                <div class="col-sm-3" ng-repeat="opt in engine.config.addons">
-                    <div class="checkbox">
-                      <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                      <label class="check" for="{{opt.id}}"></label>
-                      <label class="text">{{opt.name}}</label>
-                    </div>
-                </div>
-            </div>
 
 
     		</div>
 
     	</div>
-    </div>
+    </div> -->
 
 
     <!-- <div style="
