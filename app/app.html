@@ -160,10 +160,11 @@
 
             <div class="content">
                 <div class="main nopadding">
-                    <div class="text-left" ng-if="console.display && console.task" style="position: absolute; top: 0; width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; z-index: 10001">
+                    <div class="text-left" ng-if="console.display && console.task" style="position: absolute; top: 0; width: 100%; height: 40px; border-bottom: 1px solid #fff;    font-size: 20px; background-color: #000; color: #fff; padding: 5px; padding-left: 30px; z-index: 10001">
                         {{console.task}}
+                        <a href="javascript:void(0)" ng-click="toggleConsole()" style="position: absolute; right: 12px;"><span class="icon-close"></span></a>
                     </div>
-                    <div class="console text-left" ng-if="console.display" ng-click="toggleConsole()" on-enter="hideConsole()">
+                    <div class="console text-left" ng-if="console.display">
                         <div class="line" ng-repeat="line in console.lines track by $index">
                             <span ng-class="{ error: line.type == 2, success: line.type == 3 }">{{line.text}}</span>
                         </div>

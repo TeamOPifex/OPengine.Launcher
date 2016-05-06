@@ -1,7 +1,9 @@
 <div class="header">
     <div class="row">
         <div class="col-xs-9 text-left">
-            <a href="javascript:void();" ng-click="toggleSideBar()">
+          <div style="padding-top: 5px;">
+
+            <!-- <a href="javascript:void();" ng-click="toggleSideBar()">
                 <span style="position: relative; top: 2px;" class="icon-list"></span></a>
             <div class="btn-group project-name">
               <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -14,51 +16,175 @@
                   <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">remote</a></li>
                   <li ng-repeat="branch in project.repo.git.remoteBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
               </ul>
-            </div>
+            </div> -->
             <div class="btn-group">
               <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Open <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">open with</a></li>
-                <li><a href="" ng-if="windows" ng-click="openSLN()"><span style="font-size: 16px;line-height: 1.5;" class="icon-Visual_Studio_2012_logo_and_wordmark"></span></a></li>
-                <li><a href="" ng-click="openWith('sublime')"><span style="font-size: 16px;line-height: 1.5;" class="icon-sublime-text"><span class="icon-sublime-text"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span></span> Sublime</a></li>
-                <li><a href="" ng-click="openWith('atom')"><span style="font-size: 16px;line-height: 1.5;" class="icon-atom"></span> Atom</a></li>
+                <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</a></li>
+                <li><a href="" ng-if="windows" ng-click="openSLN()">
+                  <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
+                <li><a href="" ng-click="openWith('sublime')">
+                  <img src="content/imgs/Sublime_text_logo.png" style="width: 24px;" /> Sublime</a></li>
+                <li><a href="" ng-click="openWith('atom')">
+                  <img src="content/imgs/Atom_logo.png" style="width: 24px;" /> <span>Atom</span></a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="" ng-click="openFolder()"><span class="icon-folder-2"></span> Project Folder</a></li>
+                <li><a href="" ng-click="openBuildFolder()"><span class="icon-folder-2"></span> Build Folder</a></li>
               </ul>
             </div>
             <a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a>
             <a ng-click="make()" href="javascript:void();" class="btn btn-primary">Build</a>
             <a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run</a>
+                            </div>
         </div>
         <div class="col-xs-3 text-right">
             <!-- <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></a>
             <a href="#/bug"><span class="icon-bug"></a>
             <a href="#/message"><span class="icon-message-2"></a> -->
-            <a href="#/library/project/settings/{{project.name}}"><span class="icon-gear"></span></a>
-            <a href="javascript:void(0)" ng-click="toggleCode()"><span ng-class="{ 'icon-equalizer': showCode, 'icon-file-text': !showCode }"></a>
+            <!-- <a href="#/library/project/settings/{{project.name}}"><span class="icon-gear"></span></a> -->
+      			<a href="javascript:void(0)" ng-click="showSettingsFn()"><span class="icon-gear"></a>
+      			<a href="javascript:void(0)" ng-click="showOptionsFn()"><span class="icon-equalizer"></a>
 
-            <a href="" id="toggle-menu" class="navbar-toggle" onclick="$('#bs-navbar').toggle();">
+            <!-- <a href="" id="toggle-menu" class="navbar-toggle" onclick="$('#bs-navbar').toggle();">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </a>
+            </a> -->
         </div>
+
     </div>
 </div>
 
 <div style="height: 100%; overflow: scroll-y; display:block;">
 
-    <div class="row extrapadding code" ng-class="{ hidden: !showCode }" style="height: 100%;padding-top: 104px;margin-top: -104px;">
+    <div class="row extrapadding code" style="height: 100%;padding-top: 104px;margin-top: -104px;">
 
-        <code-editor path="project.repo.relative" pinned="pinned" label="{{project.path}}"></code-editor>
+        <code-editor path="project.repo.relative" pinned="pinned" label="{{project.path}}" show-code="showCode">
+
+          <div ng-if="showOptions">
+
+            <div style="text-align: left; padding: 20px;" class="section detail">
+                  <h3 style="padding-top: 0px; margin-top: 0px;" class="title">OPengine Version</h3>
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-6">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="project.config.engine" ng-options="option.name + ' ' + option.version for option in engines track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <h3 class="title">Options</h3>
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.options">
+                          <div class="checkbox">
+                            <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                            <label class="check" for="{{opt.id}}"></label>
+                            <label class="text">{{opt.name}}</label>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.optionSelectors">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="os.value" ng-options="option.name for option in os.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                      <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <h3 class="title">Target</h3>
+            <div class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.targets">
+                          <div class="checkbox">
+                            <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                            <label class="check" for="{{opt.id}}"></label>
+                            <label class="text">{{opt.name}}</label>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.targetSelectors">
+                          <div class="styled-select">
+                              <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
+                              </select>
+                              <span class="caret"></span>
+                          </div>
+                      </div>
+            </div>
+                  <!-- <br />
+            <div style="" class="project-controls">
+              <div class="row">
+                <div class="col-sm-4">
+                          <a href="" ng-click="cmake()" class="btn btn-primary form-control">Generate</a>
+                </div>
+                <div class="col-sm-4">
+                          <a href="" ng-click="make()" class="btn btn-primary form-control">Build</a>
+                </div>
+                <div class="col-sm-4">
+                          <a href="" ng-click="run()" class="btn btn-primary form-control">Launch</a>
+                </div>
+              </div>
+            </div> -->
+
+
+                <h3 class="title">Addons</h3>
+                <div class="row">
+                    <div class="col-sm-3" ng-repeat="opt in project.config.addons">
+                        <div class="checkbox">
+                          <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
+                          <label class="check" for="{{opt.id}}"></label>
+                          <label class="text">{{opt.name}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>>
+        </div>
+        <div ng-if="showSettings">
+
+                <div style="text-align: left; padding: 20px;" class="section detail">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3 style="margin-top: 0px;">Build</h3>
+                            <h4>Windows .sln</h4>
+                  <textarea class="form-control" ng-model="project.config.solution"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>Application Start Command(s)</h3>
+                            <i>Separate multiple commands by new lines</i>
+                            <h4>Windows</h4>
+                  <textarea class="form-control" ng-model="project.config.launchWindows"></textarea>
+                            <h4>OSX</h4>
+                  <textarea class="form-control" ng-model="project.config.launchOSX"></textarea>
+                            <h4>Linux</h4>
+                  <textarea class="form-control" ng-model="project.config.launchLinux"></textarea>
+                        </div>
+                    </div>
+            </div>
+
+          </div>
+        </div>
+        </code-editor>
 
     </div>
 
-    <div class="row extrapadding section detail" ng-class="{ hidden: showCode }">
-        <div class="col-xs-12 text-left">
+    <!-- <div class="row extrapadding section detail" ng-class="{ hidden: showCode }">
+        <div class="col-xs-12 text-left"> -->
             <!-- <h2 class="title">
                 <a href="" onclick="window.history.back()"> <span class="icon-left"></span> </a>
     			{{name}}
@@ -87,98 +213,15 @@
 
             </div> -->
 
-    		<div class="extrapadding inner-content-padding">
-                <h3 class="title">OPengine Version</h3>
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="project.config.engine" ng-options="option.name + ' ' + option.version for option in engines track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="title">Options</h3>
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.options">
-                        <div class="checkbox">
-                        	<input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                        	<label class="check" for="{{opt.id}}"></label>
-                        	<label class="text">{{opt.name}}</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.optionSelectors">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="os.value" ng-options="option.name for option in os.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                    <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="title">Target</h3>
-    			<div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.targets">
-                        <div class="checkbox">
-                        	<input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                        	<label class="check" for="{{opt.id}}"></label>
-                        	<label class="text">{{opt.name}}</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="opt in project.config.targetSelectors">
-                        <div class="styled-select">
-                            <select class="form-control" ng-model="opt.value" ng-options="option.name for option in opt.options track by option.id">
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-    			</div>
-                <!-- <br />
-    			<div style="" class="project-controls">
-    				<div class="row">
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="cmake()" class="btn btn-primary form-control">Generate</a>
-    					</div>
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="make()" class="btn btn-primary form-control">Build</a>
-    					</div>
-    					<div class="col-sm-4">
-    		                <a href="" ng-click="run()" class="btn btn-primary form-control">Launch</a>
-    					</div>
-    				</div>
-    			</div> -->
+    		<!-- <div class="extrapadding inner-content-padding">
 
+    		</div> -->
 
-              <h3 class="title">Addons</h3>
-              <div class="row">
-                  <div class="col-sm-3" ng-repeat="opt in project.config.addons">
-                      <div class="checkbox">
-                        <input ng-model="opt.value" type="checkbox" id="{{opt.id}}" />
-                        <label class="check" for="{{opt.id}}"></label>
-                        <label class="text">{{opt.name}}</label>
-                      </div>
-                  </div>
-              </div>
-    		</div>
-
-    	</div>
-    </div>
+    	<!-- </div> -->
+    <!-- </div> -->
 </div>
 
-<div style="
+<!-- <div style="
     background-color: #000;
     position: absolute;
     bottom: 20px;
@@ -208,4 +251,4 @@
     padding-left: 8px;
 ">&gt; </span>
 
-<input style="outline:none;width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; padding-left: 40px; margin-left: 15px;border: none;" type="text" ng-model="terminal.cmd" on-enter="runCmd()" /></div>
+<input style="outline:none;width: 100%; height: 32px; background-color: #000; color: #fff; padding: 5px; padding-left: 40px; margin-left: 15px;border: none;" type="text" ng-model="terminal.cmd" on-enter="runCmd()" /></div> -->

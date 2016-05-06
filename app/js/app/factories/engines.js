@@ -22,7 +22,8 @@ angular.module('engineApp').factory("engines", [ 'config', function(config){
     //console.log(path.resolve(global.root + '/repos/OPengine'));
     var folders = getDirectories(path.resolve(global.root + '/repos/OPengine'));
     for(var i = 0; i < folders.length; i++) {
-        var engineConfig = config.getEngine(folders[i]);
+        var folder = path.resolve(global.root + '/repos/OPengine') + '/' + folders[i];
+        var engineConfig = config.getEngine(folder);
         versions.push({
             name: 'OPengine',
             version: engineConfig.engine.version,

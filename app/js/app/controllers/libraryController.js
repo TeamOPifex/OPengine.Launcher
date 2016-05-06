@@ -73,6 +73,19 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
             }
         }
         if(!found) {
+            $scope.config.projects[i].bg = 'content/imgs/project-bg.png';
+
+            var path = require('path');
+            var fs = require('fs');
+            var imgPath = path.resolve($scope.config.projects[i].id + '/bg.png');
+            if(fs.existsSync(imgPath)) {
+              $scope.config.projects[i].bg = 'file://' + imgPath.split('\\').join('/');
+            }
+
+            imgPath = path.resolve($scope.config.projects[i].id + '/bg.jpg');
+            if(fs.existsSync(imgPath)) {
+              $scope.config.projects[i].bg = 'file://' + imgPath.split('\\').join('/');
+            }
             $scope.projects.push($scope.config.projects[i]);
         }
     }

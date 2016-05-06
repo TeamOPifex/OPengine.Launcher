@@ -34,7 +34,9 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
 
         // Code Editor
         $scope.showCode = true;
-        $scope.toggleCode = function() { $scope.showCode = !$scope.showCode; };
+        $scope.toggleCode = function() {
+          $scope.showCode = !$scope.showCode;
+        };
         $scope.pinned = [ ];
 
 

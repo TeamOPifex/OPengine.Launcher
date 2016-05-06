@@ -10,13 +10,27 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
         $scope.windows = system.isWindows();
         $scope.visualStudios = VisualStudio;
 
+        $('.current-tab').text($routeParams.versionId);
 
         // Code Editor
         $scope.showCode = true;
+        $scope.showSettings = false;
+        $scope.showOptions = false;
         $scope.toggleCode = function() { $scope.showCode = !$scope.showCode; };
+        $scope.showSettingsFn = function() {
+          if($scope.showSettings) { return $scope.showCode = !$scope.showCode; }
+          $scope.showCode = false; $scope.showSettings = true; $scope.showOptions = false;
+        };
+        $scope.showOptionsFn = function() {
+          if($scope.showOptions) { return $scope.showCode = !$scope.showCode; }
+          $scope.showCode = false; $scope.showSettings = false; $scope.showOptions = true;
+        };
         $scope.pinned = [ ];
 
-
+        $scope.$watch(function() { return $scope.project.config; }, function() {
+    			config.saveProject($scope.project.repo.relative, $scope.project.config);
+    			//console.log($scope.config);
+    		}, true);
 
         // Open the project
         $scope.openFolder = function() { $scope.terminal.CurrentPath.path.openFolder(); };
