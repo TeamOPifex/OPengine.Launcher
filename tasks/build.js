@@ -28,7 +28,15 @@ var paths = {
         './vendor/**',
         './js/**',
         './**/*.html',
-        './**/*.+(jpg|png|svg)'
+        './**/*.+(jpg|png|svg|gif)'
+    ],
+    copyWatchFromAppDir: [
+        './stylesheets/**',
+        './fonts/**',
+        './js/**',
+        './*.html',
+        './js/**/*.html',
+        './content/**/*.+(jpg|png|svg|gif)'
     ],
 }
 
@@ -47,8 +55,14 @@ var copyTask = function () {
         matching: paths.copyFromAppDir
     });
 };
+var copyWatchTask = function () {
+    return projectDir.copyAsync('app', destDir.path(), {
+        overwrite: true,
+        matching: paths.copyWatchFromAppDir
+    });
+};
 gulp.task('copy', ['clean'], copyTask);
-gulp.task('copy-watch', copyTask);
+gulp.task('copy-watch', copyWatchTask);
 
 var appBundle = function (src, destName) {
     var deferred = Q.defer();
@@ -177,8 +191,8 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['bundle-watch']);
-    gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
+    gulp.watch('app/js/**/*.js', ['bundle-watch']);
+    gulp.watch(paths.copyWatchFromAppDir, { cwd: 'app' }, ['copy-watch']);
     gulp.watch('app/**/*.less', ['less-watch']);
 });
 

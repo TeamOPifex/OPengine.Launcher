@@ -433,7 +433,7 @@ angular.module('engineApp').factory("CodeEditor",[function(){
 		_openFolder: function(node) {
 			node.subDir = [];
 			this._walkNode(node);
-			return;
+			return 0;
 		},
 
 		_sortFoldersAndFiles: function(a,b) {
@@ -448,8 +448,11 @@ angular.module('engineApp').factory("CodeEditor",[function(){
             var self = this;
             switch(extension(node.label)) {
                 case 'psd':
-                    if(this.lastNode == node) {
+                    // if(this.lastNode == node) {
                         var PSD = require('psd');
+
+                        //$('#imagePreview').attr('src', 'content/imgs/loading.gif');
+                        setTimeout(function() {
                         PSD.open(node.fullPath).then(function (psd) {
                             var saveTo = global.root + '/temp/output.png';
                             return psd.image.saveAsPng(saveTo);
@@ -457,33 +460,61 @@ angular.module('engineApp').factory("CodeEditor",[function(){
                             var img = $('#imagePreview');
                             var imgSource = 'file://' + global.root + '/temp/output.png?id=' + (self.idCount++);
                             img.attr('src', imgSource);
-                            $('#showFileModal').modal();
+                            //$('#showFileModal').modal();
                         });
-                    } else {
+
+                      }, 0);
+                    // } else {
                         if(this.lastNode) {
                             this.lastNode.active = false;
                         }
                         this.lastNode = node;
                         node.active = true;
-                    }
+                    // }
 
-                    return;
+                    return 2;
                 case 'png':
                 case 'jpg':
-
-                    if(this.lastNode == node) {
+                    //
+                    // if(this.lastNode == node) {
                         var img = $('#imagePreview');
                         var imgSource = 'file://' + node.fullPath + '?id=' + (self.idCount++);
                         img.attr('src', imgSource);
-                        $('#showFileModal').modal();
-                    } else {
+                      //  $('#showFileModal').modal();
+                    // } else {
                         if(this.lastNode) {
                             this.lastNode.active = false;
                         }
                         this.lastNode = node;
                         node.active = true;
-                    }
-                    return;
+                    // }
+                    return 2;
+                case 'opf':
+                case 'opm':
+                case 'anim':
+                case 'opss':
+                case 'dds':
+                case 'exe':
+                  return 3;
+                case 'ogg': {
+                    $('#audioPreview').html('');
+                    var audSource = 'file://' + node.fullPath + '?id=' + (self.idCount++);
+                    $('#audioPreview').append($('<audio controls><source src="' + audSource + '" type="audio/ogg"></audio>'));
+                    return 4;
+                }
+                case 'wav': {
+                  $('#audioPreview').html('');
+                  var audSource = 'file://' + node.fullPath + '?id=' + (self.idCount++);
+                  $('#audioPreview').append($('<audio controls><source src="' + audSource + '" type="audio/wav"></audio>'));
+                  return 4;
+                }
+                case 'mp3':
+                {
+                    $('#audioPreview').html('');
+                    var audSource = 'file://' + node.fullPath + '?id=' + (self.idCount++);
+                    $('#audioPreview').append($('<audio controls><source src="' + audSource + '" type="audio/mpeg"></audio>'));
+                    return 4;
+                }
                 default:
                     break;
             }
@@ -505,7 +536,7 @@ angular.module('engineApp').factory("CodeEditor",[function(){
 					this.open.push(this.lastNode);
                     this._setOpen();
 				}
-				return;
+				return 1;
 			} else if(openTab) {
                 this.open.push(node);
                 this._setOpen();
@@ -572,6 +603,7 @@ angular.module('engineApp').factory("CodeEditor",[function(){
 					this.editor.getSession().setMode("ace/mode/plain_text");
 					break;
 			}
+      return 1;
 		}
 	};
 

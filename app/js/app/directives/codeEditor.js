@@ -33,6 +33,7 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
             $scope.newFileNode = null;
             $scope.showDeleteFile = false;
             $scope.deleteFileNode = null;
+            $scope.showFileType = 1;
 
             editor.onNewFile = function(node) {
                 $scope.showNewFile = true;
@@ -66,7 +67,11 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
 
 
             $scope.select = function(data) {
-                editor.Open(data);
+                var result = editor.Open(data);
+                if(result > 0) {
+                  $scope.showFileType = result;
+                  $scope.showCode = true;
+                }
             }
 
             ipc.on('save', function() {

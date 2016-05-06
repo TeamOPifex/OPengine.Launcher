@@ -3,25 +3,37 @@
 
 
         <div class="header">
+          <div class="row">
+            <div class="col-xs-9 text-left">
+              <div style="padding-top: 5px;">
         			<div class="btn-group">
         				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         					Open <span class="caret"></span>
         				</a>
-        				<ul class="dropdown-menu">
-        					<li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">open with</a></li>
-        					<li><a href="" ng-if="windows" ng-click="openSLN()"><span style="font-size: 16px;line-height: 1.5;" class="icon-Visual_Studio_2012_logo_and_wordmark"></span></a></li>
-        					<li><a href=""><span style="font-size: 16px;line-height: 1.5;" class="icon-sublime-text"><span class="icon-sublime-text"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span></span> Sublime</a></li>
-        					<li><a href="" ng-click="atom()"><span style="font-size: 16px;line-height: 1.5;" class="icon-atom"></span> Atom</a></li>
-        					<li role="separator" class="divider"></li>
-        					<li><a href="" ng-click="openFolder()"><span class="icon-folder-2"></span> Project Folder</a></li>
-        				</ul>
+                <ul class="dropdown-menu">
+                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</a></li>
+                  <li><a href="" ng-if="windows" ng-click="openSLN()">
+                    <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
+                  <li><a href="" ng-click="openWith('sublime')">
+                    <img src="content/imgs/Sublime_text_logo.png" style="width: 24px;" /> Sublime</a></li>
+                  <li><a href="" ng-click="openWith('atom')">
+                    <img src="content/imgs/Atom_logo.png" style="width: 24px;" /> <span>Atom</span></a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="" ng-click="openFolder()"><span class="icon-folder-2"></span> Project Folder</a></li>
+                  <li><a href="" ng-click="openBuildFolder()"><span class="icon-folder-2"></span> Build Folder</a></li>
+                </ul>
         			</div>
         			<a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a>
         			<a ng-click="make()" href="javascript:void();" class="btn btn-primary">Build</a>
         			<a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run</a>
+            </div>
+          </div>
+          <div class="col-xs-3 text-right">
 
-        			<a href="javascript:void(0)" ng-click="toggleCode()"><span ng-class="{ 'icon-equalizer': showCode, 'icon-file-text': !showCode }"></a>
+        			<a href="javascript:void(0)" ng-click="toggleCode()"><span class="icon-equalizer"></a>
 
+                </div>
+            </div>
         				<!-- <div class="col-xs-9 text-left">
         						<div class="btn-group project-name">
         							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -19,7 +19,7 @@
 
 
 
-	<div style="height: 100%;padding-right:0px; width: 300px;    position: absolute;top: 0; padding-top: 50px; margin:0; left: 0; z-index: 500;">
+	<div style="height: 100%;padding-right:0px; width: 300px;    position: absolute;top: 0; padding-top: 50px; margin:0; left: 0; z-index: 500;     border-right: 1px solid #466674;">
 		<div class="code-panel">
 			<div class="code-panel-inner">
 		<ol class="codetree">
@@ -46,8 +46,15 @@
 				<a href="javascript:void(0);" ng-click="select(file)">{{file.label}} <span ng-class="{ hidden: !file.changes }">*</span></a> <span class="close" ng-click="closeFile(file)">x</span>
 			</div>
 		</div> -->
-		<div style="height: 100%;" ng-show="!showCode" ng-transclude></div>
-		<div style="height: 100%;" ng-show="showCode">
+		<div style="height: 100%;overflow: auto;" ng-show="!showCode" ng-transclude></div>
+		<div style="height: 100%;overflow: auto;" ng-show="showCode && showFileType == 3">
+				<h3>Preview this file?</h3>
+		</div>
+		<div style="height: 100%;overflow: auto;padding: 20px;" id="audioPreview" ng-show="showCode && showFileType == 4">
+
+		</div>
+		<div style="height: 100%;overflow: auto;" ng-show="showCode && showFileType == 2"><img id="imagePreview" style="max-width: 100%;"></img></div>
+		<div style="height: 100%;" ng-show="showCode && showFileType == 1">
 			<div id="editor" style="height: 100%; min-height: 200px; text-align: left; ">//Welcome to the OPengine editor.</div>
 			<div id="newfile" style="position: absolute; top: 0; left: 42px; width: 300px; z-index: 10;" ng-class="{ hidden: !showNewFile }">
 				<input id="newFileText" type="text" on-escape="cancelFile();" on-enter="newFile();" placeholder="New File..." ng-model="newFileName" class="form-control" />
@@ -91,7 +98,7 @@
 <div id="showFileModal" class="modal fade yes-no-modal">
   <div class="modal-dialog">
     <div class="modal-content">
-		<img id="imagePreview" style="max-width: 100%;"></img>
+		<!-- <img id="imagePreview" style="max-width: 100%;"></img> -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
