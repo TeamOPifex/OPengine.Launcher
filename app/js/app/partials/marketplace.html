@@ -1,0 +1,15 @@
+<div class="row extrapadding section detail">
+    <div class="col-xs-12 text-left">
+        <h2 class="title">
+          Addons
+        </h2>
+        <div>
+          <div class="addon" ng-repeat="addon in addons" ng-click="install(addon)">
+            <div class="addon-title">{{addon.name}}</div>
+            <div class="addon-category">{{addon.category}}</div>
+            <div class="addon-installed" ng-if="addon.installed">{{addon.installedVersion}} Installed</div>
+            <div class="addon-author">{{addon.author}}</div>
+          </div>
+        </div>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-var ipc = require('ipc');
+var ipc = require('electron').ipcRenderer;
 var fs = require('fs');
 
 angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config',

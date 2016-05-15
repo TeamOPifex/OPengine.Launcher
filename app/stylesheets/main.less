@@ -1752,3 +1752,33 @@ body.main {
         }
     }
 }
+
+.addon {
+    border: 2px solid #fff;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    height: 100px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    background-color: @secondary-color;
+
+    .addon-title {
+        font-size: 16px;
+    }
+    .addon-installed {
+      color: @active-color;
+    }
+    .addon-category {
+        font-size: 10px;
+    }
+    .addon-author {
+        font-size: 10px;
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        width: 100%;
+        text-align: left;
+    }
+}

@@ -10,7 +10,7 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
             showCode: '='
         },
         link: function ($scope) {
-            var ipc = require('ipc');
+            var ipc = require('electron').ipcRenderer;
 
             var editor = new CodeEditor('editor',
                 {

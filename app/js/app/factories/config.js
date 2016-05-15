@@ -375,7 +375,7 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 
 				console.log(marketplace);
 				for(var i = 0; i < marketplace.length; i++) {
-					options.push({name: marketplace[i].name, id: marketplace[i].name, type: 'addon', value: false})
+					options.push({name: marketplace[i].name, id: marketplace[i].id, type: 'addon', value: false})
 				}
 
 
