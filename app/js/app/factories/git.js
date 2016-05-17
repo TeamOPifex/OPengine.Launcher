@@ -20,10 +20,14 @@ angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
             git.clone('OPengine', repoOwner, repoName, name, cb);
         },
         clone: function(root, repoOwner, repoName, name, cb) {
-	        var repoUrl = "https://" + user.token +
-	          ":x-oauth-basic@github.com/" +
-	          repoOwner + "/" +
-	          repoName + ".git";
+	        // var repoUrl = "https://" + user.token +
+	        //   ":x-oauth-basic@github.com/" +
+	        //   repoOwner + "/" +
+	        //   repoName + ".git";
+              
+              var repoUrl = "https://github.com/" +
+                repoOwner + "/" +
+                repoName + ".git";
 
             var path = nodePath.resolve(global.root + "/repos/" + root + "/" + name);
             mkdirp(path, function(err) {
