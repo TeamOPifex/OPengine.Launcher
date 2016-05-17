@@ -5,7 +5,7 @@ function menuBuilder(mainWindow) {
 	    submenu: [
 	        {
 	            label: 'Home',
-	            click: function() { mainWindow.loadUrl('file://' + __dirname + '/loading.html'); }
+	            click: function() { mainWindow.loadURL('file://' + __dirname + '/loading.html'); }
 	        },
 	      {
 	        type: 'separator'

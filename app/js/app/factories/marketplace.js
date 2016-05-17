@@ -19,15 +19,28 @@ angular.module('engineApp').factory("marketplace",function(){
 
 	  var addons = [];
 
-    //console.log(path.resolve(global.root + '/repos/projects'));
-  	folders = getDirectories(path.resolve(global.root + '/marketplace'));
-    for(var i = 0; i < folders.length; i++) {
-        var name = folders[i];
-        addons.push({
-            name: name,
-            id: folders[i]
-        });
+    addons.refresh = function() {
+      this.length = 0;
+
+      folders = getDirectories(path.resolve(global.root + '/marketplace'));
+      for(var i = 0; i < folders.length; i++) {
+          var name = folders[i];
+          var sep = name.split('.');
+          var addonName = sep[0];
+          sep.shift(0);
+          var version = sep.join('.');
+          this.push({
+              name: addonName,
+              id: folders[i],
+              version: version
+          });
+      }
     }
+
+    addons.refresh();
+
+    //console.log(path.resolve(global.root + '/repos/projects'));
+
 
     return addons;
 });

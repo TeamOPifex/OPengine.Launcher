@@ -27,7 +27,8 @@ import path from 'path';
 import Module from 'module';
 Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
 
-import { ipcRenderer } from 'electron';
+const electron = require('electron');
+const ipcRenderer = electron.ipcRenderer;
 import process from 'process';
 import jetpack from 'fs-jetpack';
 

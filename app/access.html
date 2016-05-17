@@ -116,7 +116,7 @@
                         HasOPengineAccess(githubUser, function(access) {
                             if(access) {
         						window.localStorage.setItem('githubAccessToken', qs['access_token']);
-        					  	require('ipc').send('access', qs['access_token']);
+        					  	require('electron').ipcRenderer.send('access', qs['access_token']);
                             } else {
                                 $.ajax({
                                     url: 'http://launcher.opengine.io/addteam?access_token=' + qs['access_token'],

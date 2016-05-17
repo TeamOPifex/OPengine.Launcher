@@ -10,47 +10,53 @@ function Download(files, cb, cbProgress) {
     var file = '';
     var url = '';
 
-    var platform = null;
-    switch(os.platform()) {
-      case 'win32':{
-        platform = files.windows;
-        break;
-      }
-      case 'darwin': {
-        platform = files.osx;
-        break;
-      }
-      case 'linux': {
-        platform = files.linux;
-        break;
-      }
-    }
-
-    if(platform == null) {
-      console.log('WARNING: platform was not found');
-      return;
-    }
-
-    if(!platform.x86_x64) {
-      switch(os.arch()) {
-        case 'x64': {
-          file = platform.x64.file;
-          url = platform.x64.url;
-          break;
-        }
-        case 'ia32': {
-          file = platform.x86.file;
-          url = platform.x86.url;
-          break;
-        }
-        default: {
-          console.log('WARNING: architecture not supported');
-          return;
-        }
-      }
+    if(typeof files === 'string') {
+      file = 'temp' + (Math.random() * 100) + '.zip';
+      url = files;
     } else {
-      file = platform.x86_x64.file;
-      url = platform.x86_x64.url;
+
+      var platform = null;
+      switch(os.platform()) {
+        case 'win32':{
+          platform = files.windows;
+          break;
+        }
+        case 'darwin': {
+          platform = files.osx;
+          break;
+        }
+        case 'linux': {
+          platform = files.linux;
+          break;
+        }
+      }
+
+      if(platform == null) {
+        console.log('WARNING: platform was not found');
+        return;
+      }
+
+      if(!platform.x86_x64) {
+        switch(os.arch()) {
+          case 'x64': {
+            file = platform.x64.file;
+            url = platform.x64.url;
+            break;
+          }
+          case 'ia32': {
+            file = platform.x86.file;
+            url = platform.x86.url;
+            break;
+          }
+          default: {
+            console.log('WARNING: architecture not supported');
+            return;
+          }
+        }
+      } else {
+        file = platform.x86_x64.file;
+        url = platform.x86_x64.url;
+      }
     }
 
     if(file == null || url == null) {

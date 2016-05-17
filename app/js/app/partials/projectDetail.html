@@ -102,7 +102,7 @@
                       </div>
                       <div ng-if="windows" class="col-lg-3 col-md-4 col-sm-6">
                           <div class="styled-select">
-                              <select class="form-control" ng-model="config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
+                              <select class="form-control" ng-model="project.config.visualStudio" ng-options="option.name for option in visualStudios track by option.id">
                               </select>
                               <span class="caret"></span>
                           </div>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-            </div>>
+            </div>
         </div>
         <div ng-if="showSettings">
 

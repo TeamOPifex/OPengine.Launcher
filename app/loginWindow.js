@@ -1,11 +1,15 @@
 import DevHelper from './vendor/electron_boilerplate/dev_helper';
-import BrowserWindow from 'browser-window';
-import { ipcMain, ipcRenderer } from 'electron';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
 import InstallWindow from './installWindow.js';
 import isInstalled from './is-installed.js';
 import LauncherConfig from './launcher-config.js';
+
+const electron = require('electron');
+const ipcMain = electron.ipcMain;
+const ipcRenderer = electron.ipcRenderer;
+const BrowserWindow = electron.BrowserWindow;
+
 
 function loginWindow(app, signout) {
 	var window = new BrowserWindow({
@@ -24,7 +28,7 @@ function loginWindow(app, signout) {
 	if(signout) {
 		path += '&signout=true';
 	}
-    window.loadUrl(path);
+    window.loadURL(path);
 
 
 	var githubWindow;
@@ -42,7 +46,7 @@ function loginWindow(app, signout) {
 			width: 1025, height: 600,
 			frame: true, title: 'Github'
 		});
-	    githubWindow.loadUrl(global.webRoot + '/githubLoad.html?t=' + (+new Date));
+	    githubWindow.loadURL(global.webRoot + '/githubLoad.html?t=' + (+new Date));
 		githubWindow.on('close', function() {
 			console.log('closing');
 		})

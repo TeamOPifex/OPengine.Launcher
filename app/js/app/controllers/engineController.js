@@ -1,4 +1,4 @@
-var ipc = require('ipc');
+var ipc = require('electron').ipcRenderer;
 angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console', '$timeout', 'run', '$location', function($scope, user, appConsole, $timeout, run, $location) {
 	if(!user.OPifex) {
 	  window.location = '#/library';
@@ -16,7 +16,7 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 		shortcuts.push({ keys: 'cmd+s', method: 'save' });
 	}
 
-	require('ipc').send('shortcuts', shortcuts);
+	ipc.send('shortcuts', shortcuts);
 
 	$scope.console = appConsole;
     window.scope = $scope;
@@ -35,7 +35,7 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 
 
 	$scope.open = function(test) {
-		require('shell').openExternal(test);
+		require('electron').shell.openExternal(test);
 	};
 
 	$scope.loggedIn = function() {
@@ -76,13 +76,13 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 
 
 		$scope.close = function() {
-				require('ipc').send('exit');
+				ipc.send('exit');
 		};
 		$('#close').click(function() {
-				require('ipc').send('exit');
+				ipc.send('exit');
 		});
 
 		$('#minimize').click(function() {
-			require('ipc').send('minimize');
+			ipc.send('minimize');
 		});
 }]);

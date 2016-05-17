@@ -1,16 +1,20 @@
 import WindowStateKeeper from './vendor/electron_boilerplate/window_state';
 import DevHelper from './vendor/electron_boilerplate/dev_helper';
-import BrowserWindow from 'browser-window';
-import GlobalShortcut from 'global-shortcut';
-import Menu from 'menu';
-import Dialog from 'dialog';
-import { ipcMain } from 'electron';
+
 import MenuBuilder from './menuBuilder.js';
 import LauncherWindow from './launcherWindow.js';
 import LoginWindow from './loginWindow.js';
 import isInstalled from './is-installed.js';
 import Download from './download-file.js';
 import LauncherConfig from './launcher-config.js';
+
+const electron = require('electron');
+const ipcMain = electron.ipcMain;
+// const Remote = electron.remote;
+// const Menu = Remote.Menu;
+const Dialog = electron.dialog;
+const BrowserWindow = electron.BrowserWindow;
+const globalShortcut = electron.globalShortcut;
 
 function installWindow(app, token) {
 
@@ -28,8 +32,8 @@ function installWindow(app, token) {
     DevHelper.setDevMenu();
 
 	// The application menu
-    var menu = Menu.buildFromTemplate(MenuBuilder(mainWindow));
-    Menu.setApplicationMenu(menu);
+    // var menu = Menu.buildFromTemplate(MenuBuilder(mainWindow));
+    // Menu.setApplicationMenu(menu);
 
 	// The default web file to load
 	// This loads a local file first so that it can determine
@@ -37,9 +41,9 @@ function installWindow(app, token) {
 	// in offline mode without negatively affecting the User
 	// Experience
 	if(token) {
-	    mainWindow.loadUrl(global.webRoot + '/install.html?access_token=' + token);
+	    mainWindow.loadURL(global.webRoot + '/install.html?access_token=' + token);
 	} else {
-    	mainWindow.loadUrl(global.webRoot + '/install.html');
+    	mainWindow.loadURL(global.webRoot + '/install.html');
 	}
 
     function installed(event, arg) {

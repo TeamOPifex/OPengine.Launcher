@@ -395,9 +395,7 @@
               if(res.success) {
                 window.localStorage.setItem('login-username', username);
                 window.localStorage.setItem('login-remember', remember);
-                if(remember) {
-                    window.localStorage.setItem('login-token', res.token);
-                }
+                window.localStorage.setItem('login-token', res.token);
                 ipc.send('signin', res.token);
               } else {
                 alert(res.message);
@@ -497,7 +495,7 @@
               window.localStorage.setItem('githubAccessToken', qs['access_token']);
             }
 
-            require('ipc').on('access', function(args) {
+            require('electron').ipcRenderer.on('access', function(args) {
                 window.localStorage.setItem('githubAccessToken', args);
                 token = args;
                 login();

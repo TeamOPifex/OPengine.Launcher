@@ -1,4 +1,4 @@
-var shell = require('shell');
+var shell = require('electron').shell;
 
 function walk(currentDirPath, subDir, callback) {
     var fs = require('fs'), path = require('path');

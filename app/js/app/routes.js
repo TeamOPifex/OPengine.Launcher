@@ -55,8 +55,8 @@ engineApp.config(['$routeProvider',
         controller: 'StaticCtrl'
       }).
       when('/marketplace', {
-        templateUrl: 'js/app/partials/notyet.html',
-        controller: 'StaticCtrl'
+        templateUrl: 'js/app/partials/marketplace.html',
+        controller: 'MarketplaceCtrl'
       }).
       when('/bug', {
         templateUrl: 'js/app/partials/notyet.html',

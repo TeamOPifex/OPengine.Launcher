@@ -3,7 +3,9 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 
-import { app, ipcMain } from 'electron';
+const electron = require('electron');
+const app = electron.app;
+const ipcMain = electron.ipcMain;
 import devHelper from './vendor/electron_boilerplate/dev_helper';
 import windowStateKeeper from './vendor/electron_boilerplate/window_state';
 

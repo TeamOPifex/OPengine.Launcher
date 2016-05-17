@@ -1,7 +1,7 @@
 angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '$routeParams', 'Terminal', 'system', 'VisualStudio', 'OS', 'Project', 'console', '$rootScope', 'engines', 'config', 'cmake', 'make', 'run', 'git',
     function($scope, $routeParams, Terminal, system, VisualStudio, OS, Project, appConsole, $rootScope, engines, config, cmake, make, run, git) {
 
-        var ipc = require('ipc');
+        var ipc = require('electron').ipcRenderer;
 
         $scope.os = OS;
         $scope.project = new Project($routeParams.versionId, $scope.os, $scope);
