@@ -11,7 +11,7 @@ function loginWindow(app, signout) {
 	var window = new BrowserWindow({
 		width: 400, height: 575,
 		frame: false, title: 'OPengine',
-  	     transparent: true,
+  	     transparent: true, resizable: false
 	});
 
 	// Creating developer menu for debugging purposes

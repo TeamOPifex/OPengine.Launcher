@@ -19,7 +19,8 @@ function installWindow(app, token) {
 	var mainWindow = new BrowserWindow({
 		width: 400, height: 575,
 		frame: false, title: 'OPengine',
-		transparent: true
+		transparent: true,
+        resizable: false
 	});
 
 

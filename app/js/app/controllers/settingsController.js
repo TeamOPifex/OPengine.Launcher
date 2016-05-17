@@ -5,6 +5,7 @@ angular.module('engineControllers').controller('SettingsCtrl', ['$scope', '$rout
         	user.OPifex = false;
             window.localStorage.removeItem('githubAccessToken');
             window.localStorage.removeItem('login-remember');
+            window.localStorage.removeItem('login-token');
             require('electron').ipcRenderer.send('signout');
         }
 

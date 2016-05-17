@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'console', 'cmake', 'make', function(config, run, git, appConsole, cmake, make) {
+angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'console', 'cmake', 'make', 'engines', function(config, run, git, appConsole, cmake, make, engines) {
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
     var open = require('open');
@@ -13,6 +13,9 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
         this.config = config.getProject(this.repo.relative);
         this.rebuild = false;
 
+        if(this.config.engine == null || this.config.engine.version == null) {
+            this.config.engine = engines[0];
+        }
 
         var me = this;
 

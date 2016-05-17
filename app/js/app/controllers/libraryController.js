@@ -183,7 +183,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
 
         $scope.projects.push(clone);
 
-        git.cloneProject($scope.currentGithubRepo.owner.login, $scope.currentGithubRepo.name, safeName, function(err, repo) {
+        git.CLI.cloneProject($scope.currentGithubRepo.owner.login, $scope.currentGithubRepo.name, safeName, function(err, repo) {
             clone.cloning = false;
             $scope.$digest();
         });
@@ -203,12 +203,13 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
         var clone = {
             name: $scope.newProject.RepoName,
             id: safeName,
-            cloning: true
+            cloning: true,
+            bg: 'content/imgs/project-bg.png'
         };
 
         $scope.projects.push(clone);
 
-        git.cloneProject('TeamOPifex', 'OPengine.AppTemplate', safeName, function(err, repo) {
+        git.CLI.cloneProject('TeamOPifex', 'OPengine.AppTemplate', safeName, function(err, repo) {
             clone.cloning = false;
 
             var path = nodePath.resolve(global.root + "/repos/projects/" + safeName);
@@ -236,6 +237,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
                      config.saveProject(path, projectConfig);
 
                      git.init(path, function() {
+
                          $scope.$digest();
                      });
                   });
