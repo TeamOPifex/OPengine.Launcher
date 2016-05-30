@@ -1,6 +1,7 @@
 import DevHelper from './vendor/electron_boilerplate/dev_helper';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
+import SceneEditorWindow from './sceneEditorWindow.js';
 import InstallWindow from './installWindow.js';
 import isInstalled from './is-installed.js';
 import LauncherConfig from './launcher-config.js';
