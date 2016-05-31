@@ -13,6 +13,10 @@ var Sidebar = function ( editor ) {
 	var projectTab = new UI.Text( 'PROJECT' ).onClick( onClick );
 	var settingsTab = new UI.Text( 'SETTINGS' ).onClick( onClick );
 
+    sceneTab.dom.style.cursor = 'pointer';
+    projectTab.dom.style.cursor = 'pointer';
+    settingsTab.dom.style.cursor = 'pointer';
+
 	var tabs = new UI.Div();
 	tabs.setId( 'tabs' );
 	tabs.add( sceneTab, projectTab, settingsTab );

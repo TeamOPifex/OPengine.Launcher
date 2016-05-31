@@ -1,8 +1,8 @@
 var OPIFEX = OPIFEX || {};
 
-function SetInStoneExporter(editor) {
+function OPsceneExporter(editor, fileOutput, cb) {
 
-    var output = {
+    var result = {
      	models: []
     };
 
@@ -34,7 +34,7 @@ function SetInStoneExporter(editor) {
 
                 ProcessChildren(m.children);
 
-        		output.models.push(obj);
+        		result.models.push(obj);
         	} else if(m.type == "Mesh" && m.userData.gameType == 'Static Triangle') {
         		var obj = {
         			name: m.name,
@@ -46,7 +46,7 @@ function SetInStoneExporter(editor) {
         			collisions: []
         		};
 
-        		output.models.push(obj);
+        		result.models.push(obj);
 
                 ProcessChildren(m.children);
         	}
@@ -60,21 +60,36 @@ function SetInStoneExporter(editor) {
     var me = this;
     ProcessChildren(editor.scene.children, function() {
 
-        try {
-        	output = JSON.stringify( output, null, '\t' );
-        	output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
-        } catch ( e ) {
-        	output = JSON.stringify( output );
-        }
+        // Everything has been gathered together at this point
+        // Now everything just has to be written out
 
-        output = 'module.exports = ' + output;
+        me.output = new ArrayBuffer();
 
-        me.output = output;
+        // Write out the binary data to the output
+        // .opscene file format
+
+        fileOutput
+        var fs = require('fs');
+        var wstream = fs.createWriteStream(fileOutput);
+        wstream.on('finish', function () {
+            if(cb) cb();
+        });
+        wstream.on('open', function() {
+
+            var arr = new ArrayBuffer(4);
+            var version = new Uint8Array(arr);
+            version[0] = 2;
+
+            var blob = new Blob(arr);
+            var resultArr = new ArrayBuffer(blob, blob.length);
+            wstream.write(new Buffer(resultArr));
+            wstream.end();
+        });
     })
 }
 
-SetInStoneExporter.prototype = {
-    output: ''
+OPsceneExporter.prototype = {
+    output: null
 };
 
-OPIFEX.SetInStoneExporter = SetInStoneExporter;
+OPIFEX.OPsceneExporter = OPsceneExporter;

@@ -15,6 +15,9 @@ var Projectbar = function ( editor ) {
   var sceneTab = new UI.Text( 'MODELS' ).onClick( onClick );
 	var projectTab = new UI.Text( 'TEXTURES' ).onClick( onClick );
 
+    settingsTab.dom.style.cursor = 'pointer';
+    sceneTab.dom.style.cursor = 'pointer';
+    projectTab.dom.style.cursor = 'pointer';
 
   var tabs = new UI.Div();
   tabs.setId( 'tabs' );

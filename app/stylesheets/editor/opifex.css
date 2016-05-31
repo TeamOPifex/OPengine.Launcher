@@ -231,12 +231,24 @@ input.Number {
 		color: #ccc;
 		border-right: 1px solid #222;
 		padding: 10px;
+        cursor: pointer;
+	}
+
+    #tabs span:hover {
+		background-color: #567684;
 	}
 
 	#tabs span.selected {
 		color: #fff;
 		background-color: #7c9d6a;
 	}
+
+	#tabs span.selected:hover {
+		color: #fff;
+		background-color: #8cad7a;
+	}
+
+
 
 #toolbar {
 	position: absolute;

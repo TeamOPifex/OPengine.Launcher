@@ -146,12 +146,12 @@ function sceneEditorWindow(app, project, projectPath) {
 	function exit(event, arg) {
 		mainWindow.destroy();
 	}
-	ipcMain.on('close', exit);
+	ipcMain.on('close-editor', exit);
 
 	function minimize(event, arg) {
 		mainWindow.minimize();
 	}
-		ipcMain.on('minimize', minimize);
+		ipcMain.on('minimize-editor', minimize);
 
 
 	function maximize(event, arg) {
@@ -161,7 +161,7 @@ function sceneEditorWindow(app, project, projectPath) {
 		}
 		mainWindow.maximize();
 	}
-    ipcMain.on('maximize', maximize);
+    ipcMain.on('maximize-editor', maximize);
 
 	return mainWindow;
 }

@@ -86,6 +86,7 @@
 		<script src="js/editor/exporters/OBJExporter.js"></script>
 		<script src="js/editor/exporters/STLExporter.js"></script>
 		<script src="js/editor/opifex/exporters/SetInStone.js"></script>
+		<script src="js/editor/opifex/exporters/OPscene.js"></script>
 
 		<script src="js/editor/loaders/deprecated/SceneLoader.js"></script>
 
@@ -473,9 +474,9 @@
 			$(function() {
 					$('#windowBar').append($('<div class="toolbar"><div class="tabs"><div id="title" class="tab current-tab">Library</div></div>					<div class="window"><a class="window-minimize" href="javascript:void(0);" id="minimize">	<span class="icon-delete"></span>							</a>	<a class="window-maximize" href="javascript:void(0);" id="maximize"><span class="icon-square-o"></span>	</a>							<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">									<span class="icon-close2"></span>							</a>					</div></div>'));
 					ipc.send('title');
-					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize'); })
-					$('#windowBar').find('#close').click(function() { ipc.send('close'); })
-					$('#windowBar').find('#maximize').click(function() { ipc.send('maximize'); })
+					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize-editor'); })
+					$('#windowBar').find('#close').click(function() { ipc.send('close-editor'); })
+					$('#windowBar').find('#maximize').click(function() { ipc.send('maximize-editor'); })
 			});
 
 			/*

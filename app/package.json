@@ -20,6 +20,7 @@
     "request": "^2.72.0",
     "request-progress": "^2.0.1",
     "rimraf": "^2.4.3",
+    "signals": "^1.0.0",
     "unzip": "^0.1.11"
   }
 }

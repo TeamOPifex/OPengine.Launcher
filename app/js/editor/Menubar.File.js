@@ -181,9 +181,12 @@ Menubar.File = function ( editor ) {
 	option.setTextContent( 'Export Set in Stone Scene' );
 	option.onClick( function () {
 
-		var exporter = new OPIFEX.SetInStoneExporter(editor);
-
-		exportString( exporter.output, 'scene.js' );
+		// var exporter = new OPIFEX.SetInStoneExporter(editor);
+        //
+		// exportString( exporter.output, 'scene.js' );
+        var exporter = new OPIFEX.OPsceneExporter(editor, 'scene.opscene', function() {
+            console.log('Finished saving');
+        });
 
 	} );
 	options.add( option );
