@@ -4,6 +4,7 @@ import DevHelper from './vendor/electron_boilerplate/dev_helper';
 import MenuBuilder from './menuBuilder.js';
 import LoginWindow from './loginWindow.js';
 import Download from './download-file.js';
+import SceneEditorWindow from './sceneEditorWindow.js';
 
 const electron = require('electron');
 const ipcMain = electron.ipcMain;
@@ -143,6 +144,11 @@ function launcherWindow(app, token) {
 		require('./loginWindow.js')(app, true);
 		mainWindow.destroy();
 	});
+
+
+	  ipcMain.on('sceneEditor', function(event, project, projectPath) {
+			SceneEditorWindow(app, project, projectPath);
+		});
 
   ipcMain.on('install', function(event, file) {
 

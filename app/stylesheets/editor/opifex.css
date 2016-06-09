@@ -1,0 +1,366 @@
+.Outliner {
+	color: #868686;
+	background: #222;
+	padding: 0;
+	width: 100%;
+	height: 250px;
+	font-size: 12px;
+	cursor: default;
+	overflow: auto;
+	outline: none;
+}
+
+	.Outliner .option {
+		padding: 4px;
+		white-space: nowrap;
+	}
+
+	.Outliner .option:hover {
+		background-color: rgba(21,60,94,0.5);
+	}
+
+
+	.Outliner .option.active {
+		background-color: rgba(21,60,94,1);
+	}
+
+.Panel.Collapsible.collapsed .Static .Button {
+	border-left-color: #444;
+}
+
+.Panel.Collapsible:not(.collapsed) .Static .Button {
+	border-top-color: #444;
+}
+
+input.Number {
+	color: #2A75B7!important;
+	font-size: 12px;
+	border: 0px;
+	padding: 2px;
+	cursor: col-resize;
+}
+
+#viewport {
+	position: absolute;
+	top: 82px;
+	left: 300px;
+	right: 300px;
+	bottom: 32px;
+}
+
+	#viewport #info {
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+		pointer-events: none;
+	}
+
+#script {
+	position: absolute;
+	top: 82px;
+	left: 300px;
+	right: 300px;
+	bottom: 32px;
+	opacity: 0.9;
+}
+
+#player {
+	position: absolute;
+	top: 32px;
+	left: 300px;
+	right: 300px;
+	bottom: 32px;
+}
+
+#windowBar {
+	position: absolute;
+	width: 100%;
+	height: 32px;
+	background: #111;
+	padding: 0;
+	margin: 0;
+	right: 0;
+	top: 0;
+	-webkit-user-select: none;
+	-webkit-app-region: drag;
+}
+
+#windowBar .windowBarTitle {
+	color: #fff;
+	padding: 10px 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+#windowBar a {
+	-webkit-app-region: no-drag;
+}
+
+#menubar {
+	position: absolute;
+	width: 100%;
+	height: 32px;
+	background: #344c58;
+	padding: 0;
+	margin: 0;
+	right: 0;
+	top: 50px;
+}
+
+    #menubar > .option {
+		float: left;
+	    cursor: pointer;
+	    padding-right: 8px;
+	    display: inline-block;
+	    color: #000;
+		margin: 3px;
+	    padding: 3px 8px;
+	    background-color: #bbb;
+        border-radius: 8px;
+	}
+    #menubar > .option:hover {
+        background-color: #999;
+    }
+
+	#menubar .menu {
+		float: left;
+		cursor: pointer;
+		padding-left: 8px;
+		padding-right: 8px;
+	}
+
+	#menubar .menu.right {
+		float: right;
+		cursor: auto;
+		padding-right: 0;
+		text-align: right;
+	}
+
+		#menubar .menu .title {
+			display: inline-block;
+			color: #fff;
+			margin: 0;
+			padding: 8px;
+		}
+
+		#menubar .menu .options {
+			position: absolute;
+			display: none;
+			padding: 5px 0;
+			background: #344c58;
+			width: 150px;
+	    z-index: 1000;
+    	top: 32px;
+		}
+
+		#menubar .menu:hover .options {
+			display: block;
+		}
+
+			#menubar .menu .options hr {
+				border-color: #eee;
+			}
+
+			#menubar .menu .options .option {
+				color: #fff;
+				background-color: transparent;
+				padding: 5px 10px;
+				margin: 0 !important;
+			}
+
+				#menubar .menu .options .option:hover {
+					color: #fff;
+					background-color: #08f;
+				}
+
+				#menubar .menu .options .option:active {
+					background: transparent;
+				}
+
+		#menubar .menu .options .inactive {
+			color: #aaa;
+			background-color: transparent;
+			padding: 5px 10px;
+			margin: 0 !important;
+		}
+
+#sidebar {
+	position: absolute;
+	right: 0;
+	top: 82px;
+	bottom: 0;
+	width: 300px;
+	background-color: #344c58;
+	overflow: auto;
+}
+
+	#sidebar * {
+		vertical-align: middle;
+	}
+
+	#sidebar input,
+	#sidebar textarea,
+	#sidebar select {
+		background: #466674;
+		border: 1px solid transparent;
+		color: #fff;
+	}
+
+	#sidebar .Panel {
+		color: #eee;
+		padding: 10px;
+		border-top: 1px solid #222;
+	}
+
+	#sidebar .Panel.collapsed {
+		margin-bottom: 0;
+	}
+
+	#sidebar .Panel.Material canvas {
+		border: solid 1px #5A5A5A;
+	}
+
+	#sidebar .Row {
+		min-height: 20px;
+		margin-bottom: 10px;
+	}
+
+#tabs {
+	background-color: #466674;
+	border-top: 1px solid #222;
+}
+
+	#tabs span {
+		color: #ccc;
+		border-right: 1px solid #222;
+		padding: 10px;
+        cursor: pointer;
+	}
+
+    #tabs span:hover {
+		background-color: #567684;
+	}
+
+	#tabs span.selected {
+		color: #fff;
+		background-color: #7c9d6a;
+	}
+
+	#tabs span.selected:hover {
+		color: #fff;
+		background-color: #8cad7a;
+	}
+
+
+
+#toolbar {
+	position: absolute;
+	left: 300px;
+	right: 300px;
+	bottom: 0;
+	height: 32px;
+	background-color: #344c58;
+	color: #eee;
+}
+
+	#toolbar * {
+		vertical-align: middle;
+	}
+
+	#toolbar .Panel {
+		padding: 4px;
+		color: #eee;
+	}
+
+	#toolbar button {
+		margin-right: 6px;
+	}
+
+
+	#projectbar {
+		position: absolute;
+		left: 0;
+		top: 82px;
+		bottom: 0;
+		width: 300px;
+		background-color: #344c58;
+		overflow: auto;
+	}
+
+.ModelViewerPanel {
+		overflow: auto;
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+}
+
+.ModelViewerButtonsPanel {
+		overflow: auto;
+    position: absolute;
+    height: 50px;
+    bottom: 0px;
+		padding: 5px;
+		left: 0;
+		right: 0;
+}
+
+	.ModelViewerButtonsPanel  .Button {
+		padding: 5px;
+		margin: 0px 10px;
+		font-size: 12px;
+		padding: 4px 16px;
+		border: 1px solid #fff;
+		background-color: transparent;
+		color: #fff;
+		display: inline-block;
+		margin-top: -4px;
+	}
+
+	a.Model {
+		display: inline-block;
+		width: 120px;
+		height: 60px;
+		margin: 10px;
+		padding: 5px;
+		overflow: hidden;
+		background-color: #466674;
+	}
+
+	a.Model.Texture {
+		background-size: contain;
+		height: 120px;
+		margin: 0;
+		padding: 0;
+	}
+
+	a.Model.active {
+		background-color: #264654;
+		border: 2px solid;
+		border-color: #fff;
+	}
+
+	.TextureContainer {
+		width: 120px;
+		height: 135px;
+		display: inline-block;
+		margin: 10px;
+		padding: 5px;
+	}
+
+	.TextureContainer span {
+		display: block;
+    width: 120px;
+    text-align: center;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+
+.HorizontalRule {
+	margin: 2px;
+}
+
+.Button {
+	color: #000;
+}
+
+input[type=checkbox] {
+	    visibility: visible !important;
+}

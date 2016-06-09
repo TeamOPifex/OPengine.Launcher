@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js / editor</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script>
+      var path = require('path');
+
+      module.paths.push(path.resolve('node_modules'));
+      module.paths.push(path.resolve('../node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron.asar', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app.asar', 'node_modules'));
+
+      var Module = require('module');
+      Module.globalPaths.push( path.join(__dirname, 'node_modules') );
+      Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
+      Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
+
+      path = undefined;
+
+      var qs = (function(a) {
+          if (a == "") return {};
+          var b = {};
+          for (var i = 0; i < a.length; ++i)
+          {
+              var p=a[i].split('=', 2);
+              if (p.length == 1)
+                  b[p[0]] = "";
+              else
+                  b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+          }
+          return b;
+      })(window.location.search.substr(1).split('&'));
+
+      // If a token was set in the Query String
+      if(qs['access_token']) {
+          window.localStorage.setItem('githubToken', qs['access_token']);
+          window.localStorage.setItem('githubAccessToken', qs['access_token']);
+      }
+
+
+      function define() {
+
+      }
+
+      var signals = require('signals');
+    </script>
+
+	</head>
+	<body ontouchstart="">
+		<link href="stylesheets/editor/main.css" rel="stylesheet" />
+		<link id="theme" href="stylesheets/editor/opifex.css" rel="stylesheet" />
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+
+    <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+
+		<script src="js/editor/three.min.js"></script>
+		<script src="js/editor/libs/system.min.js"></script>
+
+		<script src="js/editor/opifex/utils.js"></script>
+
+		<script src="js/editor/controls/EditorControls.js"></script>
+		<script src="js/editor/controls/TransformControls.js"></script>
+
+		<script src="js/editor/libs/jszip.min.js"></script>
+		<script src="js/editor/loaders/AMFLoader.js"></script>
+		<script src="js/editor/loaders/AWDLoader.js"></script>
+		<script src="js/editor/loaders/BabylonLoader.js"></script>
+		<script src="js/editor/loaders/ColladaLoader2.js"></script>
+		<script src="js/editor/loaders/FBXLoader.js"></script>
+		<script src="js/editor/loaders/KMZLoader.js"></script>
+		<script src="js/editor/loaders/MD2Loader.js"></script>
+		<script src="js/editor/loaders/OBJLoader.js"></script>
+		<script src="js/editor/loaders/OPMLoader.js"></script>
+		<script src="js/editor/loaders/PlayCanvasLoader.js"></script>
+		<script src="js/editor/loaders/PLYLoader.js"></script>
+		<script src="js/editor/loaders/STLLoader.js"></script>
+		<script src="js/editor/loaders/UTF8Loader.js"></script>
+		<script src="js/editor/loaders/VRMLLoader.js"></script>
+		<script src="js/editor/loaders/VTKLoader.js"></script>
+		<script src="js/editor/loaders/ctm/lzma.js"></script>
+		<script src="js/editor/loaders/ctm/ctm.js"></script>
+		<script src="js/editor/loaders/ctm/CTMLoader.js"></script>
+		<script src="js/editor/exporters/OBJExporter.js"></script>
+		<script src="js/editor/exporters/STLExporter.js"></script>
+		<script src="js/editor/opifex/exporters/SetInStone.js"></script>
+		<script src="js/editor/opifex/exporters/OPscene.js"></script>
+
+		<script src="js/editor/loaders/deprecated/SceneLoader.js"></script>
+
+		<script src="js/editor/renderers/Projector.js"></script>
+		<script src="js/editor/renderers/CanvasRenderer.js"></script>
+		<script src="js/editor/renderers/RaytracingRenderer.js"></script>
+		<script src="js/editor/renderers/SoftwareRenderer.js"></script>
+		<script src="js/editor/renderers/SVGRenderer.js"></script>
+
+		<link rel="stylesheet" href="js/editor/libs/codemirror/codemirror.css">
+		<link rel="stylesheet" href="js/editor/libs/codemirror/theme/monokai.css">
+		<script src="js/editor/libs/codemirror/codemirror.js"></script>
+		<script src="js/editor/libs/codemirror/mode/javascript.js"></script>
+		<script src="js/editor/libs/codemirror/mode/glsl.js"></script>
+
+		<script src="js/editor/libs/esprima.js"></script>
+		<script src="js/editor/libs/jsonlint.js"></script>
+		<script src="js/editor/libs/glslprep.min.js"></script>
+
+		<link rel="stylesheet" href="js/editor/libs/codemirror/addon/dialog.css">
+		<link rel="stylesheet" href="js/editor/libs/codemirror/addon/show-hint.css">
+		<link rel="stylesheet" href="js/editor/libs/codemirror/addon/tern.css">
+		<script src="js/editor/libs/codemirror/addon/dialog.js"></script>
+		<script src="js/editor/libs/codemirror/addon/show-hint.js"></script>
+		<script src="js/editor/libs/codemirror/addon/tern.js"></script>
+		<script src="js/editor/libs/acorn/acorn.js"></script>
+		<script src="js/editor/libs/acorn/acorn_loose.js"></script>
+		<script src="js/editor/libs/acorn/walk.js"></script>
+		<script src="js/editor/libs/ternjs/polyfill.js"></script>
+		<script src="js/editor/libs/ternjs/signal.js"></script>
+		<script src="js/editor/libs/ternjs/tern.js"></script>
+		<script src="js/editor/libs/ternjs/def.js"></script>
+		<script src="js/editor/libs/ternjs/comment.js"></script>
+		<script src="js/editor/libs/ternjs/infer.js"></script>
+		<script src="js/editor/libs/ternjs/doc_comment.js"></script>
+		<script src="js/editor/libs/tern-threejs/threejs.js"></script>
+
+		<script src="js/editor/libs/signals.min.js"></script>
+		<script src="js/editor/libs/ui.js"></script>
+		<script src="js/editor/libs/ui.three.js"></script>
+
+		<script src="js/editor/libs/app.js"></script>
+		<script src="js/editor/Player.js"></script>
+		<script src="js/editor/Script.js"></script>
+
+		<script src="js/editor/effects/VREffect.js"></script>
+		<script src="js/editor/controls/VRControls.js"></script>
+
+		<script src="js/editor/Storage.js"></script>
+
+		<script src="js/editor/Editor.js"></script>
+		<script src="js/editor/Config.js"></script>
+		<script src="js/editor/History.js"></script>
+		<script src="js/editor/Loader.js"></script>
+		<script src="js/editor/WindowBar.js"></script>
+		<script src="js/editor/Menubar.js"></script>
+		<script src="js/editor/Menubar.File.js"></script>
+		<script src="js/editor/Menubar.Edit.js"></script>
+		<script src="js/editor/Menubar.Add.js"></script>
+		<script src="js/editor/Menubar.Play.js"></script>
+		<script src="js/editor/Menubar.Examples.js"></script>
+		<script src="js/editor/Menubar.Help.js"></script>
+		<script src="js/editor/Menubar.Status.js"></script>
+		<script src="js/editor/Sidebar.js"></script>
+		<script src="js/editor/Sidebar.Scene.js"></script>
+		<script src="js/editor/Sidebar.Project.js"></script>
+		<script src="js/editor/Sidebar.Settings.js"></script>
+		<script src="js/editor/Sidebar.Properties.js"></script>
+		<script src="js/editor/Sidebar.Object.js"></script>
+		<script src="js/editor/Sidebar.Geometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.Geometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.BufferGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.Modifiers.js"></script>
+		<script src="js/editor/Sidebar.Geometry.BoxGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.CircleGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.CylinderGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.IcosahedronGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.PlaneGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.SphereGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.TorusGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.TorusKnotGeometry.js"></script>
+		<script src="js/editor/geometries/TeapotBufferGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.TeapotBufferGeometry.js"></script>
+		<script src="js/editor/Sidebar.Geometry.LatheGeometry.js"></script>
+		<script src="js/editor/Sidebar.Material.js"></script>
+		<script src="js/editor/Sidebar.Animation.js"></script>
+		<script src="js/editor/Sidebar.Script.js"></script>
+		<script src="js/editor/Sidebar.History.js"></script>
+		<script src="js/editor/Toolbar.js"></script>
+		<script src="js/editor/Projectbar.js"></script>
+		<script src="js/editor/Projectbar.Models.js"></script>
+		<script src="js/editor/Projectbar.Textures.js"></script>
+		<script src="js/editor/Projectbar.Scenes.js"></script>
+		<script src="js/editor/Viewport.js"></script>
+		<script src="js/editor/Viewport.Info.js"></script>
+		<script src="js/editor/Command.js"></script>
+		<script src="js/editor/commands/AddObjectCommand.js"></script>
+		<script src="js/editor/commands/RemoveObjectCommand.js"></script>
+		<script src="js/editor/commands/MoveObjectCommand.js"></script>
+		<script src="js/editor/commands/SetPositionCommand.js"></script>
+		<script src="js/editor/commands/SetRotationCommand.js"></script>
+		<script src="js/editor/commands/SetScaleCommand.js"></script>
+		<script src="js/editor/commands/SetValueCommand.js"></script>
+		<script src="js/editor/commands/SetUuidCommand.js"></script>
+		<script src="js/editor/commands/SetColorCommand.js"></script>
+		<script src="js/editor/commands/SetGeometryCommand.js"></script>
+		<script src="js/editor/commands/SetGeometryValueCommand.js"></script>
+		<script src="js/editor/commands/MultiCmdsCommand.js"></script>
+		<script src="js/editor/commands/AddScriptCommand.js"></script>
+		<script src="js/editor/commands/RemoveScriptCommand.js"></script>
+		<script src="js/editor/commands/SetScriptValueCommand.js"></script>
+		<script src="js/editor/commands/SetMaterialCommand.js"></script>
+		<script src="js/editor/commands/SetMaterialValueCommand.js"></script>
+		<script src="js/editor/commands/SetMaterialColorCommand.js"></script>
+		<script src="js/editor/commands/SetMaterialMapCommand.js"></script>
+		<script src="js/editor/commands/SetSceneCommand.js"></script>
+
+
+		<script src="js/editor/opifex/scene-loader.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Mesh.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Object3D.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.ObjectLoader.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Scene.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Texture.js"></script>
+
+		<!-- <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="qyqgfqd9j8z890t"></script> -->
+
+		<script>
+
+			var ipc = require('electron').ipcRenderer;
+			ipc.on('title', function(event, title) {
+				$('#title').text(title);
+			});
+			window.projectPath = ipc.sendSync('projectPath').split('\\').join('/');
+			var fs = require('fs');
+			var editorJson = window.projectPath + '/editor.json';
+			window.editorSettings = {};
+			if(fs.existsSync(editorJson)) {
+					window.editorSettings = JSON.parse(fs.readFileSync(editorJson, 'utf8'));
+			}
+			console.log('Editor Settings', window.editorSettings);
+
+			window.URL = window.URL || window.webkitURL;
+			window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+
+			Number.prototype.format = function (){
+				return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+			};
+
+			//
+
+			var editor = new Editor();
+
+			var viewport = new Viewport( editor );
+			document.body.appendChild( viewport.dom );
+
+			var script = new Script( editor );
+			document.body.appendChild( script.dom );
+
+			var player = new Player( editor );
+			document.body.appendChild( player.dom );
+
+			var toolbar = new Toolbar( editor );
+			document.body.appendChild( toolbar.dom );
+
+			var menubar = new Menubar( editor );
+			document.body.appendChild( menubar.dom );
+
+			var windowBar = new WindowBar( editor );
+			document.body.appendChild( windowBar.dom );
+
+			var sidebar = new Sidebar( editor );
+			document.body.appendChild( sidebar.dom );
+
+			var projectbar = new Projectbar( editor );
+			document.body.appendChild( projectbar.dom );
+
+			var modal = new UI.Modal();
+			document.body.appendChild( modal.dom );
+
+			//
+
+			editor.setTheme( editor.config.getKey( 'theme' ) );
+
+			editor.storage.init( function () {
+
+				editor.storage.get( function ( state ) {
+
+					if ( isLoadingFromHash ) return;
+
+					if ( state !== undefined ) {
+
+						editor.fromJSON( state );
+
+					}
+
+					var selected = editor.config.getKey( 'selected' );
+
+					if ( selected !== undefined ) {
+
+						editor.selectByUuid( selected );
+
+					}
+
+				} );
+
+				//
+
+				var timeout;
+
+				function saveState( scene ) {
+
+					if ( editor.config.getKey( 'autosave' ) !== true ) {
+
+						return;
+
+					}
+
+					clearTimeout( timeout );
+
+					timeout = setTimeout( function () {
+
+						editor.signals.savingStarted.dispatch();
+
+						timeout = setTimeout( function () {
+
+							editor.storage.set( editor.toJSON() );
+
+							editor.signals.savingFinished.dispatch();
+
+						}, 100 );
+
+					}, 1000 );
+
+				};
+
+				var signals = editor.signals;
+
+				signals.geometryChanged.add( saveState );
+				signals.objectAdded.add( saveState );
+				signals.objectChanged.add( saveState );
+				signals.objectRemoved.add( saveState );
+				signals.materialChanged.add( saveState );
+				signals.sceneGraphChanged.add( saveState );
+				signals.scriptChanged.add( saveState );
+				signals.historyChanged.add( saveState );
+
+				signals.showModal.add( function ( content ) {
+
+					modal.show( content );
+
+				} );
+
+			} );
+
+			//
+
+			document.addEventListener( 'dragover', function ( event ) {
+
+				event.preventDefault();
+				event.dataTransfer.dropEffect = 'copy';
+
+			}, false );
+
+			document.addEventListener( 'drop', function ( event ) {
+
+				event.preventDefault();
+
+				if ( event.dataTransfer.files.length > 0 ) {
+
+					editor.loader.loadFile( event.dataTransfer.files[ 0 ] );
+
+				}
+
+			}, false );
+
+			document.addEventListener( 'keydown', function ( event ) {
+
+					console.log(event.keyIdentifier, event.keyCode);
+				switch ( event.keyCode ) {
+
+					case 8:
+						event.preventDefault(); // prevent browser back
+
+						var object = editor.selected;
+
+						if ( confirm( 'Delete ' + object.name + '?' ) === false ) return;
+
+						var parent = object.parent;
+						if ( parent !== null ) editor.execute( new RemoveObjectCommand( object ) );
+
+						break;
+
+					case 90: // Register Ctrl-Z for Undo, Ctrl-Shift-Z for Redo
+
+						if ( event.ctrlKey && event.shiftKey ) {
+
+							editor.redo();
+
+						} else if ( event.ctrlKey ) {
+
+							editor.undo();
+
+						}
+
+						break;
+
+					case 87: // Register W for translation transform mode
+						editor.signals.transformModeChanged.dispatch( 'translate' );
+
+						break;
+
+					case 69: // Register E for rotation transform mode
+						editor.signals.transformModeChanged.dispatch( 'rotate' );
+
+						break;
+
+					case 82: // Register R for scaling transform mode
+						editor.signals.transformModeChanged.dispatch( 'scale' );
+
+						break;
+
+          case 83:
+              if(event.ctrlKey && window.activeScene != undefined && window.activeScene != null) {
+					        var exporter = new OPIFEX.OPsceneExporter(editor);
+									exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + window.activeScene);
+              }
+              break;
+
+					case 46: // Register R for scaling transform mode
+
+							var object = editor.selected;
+
+							if ( confirm( 'Delete ' + object.name + '?' ) === false ) return;
+
+							var parent = object.parent;
+							if ( parent === undefined ) return; // avoid deleting the camera or scene
+
+							editor.execute( new RemoveObjectCommand( object ) );
+
+						break;
+
+          case 88:
+							// set to snap
+							editor.signals.snapChanged.dispatch(true);
+              break;
+					default:
+						//console.log(event);
+						break;
+				}
+
+				}, false );
+
+
+				document.addEventListener( 'keyup', function ( event ) {
+
+					switch ( event.keyCode ) {
+
+	          case 88:
+								// set to not snap
+								editor.signals.snapChanged.dispatch(null);
+	              break;
+						}
+				}, false);
+
+			function onWindowResize( event ) {
+
+				editor.signals.windowResize.dispatch();
+
+			}
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			onWindowResize();
+
+			//
+
+			var isLoadingFromHash = false;
+			var hash = window.location.hash;
+
+			if ( hash.substr( 1, 5 ) === 'file=' ) {
+
+				var file = hash.substr( 6 );
+
+				if ( confirm( 'Any unsaved data will be lost. Are you sure?' ) ) {
+
+					var loader = new THREE.XHRLoader();
+					loader.crossOrigin = '';
+					loader.load( file, function ( text ) {
+
+						editor.clear();
+						editor.fromJSON( JSON.parse( text ) );
+
+					} );
+
+					isLoadingFromHash = true;
+
+				}
+
+			}
+
+
+			$(function() {
+					$('#windowBar').append($('<div class="toolbar"><div class="tabs"><div id="title" class="tab current-tab">Library</div></div>					<div class="window"><a class="window-minimize" href="javascript:void(0);" id="minimize">	<span class="icon-delete"></span>							</a>	<a class="window-maximize" href="javascript:void(0);" id="maximize"><span class="icon-square-o"></span>	</a>							<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">									<span class="icon-close2"></span>							</a>					</div></div>'));
+					ipc.send('title');
+					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize-editor'); })
+					$('#windowBar').find('#close').click(function() { ipc.send('close-editor'); })
+					$('#windowBar').find('#maximize').click(function() { ipc.send('maximize-editor'); })
+			});
+
+			/*
+			window.addEventListener( 'message', function ( event ) {
+
+				editor.clear();
+				editor.fromJSON( event.data );
+
+			}, false );
+			*/
+
+		</script>
+	</body>
+</html>

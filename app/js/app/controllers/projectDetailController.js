@@ -37,7 +37,9 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
         $scope.openSLN = function() { $scope.project.openSolution(); };
         $scope.openWith = function(program) { $scope.project.repo.openWith(program); };
 
-
+        $scope.editor = function() {
+          ipc.send('sceneEditor', $routeParams.versionId, $scope.project.repo.absolute);
+        }
 
         // On KeyBind events coming from the underlining application
         ipc.on('build', function() { $scope.make(); });

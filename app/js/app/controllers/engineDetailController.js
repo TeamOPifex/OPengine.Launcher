@@ -45,7 +45,9 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
         $scope.openSLN = function() { $scope.engine.openSolution(); };
         $scope.openWith = function(program) { $scope.engine.repo.openWith(program); };
 
-
+        $scope.editor = function() {
+          ipc.send('sceneEditor', 'OPengine', $scope.engine.repo.absolute);
+        }
 
         // On KeyBind events coming from the underlining application
         ipc.on('build', function() { $scope.make(); });
