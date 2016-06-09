@@ -184,10 +184,8 @@ Menubar.File = function ( editor ) {
 		// var exporter = new OPIFEX.SetInStoneExporter(editor);
         //
 		// exportString( exporter.output, 'scene.js' );
-        var exporter = new OPIFEX.OPsceneExporter(editor, 'scene.opscene', function() {
-            console.log('Finished saving');
-        });
-
+        var exporter = new OPIFEX.OPsceneExporter(editor);
+				exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + 'scene.opscene');
 	} );
 	options.add( option );
 

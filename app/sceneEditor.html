@@ -61,6 +61,8 @@
 		<script src="js/editor/three.min.js"></script>
 		<script src="js/editor/libs/system.min.js"></script>
 
+		<script src="js/editor/opifex/utils.js"></script>
+
 		<script src="js/editor/controls/EditorControls.js"></script>
 		<script src="js/editor/controls/TransformControls.js"></script>
 
@@ -179,6 +181,7 @@
 		<script src="js/editor/Projectbar.js"></script>
 		<script src="js/editor/Projectbar.Models.js"></script>
 		<script src="js/editor/Projectbar.Textures.js"></script>
+		<script src="js/editor/Projectbar.Scenes.js"></script>
 		<script src="js/editor/Viewport.js"></script>
 		<script src="js/editor/Viewport.Info.js"></script>
 		<script src="js/editor/Command.js"></script>
@@ -203,6 +206,14 @@
 		<script src="js/editor/commands/SetMaterialMapCommand.js"></script>
 		<script src="js/editor/commands/SetSceneCommand.js"></script>
 
+
+		<script src="js/editor/opifex/scene-loader.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Mesh.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Object3D.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.ObjectLoader.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Scene.js"></script>
+		<script src="js/editor/opifex/prototype-overloads/THREE.Texture.js"></script>
+
 		<!-- <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="qyqgfqd9j8z890t"></script> -->
 
 		<script>
@@ -212,6 +223,13 @@
 				$('#title').text(title);
 			});
 			window.projectPath = ipc.sendSync('projectPath').split('\\').join('/');
+			var fs = require('fs');
+			var editorJson = window.projectPath + '/editor.json';
+			window.editorSettings = {};
+			if(fs.existsSync(editorJson)) {
+					window.editorSettings = JSON.parse(fs.readFileSync(editorJson, 'utf8'));
+			}
+			console.log('Editor Settings', window.editorSettings);
 
 			window.URL = window.URL || window.webkitURL;
 			window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
@@ -349,6 +367,7 @@
 
 			document.addEventListener( 'keydown', function ( event ) {
 
+					console.log(event.keyIdentifier, event.keyCode);
 				switch ( event.keyCode ) {
 
 					case 8:
@@ -393,8 +412,9 @@
 						break;
 
           case 83:
-              if(event.ctrlKey) {
-                  editor.storage.set( editor.toJSON() );
+              if(event.ctrlKey && window.activeScene != undefined && window.activeScene != null) {
+					        var exporter = new OPIFEX.OPsceneExporter(editor);
+									exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + window.activeScene);
               }
               break;
 
@@ -416,7 +436,7 @@
 							editor.signals.snapChanged.dispatch(true);
               break;
 					default:
-						console.log(event);
+						//console.log(event);
 						break;
 				}
 

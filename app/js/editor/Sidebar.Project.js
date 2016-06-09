@@ -23,91 +23,91 @@ Sidebar.Project = function ( editor ) {
 
 	// class
 
-	var options = {};
+	// var options = {};
+	//
+	// for ( var key in rendererTypes ) {
+	//
+	// 	if ( key.indexOf( 'WebGL' ) >= 0 && System.support.webgl === false ) continue;
+	//
+	// 	options[ key ] = key;
+	//
+	// }
 
-	for ( var key in rendererTypes ) {
+	//var rendererTypeRow = new UI.Row();
+	// var rendererType = new UI.Select().setOptions( options ).setWidth( '150px' ).onChange( function () {
+	//
+	// 	var value = this.getValue();
+	//
+	// 	config.setKey( 'project/renderer', value );
+	//
+	// 	updateRenderer();
+	//
+	// } );
 
-		if ( key.indexOf( 'WebGL' ) >= 0 && System.support.webgl === false ) continue;
-
-		options[ key ] = key;
-
-	}
-
-	var rendererTypeRow = new UI.Row();
-	var rendererType = new UI.Select().setOptions( options ).setWidth( '150px' ).onChange( function () {
-
-		var value = this.getValue();
-
-		config.setKey( 'project/renderer', value );
-
-		updateRenderer();
-
-	} );
-
-	rendererTypeRow.add( new UI.Text( 'Renderer' ).setWidth( '90px' ) );
-	rendererTypeRow.add( rendererType );
-
-	container.add( rendererTypeRow );
-
-	if ( config.getKey( 'project/renderer' ) !== undefined ) {
-
-		rendererType.setValue( config.getKey( 'project/renderer' ) );
-
-	}
+	// rendererTypeRow.add( new UI.Text( 'Renderer' ).setWidth( '90px' ) );
+	// rendererTypeRow.add( rendererType );
+	//
+	// container.add( rendererTypeRow );
+	//
+	// if ( config.getKey( 'project/renderer' ) !== undefined ) {
+	//
+	// 	rendererType.setValue( config.getKey( 'project/renderer' ) );
+	//
+	// }
 
 	// antialiasing
 
-	var rendererPropertiesRow = new UI.Row();
-	rendererPropertiesRow.add( new UI.Text( '' ).setWidth( '90px' ) );
-
-	var rendererAntialias = new UI.THREE.Boolean( config.getKey( 'project/renderer/antialias' ), 'antialias' ).onChange( function () {
-
-		config.setKey( 'project/renderer/antialias', this.getValue() );
-		updateRenderer();
-
-	} );
-	rendererPropertiesRow.add( rendererAntialias );
+	// var rendererPropertiesRow = new UI.Row();
+	// rendererPropertiesRow.add( new UI.Text( '' ).setWidth( '90px' ) );
+	//
+	// var rendererAntialias = new UI.THREE.Boolean( config.getKey( 'project/renderer/antialias' ), 'antialias' ).onChange( function () {
+	//
+	// 	config.setKey( 'project/renderer/antialias', this.getValue() );
+	// 	updateRenderer();
+	//
+	// } );
+	// rendererPropertiesRow.add( rendererAntialias );
 
 	// shadow
 
-	var rendererShadows = new UI.THREE.Boolean( config.getKey( 'project/renderer/shadows' ), 'shadows' ).onChange( function () {
-
-		config.setKey( 'project/renderer/shadows', this.getValue() );
-		updateRenderer();
-
-	} );
-	rendererPropertiesRow.add( rendererShadows );
-
-	container.add( rendererPropertiesRow );
+	// var rendererShadows = new UI.THREE.Boolean( config.getKey( 'project/renderer/shadows' ), 'shadows' ).onChange( function () {
+	//
+	// 	config.setKey( 'project/renderer/shadows', this.getValue() );
+	// 	updateRenderer();
+	//
+	// } );
+	// rendererPropertiesRow.add( rendererShadows );
+	//
+	// container.add( rendererPropertiesRow );
 
 	// Editable
 
-	var editableRow = new UI.Row();
-	var editable = new UI.Checkbox( config.getKey( 'project/editable' ) ).setLeft( '100px' ).onChange( function () {
-
-		config.setKey( 'project/editable', this.getValue() );
-
-	} );
-
-	editableRow.add( new UI.Text( 'Editable' ).setWidth( '90px' ) );
-	editableRow.add( editable );
-
-	container.add( editableRow );
+	// var editableRow = new UI.Row();
+	// var editable = new UI.Checkbox( config.getKey( 'project/editable' ) ).setLeft( '100px' ).onChange( function () {
+	//
+	// 	config.setKey( 'project/editable', this.getValue() );
+	//
+	// } );
+	//
+	// editableRow.add( new UI.Text( 'Editable' ).setWidth( '90px' ) );
+	// editableRow.add( editable );
+	//
+	// container.add( editableRow );
 
 	// VR
-
-	var vrRow = new UI.Row();
-	var vr = new UI.Checkbox( config.getKey( 'project/vr' ) ).setLeft( '100px' ).onChange( function () {
-
-		config.setKey( 'project/vr', this.getValue() );
-		// updateRenderer();
-
-	} );
-
-	vrRow.add( new UI.Text( 'VR' ).setWidth( '90px' ) );
-	vrRow.add( vr );
-
-	container.add( vrRow );
+	//
+	// var vrRow = new UI.Row();
+	// var vr = new UI.Checkbox( config.getKey( 'project/vr' ) ).setLeft( '100px' ).onChange( function () {
+	//
+	// 	config.setKey( 'project/vr', this.getValue() );
+	// 	// updateRenderer();
+	//
+	// } );
+	//
+	// vrRow.add( new UI.Text( 'VR' ).setWidth( '90px' ) );
+	// vrRow.add( vr );
+	//
+	// container.add( vrRow );
 
 	//
 
@@ -125,7 +125,7 @@ Sidebar.Project = function ( editor ) {
 
 		}
 
-		rendererPropertiesRow.setDisplay( type === 'WebGLRenderer' ? '' : 'none' );
+		//rendererPropertiesRow.setDisplay( type === 'WebGLRenderer' ? '' : 'none' );
 
 		var renderer = new rendererTypes[ type ]( { antialias: antialias } );
 

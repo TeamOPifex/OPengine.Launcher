@@ -29,10 +29,15 @@ var Projectbar = function ( editor ) {
 	);
 	container.add( models );
 
-  var textures = new UI.Span().add(
-		new Projectbar.Textures( editor )
-	);
-	container.add( textures );
+	  var textures = new UI.Span().add(
+			new Projectbar.Textures( editor )
+		);
+		container.add( textures );
+
+	  var scenes = new UI.Span().add(
+			new Projectbar.Scenes( editor )
+		);
+		container.add( scenes );
 
 
   function select( section ) {
@@ -43,7 +48,7 @@ var Projectbar = function ( editor ) {
 
 		models.setDisplay( 'none' );
 		textures.setDisplay( 'none' );
-		// settings.setDisplay( 'none' );
+		scenes.setDisplay( 'none' );
 
 		switch ( section ) {
 			case 'MODELS':
@@ -56,7 +61,7 @@ var Projectbar = function ( editor ) {
 				break;
 			case 'SCENES':
 				settingsTab.setClass( 'selected' );
-				//settings.setDisplay( '' );
+				scenes.setDisplay( '' );
 				break;
 		}
 

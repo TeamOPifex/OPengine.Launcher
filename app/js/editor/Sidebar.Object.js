@@ -54,31 +54,31 @@ Sidebar.Object = function ( editor ) {
 
 	// type
 
-	var objectTypeRow = new UI.Row();
-	var objectType = new UI.Text();
-
-	objectTypeRow.add( new UI.Text( 'Type' ).setWidth( '90px' ) );
-	objectTypeRow.add( objectType );
-
-	container.add( objectTypeRow );
+	// var objectTypeRow = new UI.Row();
+	// var objectType = new UI.Text();
+	//
+	// objectTypeRow.add( new UI.Text( 'Type' ).setWidth( '90px' ) );
+	// objectTypeRow.add( objectType );
+	//
+	// container.add( objectTypeRow );
 
 	// uuid
 
-	var objectUUIDRow = new UI.Row();
-	var objectUUID = new UI.Input().setWidth( '115px' ).setFontSize( '12px' ).setDisabled( true );
-	var objectUUIDRenew = new UI.Button( '⟳' ).setMarginLeft( '7px' ).onClick( function () {
-
-		objectUUID.setValue( THREE.Math.generateUUID() );
-
-		editor.execute( new SetUuidCommand( editor.selected, objectUUID.getValue() ) );
-
-	} );
-
-	objectUUIDRow.add( new UI.Text( 'UUID' ).setWidth( '90px' ) );
-	objectUUIDRow.add( objectUUID );
-	objectUUIDRow.add( objectUUIDRenew );
-
-	container.add( objectUUIDRow );
+	// var objectUUIDRow = new UI.Row();
+	// var objectUUID = new UI.Input().setWidth( '115px' ).setFontSize( '12px' ).setDisabled( true );
+	// var objectUUIDRenew = new UI.Button( '⟳' ).setMarginLeft( '7px' ).onClick( function () {
+	//
+	// 	objectUUID.setValue( THREE.Math.generateUUID() );
+	//
+	// 	editor.execute( new SetUuidCommand( editor.selected, objectUUID.getValue() ) );
+	//
+	// } );
+	//
+	// objectUUIDRow.add( new UI.Text( 'UUID' ).setWidth( '90px' ) );
+	// objectUUIDRow.add( objectUUID );
+	// objectUUIDRow.add( objectUUIDRenew );
+	//
+	// container.add( objectUUIDRow );
 
 	// name
 
@@ -102,30 +102,25 @@ Sidebar.Object = function ( editor ) {
 	objectGameTypeRow.add( new UI.Text( 'GameType' ).setWidth( '90px' ) );
 
 	var objectGameTypes = new UI.Select().setPosition('absolute').setRight( '8px' ).setFontSize( '11px' );
-	objectGameTypes.setOptions( {
-		'Static': 'Static',
-		'Static Triangle': 'Static Triangle',
-		'Dynamic': 'Dynamic',
-		'Bounding Box': 'Bounding Box'
-	} );
+	var gameTypeOptions = {};
+	for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
+		gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+	}
+	objectGameTypes.setOptions( gameTypeOptions );
+	// 	{ 
+	// 	'Static': 'Static',
+	// 	'Static Triangle': 'Static Triangle',
+	// 	'Dynamic': 'Dynamic',
+	// 	'Bounding Box': 'Bounding Box'
+	// } );
 	objectGameTypes.onClick( function ( event ) {
-
 		event.stopPropagation(); // Avoid panel collapsing
-
 	} );
+
 	//objectGameTypes.setValue(editor.gameTypeObject( editor.selected, 'Dynamic' ));
 	objectGameTypes.onChange( function ( event ) {
 
-		var object = editor.selected;
-
-		object.gameType = this.getValue();
-
-		object.userData = object.userData || {};
-		object.userData.gameType = this.getValue();
-
-		console.log('Set Type: ', object.gameType);
-
-		signals.objectChanged.dispatch( object );
+		editor.execute( new SetValueCommand( editor.selected, 'gameType', objectGameTypes.getValue() ) );
 
 	} );
 	objectGameTypeRow.add( objectGameTypes );
@@ -308,6 +303,20 @@ Sidebar.Object = function ( editor ) {
 	objectShadowRow.add( objectShadowRadius );
 
 	container.add( objectShadowRow );
+
+	// physics
+
+	var objectPhysicsRow = new UI.Row();
+
+	objectPhysicsRow.add( new UI.Text( 'Physics' ).setWidth( '90px' ) );
+
+	var objectUsePhysics = new UI.THREE.Boolean( false, 'on' ).onChange( update );
+	objectPhysicsRow.add( objectUsePhysics );
+
+	var objectDynamicPhysics = new UI.THREE.Boolean( false, 'dynamic' ).onChange( update );
+	objectPhysicsRow.add( objectDynamicPhysics );
+
+	container.add( objectPhysicsRow );
 
 	// visible
 
@@ -533,6 +542,12 @@ Sidebar.Object = function ( editor ) {
 
 			}
 
+			//if ( object.physics !== undefined ) {
+
+				editor.execute( new SetValueCommand( object, 'physics', objectUsePhysics.getValue() ) );
+
+			//}
+
 			try {
 
 				var userData = JSON.parse( objectUserData.getValue() );
@@ -650,9 +665,9 @@ Sidebar.Object = function ( editor ) {
 
 	function updateUI( object ) {
 
-		objectType.setValue( object.type );
+		//objectType.setValue( object.type );
 
-		objectUUID.setValue( object.uuid );
+		//objectUUID.setValue( object.uuid );
 		objectName.setValue( object.name );
 
 		/*
@@ -674,6 +689,12 @@ Sidebar.Object = function ( editor ) {
 		objectScaleX.setValue( object.scale.x );
 		objectScaleY.setValue( object.scale.y );
 		objectScaleZ.setValue( object.scale.z );
+
+		if ( object.gameType !== undefined ) {
+
+			objectGameTypes.setValue( object.gameType );
+
+		}
 
 		if ( object.fov !== undefined ) {
 
@@ -751,6 +772,12 @@ Sidebar.Object = function ( editor ) {
 
 			objectShadowRadius.setValue( object.shadow.radius );
 
+		}
+
+		if ( object.physics !== undefined ) {
+			objectUsePhysics.setValue( object.physics );
+		} else {
+			objectUsePhysics.setValue( false );
 		}
 
 		objectVisible.setValue( object.visible );

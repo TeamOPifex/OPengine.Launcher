@@ -273,26 +273,6 @@ var Viewport = function ( editor ) {
 		onDownPosition.fromArray( array );
 		onUpPosition.fromArray( array );
 
-		//var selected = handleClick();
-
-		function SetTexture(selectedObj, texFile) {
-			var mapping = null;
-
-			var image = document.createElement( 'img' );
-			image.addEventListener( 'load', function( event ) {
-
-				var texture = new THREE.Texture( this, mapping );
-				texture.sourceFile = data;
-				texture.needsUpdate = true;
-
-				editor.execute( new SetMaterialMapCommand( selectedObj, 'map', texture ) );
-
-			}, false );
-
-			image.src = texFile;
-
-		}
-
 		if(t == 'texture') {
 
 				var selected = null;
@@ -308,30 +288,14 @@ var Viewport = function ( editor ) {
 
 				if(selected == null) return;
 
-				SetTexture(selected, 'file:///' + window.projectPath + '/Assets/Textures/' + data);
+				OPIFEX.Utils.SetTexture(editor, selected, data);
 
 		}
 
 		else if(t == 'model') {
-			var file = window.projectPath + '/Assets/Models/' + data;
-			var fs = require('fs'), path = require('path');
-			var result = fs.readFileSync(file);
-			console.log(result);
-			editor.loader.loadFile({
-				name: data,
-				data: result
-			}, true, function(object) {
-					var texName = data.split('.opm');
-					texName = texName[0] + '.png';
-					var tex = window.projectPath + '/Assets/Textures/' + texName;
-					if(fs.existsSync(tex)) {
-						if(object.type == 'Mesh') {
-							SetTexture(object, 'file:///' + tex);
-						} else {
-							SetTexture(object.children[0], 'file:///' + tex);
-						}
-					}
-			});
+			var texName = data.split('.opm');
+			texName = texName[0] + '.png';
+			OPIFEX.Utils.AddMesh(editor, data, texName);
 		}
 
 

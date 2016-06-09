@@ -119,9 +119,9 @@ Editor.prototype = {
 
 		this.signals.sceneGraphChanged.active = false;
 
-		while ( scene.children.length > 0 ) {
+		for ( ind in scene.children ) {
 
-			this.addObject( scene.children[ 0 ] );
+			this.addObject( scene.children[ ind ] );
 
 		}
 
@@ -427,6 +427,23 @@ Editor.prototype = {
 
 		this.deselect();
 
+
+		// Add a default point light
+		var color = 0xffffff;
+		var intensity = 1;
+		var light = new THREE.DirectionalLight( color, intensity );
+		light.name = 'Default DirectionalLight';
+		light.target.name = 'Default DirectionalLight Target';
+		light.position.set( 5, 10, 7.5 );
+		editor.execute( new AddObjectCommand( light ) );
+
+		// Add a default ambient light
+		color = 0x222222;
+		light = new THREE.AmbientLight( color );
+		light.name = 'Default AmbientLight';
+		editor.execute( new AddObjectCommand( light ) );
+
+
 		this.signals.editorCleared.dispatch();
 
 	},
@@ -441,7 +458,8 @@ Editor.prototype = {
 
 		if ( json.scene === undefined ) {
 
-			this.setScene( loader.parse( json ) );
+			//this.setScene( loader.parse( json ) );
+			this.setScene(  OPIFEX.Scene.fromJSON( json ) );
 			return;
 
 		}
@@ -455,7 +473,8 @@ Editor.prototype = {
 		this.history.fromJSON( json.history );
 		this.scripts = json.scripts;
 
-		this.setScene( loader.parse( json.scene ) );
+		//this.setScene( loader.parse( json.scene ) );
+		this.setScene(  OPIFEX.Scene.fromJSON( json.scene ) );
 
 	},
 

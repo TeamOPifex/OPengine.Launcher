@@ -1,20 +1,3 @@
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-    var fs = require('fs'), path = require('path');
-
- function walk(currentDirPath, subDir, callback) {
-     fs.readdirSync(currentDirPath).forEach(function(name) {
-         var filePath = path.join(currentDirPath, name);
-         var stat = fs.statSync(filePath);
-         callback(filePath, name, stat);
-         if(subDir && stat.isDirectory()) {
-             walk(filePath, subDir, callback);
-         }
-     });
- }
-
 Projectbar.Models = function ( editor ) {
 
 	var signals = editor.signals;
@@ -25,12 +8,11 @@ Projectbar.Models = function ( editor ) {
 
 
   var models = [];
-  walk(window.projectPath + '/Assets/Models/', true, function(result, name, stat) {
+  OPIFEX.Utils.Walk(window.projectPath + '/Assets/Models/', function(result, name, stat) {
     if(name.endsWith('.opm')) {
       models.push(name);
     }
   });
-  console.log('MODELS:', models);
 
   	var modelsContainer = new UI.Panel();
     modelsContainer.setClass('ModelViewerPanel');

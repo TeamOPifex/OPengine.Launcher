@@ -42,7 +42,7 @@ input.Number {
 
 #viewport {
 	position: absolute;
-	top: 32px;
+	top: 82px;
 	left: 300px;
 	right: 300px;
 	bottom: 32px;
@@ -55,8 +55,8 @@ input.Number {
 
 #script {
 	position: absolute;
-	top: 32px;
-	left: 0;
+	top: 82px;
+	left: 300px;
 	right: 300px;
 	bottom: 32px;
 	opacity: 0.9;
@@ -291,6 +291,28 @@ input.Number {
     bottom: 50px;
 }
 
+.ModelViewerButtonsPanel {
+		overflow: auto;
+    position: absolute;
+    height: 50px;
+    bottom: 0px;
+		padding: 5px;
+		left: 0;
+		right: 0;
+}
+
+	.ModelViewerButtonsPanel  .Button {
+		padding: 5px;
+		margin: 0px 10px;
+		font-size: 12px;
+		padding: 4px 16px;
+		border: 1px solid #fff;
+		background-color: transparent;
+		color: #fff;
+		display: inline-block;
+		margin-top: -4px;
+	}
+
 	a.Model {
 		display: inline-block;
 		width: 120px;
@@ -306,6 +328,12 @@ input.Number {
 		height: 120px;
 		margin: 0;
 		padding: 0;
+	}
+
+	a.Model.active {
+		background-color: #264654;
+		border: 2px solid;
+		border-color: #fff;
 	}
 
 	.TextureContainer {
