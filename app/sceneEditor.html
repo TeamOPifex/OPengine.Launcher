@@ -225,7 +225,9 @@
 			window.projectPath = ipc.sendSync('projectPath').split('\\').join('/');
 			var fs = require('fs');
 			var editorJson = window.projectPath + '/editor.json';
-			window.editorSettings = {};
+			window.editorSettings = {
+				GameTypes: []
+			};
 			if(fs.existsSync(editorJson)) {
 					window.editorSettings = JSON.parse(fs.readFileSync(editorJson, 'utf8'));
 			}
