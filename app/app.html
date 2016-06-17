@@ -35,10 +35,8 @@
             return b;
         })(window.location.search.substr(1).split('&'));
 
-        // If a token was set in the Query String
         if(qs['access_token']) {
-            window.localStorage.setItem('githubToken', qs['access_token']);
-            window.localStorage.setItem('githubAccessToken', qs['access_token']);
+            window.localStorage.setItem('login-token', qs['access_token']);
         }
 
 
