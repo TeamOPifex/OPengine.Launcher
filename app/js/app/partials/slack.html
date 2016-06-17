@@ -1,15 +1,16 @@
 <!-- <iframe src="http://slackin-opifex.herokuapp.com/"  style="width:100%; height: 100%; border: 0; position: absolute;top: 0;left: 0;right: 0;bottom: 0;" /> -->
 
-<div style="height: 100%; overflow: scroll-y; display:block; padding: 10px; text-align: left">
+<div style="height: 100%; overflow: scroll-y; display:block; padding: 30px; text-align: left">
   <h1>OPengine Slack channel</h1>
   <p>
     <span class="icon-slack"></span> Slack <i>"brings all your communication together in one place"</i>.
   </p>
+  <br />
   <p>
     We use the Slack channel to organize the community and discuss any and all things OPengine related.
   </p>
-  <p>Send to: {{user.username}}</p>
-  <a href="javascript:void(0)" id="invite-slack" class="btn btn-primary" data-email="{{user.username}}">Send the invite</a>
+  <p>Send invite to: <b>{{user.username}}</b></p>
+  <a href="javascript:void(0)" id="invite-slack" class="btn btn-primary" data-email="{{user.username}}">Send my invite</a>
 </div>
 
 <script>

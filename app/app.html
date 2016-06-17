@@ -155,7 +155,7 @@
                   <div class="account-name">
                     <div class="dropdown">
                       <a class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{user.firstName}} {{user.lastName}} ({{user.subscription || 'free'}}) <span class="icon-chevron-down"></span>
+                        {{user.firstName}} {{user.lastName}} ({{user.subscription || 'personal'}}) <span class="icon-chevron-down"></span>
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="#/license">Change Subscription</a></li>
@@ -235,6 +235,11 @@
             </div>
             <a class="close" href="#" data-powertour-action="stop">X</a>
         </div>
+
+        <div class="loading-icon" style="width: 100px; height: 100px; position: absolute; bottom: 10px; right: 10px;">
+          <img class="logo-icon rotating" src="content/imgs/OPengineLogoWhite.png" width="100" alt="..." style="margin-top: -5px;" />
+        </div>
+
     </body>
 
 </html>

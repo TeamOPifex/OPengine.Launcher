@@ -335,6 +335,8 @@
             return;
           }
 
+          $('#signup').attr('disabled', 'disabled');
+          $('#signup').text('Create Account');
           $('.logo-icon').addClass('rotating');
 
           $.ajax({
@@ -348,6 +350,8 @@
               },
               success: function(res) {
                 console.log(res);
+                $('#signup').removeAttr('disabled');
+                $('#signup').text('Create Account');
                 $('.logo-icon').removeClass('rotating');
                 if(res.success) {
                   $('#message-email').text(username);
@@ -357,11 +361,17 @@
                 } else {
                   alert(res.message);
                 }
+              },
+              error: function(err) {
+                $('#signup').removeAttr('disabled');
+                $('#signup').text('Create Account');
+                alert('There was a problem making the call, please try again: ' + err);
               }
           });
       });
 
       $('#login').click(function() {
+
         var username = $('#username').val();
         var password = $('#password').val();
         var remember = $('#rememberMe')[0].checked;
@@ -384,6 +394,8 @@
           return;
         }
 
+        $('#login').attr('disabled','disabled');
+        $('#login').text("Signing In...");
         $('.logo-icon').addClass('rotating');
         $.ajax({
             url: 'http://api.opengine.io/api/v1/login?username=' + username + '&password=' + password,
@@ -391,6 +403,9 @@
             success: function(res) {
               $('.logo-icon').removeClass('rotating');
               console.log(res);
+
+              $('#login').removeAttr('disabled');
+              $('#login').text("Sign In");
 
               if(res.success) {
                 window.localStorage.setItem('login-username', username);
@@ -400,9 +415,13 @@
               } else {
                 alert(res.message);
               }
+            },
+            error: function(err) {
+              $('#login').removeAttr('disabled');
+              $('#login').text("Sign In");
+              alert('There was a problem, please try again: ' + err);
             }
         });
-
       });
 
 
