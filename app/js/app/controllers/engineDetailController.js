@@ -30,7 +30,7 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
         $scope.visualStudios = VisualStudio;
         $scope.version = $scope.engine.config.engine.version;
 
-        $('.current-tab').text('OPengine ' + $scope.version);
+        $('.current-tab .tab-text').text('OPengine ' + $scope.version);
 
         // Code Editor
         $scope.showCode = true;

@@ -10,7 +10,7 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
         $scope.windows = system.isWindows();
         $scope.visualStudios = VisualStudio;
 
-        $('.current-tab').text($routeParams.versionId);
+        $('.current-tab .tab-text').text($routeParams.versionId);
 
         // Code Editor
         $scope.showCode = true;

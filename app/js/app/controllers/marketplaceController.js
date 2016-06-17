@@ -1,6 +1,6 @@
 angular.module('engineControllers').controller('MarketplaceCtrl', ['$scope', '$routeParams', 'user', 'marketplace',
     function($scope, $routeParams, user, marketplace) {
-        $('.current-tab').text('Marketplace');
+        $('.current-tab .tab-text').text('Marketplace');
 
         $scope.addons = window.addons || [];
         function GetAddons() {

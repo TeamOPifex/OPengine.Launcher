@@ -24,7 +24,7 @@ angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
 	        //   ":x-oauth-basic@github.com/" +
 	        //   repoOwner + "/" +
 	        //   repoName + ".git";
-              
+
               var repoUrl = "https://github.com/" +
                 repoOwner + "/" +
                 repoName + ".git";
@@ -38,7 +38,13 @@ angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
 
                 run.command('git clone ' + repoUrl, cmd, args, nodePath.resolve(global.root + "/repos/" + root + "/"), cb)
 
-    		});
+		        });
+        },
+
+        setBranch: function(root, name, commit, cb) {
+          var cmd = 'git';
+          var args = [ 'fetch', 'origin', commit, '--progress' ];
+          run.command('git fetch origin ' + commit, cmd, args, nodePath.resolve(global.root + "/repos/" + root + "/" + name), cb);
         },
 
         hasChangesToPull: function(path, cb) {

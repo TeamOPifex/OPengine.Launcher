@@ -19,7 +19,57 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 	ipc.send('shortcuts', shortcuts);
 
 	$scope.console = appConsole;
-    window.scope = $scope;
+
+	$scope.user = {
+		username: '',
+		firstName: '',
+		lastName: ''
+	};
+	if(window.localStorage['user']) {
+		try {
+			$scope.user = JSON.parse(window.localStorage['user']);
+		} catch(err) {
+
+		}
+	}
+
+function GetUpdatedUser() {
+
+		require('electron').remote.getCurrentWindow().webContents.session.clearCache(function(res, err) { console.log(res, err) })
+		$.ajax({
+			url: 'http://api.opengine.io/api/v1/account?token=' + window.localStorage['login-token'] + '&cache=' + (+new Date),
+			method: 'GET',
+			success: function(data) {
+					console.log(data);
+					if(data.success) {
+						$scope.user = data.result;
+						window.localStorage.setItem('user', JSON.stringify(data.result));
+						$scope.$digest;
+					} else {
+						alert('ERR getting user account');
+					}
+			}
+		});
+}
+
+	$(window).on('update-account', function() {
+		GetUpdatedUser();
+	});
+
+	GetUpdatedUser();
+
+
+	$(window).on('account-change', function(user) {
+		if(window.localStorage['user']) {
+			try {
+				$scope.user = JSON.parse(window.localStorage['user']);
+				$scope.$digest();
+			} catch(err) {
+
+			}
+		}
+	});
+
 
 	// Side Bar
 	if(window.localStorage["showSideBar"] == undefined) {
@@ -85,4 +135,12 @@ angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console
 		$('#minimize').click(function() {
 			ipc.send('minimize');
 		});
+
+		$scope.signout = function() {
+			user.OPifex = false;
+				window.localStorage.removeItem('githubAccessToken');
+				window.localStorage.removeItem('login-remember');
+				window.localStorage.removeItem('login-token');
+				require('electron').ipcRenderer.send('signout');
+		}
 }]);
