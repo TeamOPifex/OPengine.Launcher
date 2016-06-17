@@ -1,0 +1,185 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<div style="height: 100%; overflow: scroll-y; display:block; padding: 10px;">
+  <h1> OPengine Subscription </h1>
+  <h3>Use for free or subscribe for $10/MONTH</h3>
+  <br />
+  <div class="license-choices">
+    <div class="license-choices-wrapper">
+      <div class="license-choices-content-wrapper">
+    <div class="license-choices-content">
+    <div class="license-choice-feature-list">
+      <div class="license-choice-title">
+        <div class="big-title">&nbsp;</div>
+      </div>
+      <div class="license-choice-features">
+        <ul>
+          <li>
+            <span>Full source code</span><a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+            <div class="info-tip">
+              <h4>Github</h4>
+              <div>All of the OPengine source code is available on Github: <a href="http://www.github.com/TeamOPifex/OPengine">http://www.github.com/TeamOPifex/OPengine</a></div>
+            </div>
+          </li>
+          <li><span>Distribute to all platforms</span><a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Cross-Platform Deployment</h4>
+            <div>There are no restrictions on what platforms you can build, deploy or release on.</div>
+          </div></li>
+          <li><span class="icon-slack"></span> Slack Access<a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Slack Channel</h4>
+            <div>The OPengine has a slack channel. <a href="#/slack">Join the <span class="icon-slack"></span> channel</a>.</div>
+          </div></li>
+          <li><span class="icon-slack"></span> Slack OPengine Support Channel<a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Slack support channel</h4>
+            <div>Get support directly from the OPengine team. Help decide directions for the tools, the engine, and everything else OPengine related.</div>
+          </div></li>
+          <li>Rights to sell your Games<a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Sell your games!</h4>
+            <div>In order to sell your games/applications you need to have an active monthly subscription to the engine. That's it. No royalties, no per platform licenses.</div>
+          </div></li>
+          <li>Access to OPifex Games source code<a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Our Games</h4>
+            <div>As a thank you for supporting the OPengine, we'll be providing full source code for select OPifex Games.</div>
+          </div></li>
+          <li>Monetarily support the OPengine<a class="info" href="javascript:void(0)"><span class="icon-info-circle"></span></a>
+          <div class="info-tip">
+            <h4>Keep the lights on</h4>
+            <div>By having a monthly subscription, you help keep the OPengine alive.</div>
+          </div></li>
+        </ul>
+      </div>
+      <div class="license-choice-cost">
+
+      </div>
+    </div>
+    <div class="license-choice license-free">
+      <div class="license-choice-title">
+        <div class="big-title">PERSONAL</div>
+        <div class="small-title">LICENSE</div>
+      </div>
+      <div class="license-choice-features">
+        <ul>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-close"></span></li>
+          <li><span class="icon-close"></span></li>
+          <li><span class="icon-close"></span></li>
+          <li><span class="icon-close"></span></li>
+        </ul>
+      </div>
+      <div class="license-choice-cost">
+        <span>FREE</span>
+      </div>
+    </div>
+    <div class="license-choice license-monthly">
+      <div class="license-choice-title">
+        <div class="big-title">PROFESSIONAL</div>
+        <div class="small-title">LICENSE</div>
+      </div>
+      <div class="license-choice-features">
+        <ul>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+          <li><span class="icon-check-circle-o"></span></li>
+        </ul>
+      </div>
+      <div class="license-choice-cost">
+        <a ng-if="!user.subscription" href="javascript:void(0)" ng-click="startPayment()" class="btn btn-lg btn-primary form-control">$10/MONTH</a>
+        <a ng-if="user.subscription" href="javascript:void(0)" class="btn btn-lg btn-primary form-control" disabled="disabled">SUBSCRIBED</a>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  <div class="license-payment-content">
+    <div class="license-payment-content-wrapper">
+      <div class="card-wrapper">
+
+      </div>
+      <br />
+      <div class="license-payment-content-form">
+        <form id="form">
+        <input class="form-control" id="card-number" placeholder="Card number" type="text" ng-model="cardNumber" name="number"><br />
+          <input class="form-control" id="card-name" placeholder="Full name" type="text" ng-model="name" name="name"><br />
+          <div class="row">
+            <div class="col-xs-6">
+              <input class="form-control" id="card-expiration" placeholder="MM/YY" type="text" ng-model="expiration" name="expiry">
+            </div>
+            <div class="col-xs-6">
+              <input class="form-control" id="card-cvc" placeholder="CVC" type="text" ng-model="cvc" name="cvc">
+            </div>
+          </div><br />
+          <button ng-if="!subscribing" class="btn btn-primary form-control" ng-click="subscribe()">SUBSCRIBE $10/MONTH</button>
+          <button ng-if="subscribing" class="btn btn-primary form-control" disabled="disabled">Processing...</button>
+        </form>
+      </div>
+      <div class="cancel-payment" ng-click="cancel()"><span class="icon-close"></span></div>
+    </div>
+  </div>
+
+  <div class="license-unsubscribe-content">
+    <div class="license-unsubscribe-content-wrapper">
+      <h3>Are you sure you want to cancel your {{user.subscription}} plan?</h3>
+      <p>If you cancel, you'll still have the remainder of your plan.</p>
+      <a href="javascript:void(0)" class="btn btn-lg btn-primary" ng-click="unsubscribe()">Yes, Cancel My Subscription</a>
+      <br />
+      <br />
+      <a href="javascript:void(0)" class="btn btn-lg btn-default" ng-click="cancel()">Nevermind</a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="text-center" ng-if="user.subscription">
+  <h3>Active subscription: <b>{{user.subscription}}</b></h3>
+  <a href="javascript:void(0)" class="btn btn-primary" ng-click="startUnsubscribe()">Unsubscribe?</a>
+</div>
+<div style="clear:both"></div>
+
+<br />
+<br />
+<div class="text-left" style="width: 800px; margin: 0 auto;">
+  <h1 id="faq">FAQ</h1>
+  <h3>When do I need to have a subscription?</h3>
+  <p>Only when you're actively selling your game/application. Even if you're making a game that you plan to sell, you don't have to have to a subscription until it's being sold.</p>
+  <p>However, there are perks to having an active subscription whether you sell your game or not and we greatly appreciate the support.</p>
+  <h3>Do I need a subscription per game?</h3>
+  <p>Nope. You only need one active subscription per person or per organization. Make and sell as many games as you want.</p>
+  <h3>Can I make changes to the OPengine?</h3>
+  <p>Absolutely. Change it to your hearts content. Make a pull request and we'll get your changes merged into the main branch. Or keep the changes to yourself.</p>
+  <p>The only stipulation is you can't resell/redistribute the modified OPengine outside of your organization.</p>
+  <h3>Will the subscription price increase?</h3>
+  <p>As the OPengine improves over time there will likely be a price increase, however your monthly rate will be fixed at the time you begin your subscription. We still retain the right to change the pricing cost and/or pricing model at a future date and time.</p>
+  <h3>Can I purchase full rights to the OPengine source code?</h3>
+  <p>Please contact us at <a href="mailto:licensing@teamopifex.com">licensing@teamopifex.com</a></p>
+</div>
+
+<br />
+<br />
+<div class="text-left" style="width: 800px; margin: 0 auto;">
+  <h1 id="license">License</h1>
+  <h3>Copyright (C) 2016 by OPifex Entertainment</h3>
+  <h3>OPengine License</h3>
+  <p>Purchasing OPengine grants the licensee the rights to use the engine on any device. The license may be purchased by an individual or organization and may be used on an unlimited number of titles. Licensees recieve the source code for the library, but they may not distribute the source code. A purchased license applies to all future upgrades to the major version of OPengine, although not necessarily to future related projects. You may not resell your OPengine license. You may sell or otherwise distribute a product that uses OPengine, but you may not resell, lease, rent, transfer, or sublicense OPengine itself. Bundling OPengine into another development toolkit, SDK, or engine that you are selling as a product is not permitted. For example, you can't purchase a license to OPengine, rebrand it, and sell it as a simulation engine. If you are seeking an exception, please contact us via email and we'd be happy to work something out.</p><h3>OPifex Entertainment Games License</h3><p>Purchasing OPengine grants the licensee the rights to use the OPifex Entertainment games. The license may be purchased by an individual or organization and may be used on an unlimited number of titles. Licensees recieve the source code for the games, but they may not distribute the source code or binaries. A purchased license applies to all future upgrades to the major version of OPifex Entertainment Games, although not necessarily to future related projects. You may not resell your OPifex Entertainment Games license. You may not sell or otherwise distribute a product that uses OPifex Entertainment Games, and you may not resell, lease, rent, transfer, or sublicense OPifex Entertainment games. Bundling OPifex Entertainment Games into another development game, application, or SDK that you are selling as a product is not permitted. For example, you can't purchase a license to OPifex Entertainment Games, rebrand it, and sell it under a new title. If you are seeking an exception, please contact us via email and we'd be happy to work something out.</p><h3>No warranty or liability</h3><p>YOU EXPRESSLY AGREE THAT DOWNLOADING THE SOFTWARE AND ANY USE OF THE SOFTWARE IS AT YOUR OWN RISK. NO WARRANTY, REPRESENTATION, CONDITION, UNDERTAKING OR TERM - EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE - INCLUDING BUT NOT LIMITED TO THE CONDITION, QUALITY, DURABILITY, PERFORMANCE, ACCURACY, STABILITY, RELIABILITY, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE OR USE OF THE SOFTWARE IS GIVEN OR ASSUMED BY OPIFEX ENTERTAINMENT, LLP. ALL SUCH WARRANTIES, REPRESENTATIONS, CONDITIONS, UNDERTAKINGS AND TERMS ARE HEREBY EXCLUDED. OPIFEX ENTERTAINMENT MAKES NO WARRANTY THAT THE SOFTWARE WILL MEET YOUR REQUIREMENTS, OR THAT IT WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR FREE; IN NO EVENT SHALL OPIFEX ENTERTAINMENT BE LIABLE TO ANY PARTY FOR ANY DAMAGES INCLUDING WITHOUT LIMITATION, ANY DIRECT, INDIRECT, SPECIAL, PUNITIVE, INCIDENTAL OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF PROGRAMS OR INFORMATION, LOSS OF PROFITS AND SAVINGS AND THE LIKE), OR ANY OTHER DAMAGES ARISING - IN ANY WAY, SHAPE OR FORM - OUT OF THE AVAILABILITY, USE, RELIANCE ON, INABILITY TO UTILIZE OR IMPROPER USE OF THE SOFTWARE EVEN IF OPIFEX ENTERTAINMENT SHALL HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, AND REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT, TORT, OR OTHERWISE. BECAUSE SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, THE ABOVE EXCLUSIONS OF INCIDENTAL AND CONSEQUENTIAL DAMAGES MAY NOT APPLY TO YOU.</p><h3>Questions or Concerns?</h3><p>If you have any questions or concerns with the license terms, please contact us. We're very flexible.</p></div>
+</div>
+
+<script>
+  $('.info').click(function() {
+    if($(this).parent().find('.info-tip').hasClass('active')) {
+      $('.info-tip').removeClass('active');
+    } else {
+      $('.info-tip').removeClass('active');
+      $(this).parent().find('.info-tip').toggleClass('active');
+    }
+  });
+</script>

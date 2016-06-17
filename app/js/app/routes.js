@@ -3,7 +3,7 @@ engineApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/login', {
-        templateUrl: 'js/app/partials/login.html',
+        templateUrl: 'js/app/partials/notyet.html',
         controller: 'LoginCtrl'
       }).
       when('/settings', {
@@ -54,17 +54,29 @@ engineApp.config(['$routeProvider',
         templateUrl: 'js/app/partials/learn.html',
         controller: 'StaticCtrl'
       }).
+      when('/license', {
+        templateUrl: 'js/app/partials/license.html',
+        controller: 'LicenseCtrl'
+      }).
       when('/marketplace', {
         templateUrl: 'js/app/partials/marketplace.html',
         controller: 'MarketplaceCtrl'
       }).
       when('/bug', {
-        templateUrl: 'js/app/partials/notyet.html',
+        templateUrl: 'js/app/partials/bug.html',
+        controller: 'BugCtrl'
+      }).
+      when('/slack', {
+        templateUrl: 'js/app/partials/slack.html',
         controller: 'StaticCtrl'
       }).
       when('/message', {
         templateUrl: 'js/app/partials/notyet.html',
         controller: 'StaticCtrl'
+      }).
+      when('/account', {
+        templateUrl: 'js/app/partials/account.html',
+        controller: 'AccountCtrl'
       }).
       otherwise({
         redirectTo: '/login'

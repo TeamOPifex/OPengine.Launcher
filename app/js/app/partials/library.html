@@ -2,14 +2,15 @@
 <div style="height: 100%; overflow: scroll-y; display:block; padding: 10px;">
 
     <div class="section" style="height: 100%">
-    <div class="row extrapadding library">
+    <div class="row extrapadding library" id="EngineReleases">
         <div class="col-xs-12 text-left">
+            <div id="EngineVersionsTitle">
             <h2 class="title"> Engine Versions
                 <span class="action dropdown">
     			  <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 	<span class="icon-add"></span>
     			    Add Version
-    			  </button>
+    			  </a>
     			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
     			  	<li ng-repeat="engine in engineReleases">
     			  		<a href="" ng-click="clone(engine)">{{engine.name}} {{engine.version}}</a>
@@ -17,6 +18,7 @@
     			  </ul>
     			</span>
             </h2>
+          </div>
             <div>
             	<div class="engine-version" ng-repeat="engine in engineVersions">
                   <a href="#/library/engine/{{engine.id}}">
@@ -27,6 +29,15 @@
                     </div>
                   </a>
             	</div>
+            	<div class="engine-version new-project">
+                  <a href="javascript:void(0)" ng-click="NewEngine()">
+                    <div class="overlay-background"></div>
+                    <div class="overlay"></div>
+                    <div class="overlay-content">
+                        <span class="icon-add"></span> <span>Add Version</span>
+                    </div>
+                  </a>
+              </div>
             </div>
         </div>
     </div>
@@ -62,10 +73,27 @@
                       </div>
                     </a>
             	</div>
+            	<div class="engine-version new-project">
+                    <a href="javascript:void(0)" ng-click="NewProject()">
+                      <div class="overlay-background" style=""></div>
+                      <div class="overlay"></div>
+                      <div class="overlay-content">
+                          <span class="icon-add"></span> <span>New Project</span>
+                      </div>
+                    </a>
+            	</div>
             </div>
         </div>
     </div>
+    <!-- <div class="row extrapadding library">
+        <div class="col-xs-12 text-left">
+        <h2 class="title"> OPifex Games</h2>
+        </div>
+      </div> -->
+</div>
 
+<div class="tour">
+  <a id="tour" ng-click="tour()"><span class="icon-question"></span></a>
 </div>
 
     <div id="newProjectModal" class="modal fade">
@@ -77,15 +105,12 @@
           </div>
           <div class="modal-body text-left">
                <input type="text" ng-model="newProject.RepoName" placeholder="Project Name..." class="form-control" />
-               <div class="checkbox">
-                   <input ng-model="newProject.CreateRepo" type="checkbox" id="newProjectCheckBox" />
-                   <label class="check" for="newProjectCheckBox"></label>
-                   <label class="text">Create a new Github Repository</label>
-               </div>
+               <h5>Or</h5>
+               <a href="javascript:void(0)" ng-click="ExistingProject()"><span class="icon-folder"></span> From Existing...</a>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" ng-click="CreateNewProject()">Save changes</button>
+            <button type="button" class="btn btn-primary" ng-click="CreateNewProject()">Create Project</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -93,23 +118,52 @@
 
 
 
-    <div id="newGithubProjectModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">New From Github</h4>
-          </div>
-          <div class="modal-body text-left">
-              <div>
-                  <select ng-model="currentGithubRepo"  ng-options="repo as repo.name for repo in userRepos track by repo.id"></select>
+        <div id="newGithubProjectModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New From Github</h4>
               </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" ng-click="CloneGithub()">Clone</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+              <div class="modal-body text-left">
+                  <div>
+                    <div class="styled-select">
+                      <select class="form-control" ng-model="currentGithubRepo"  ng-options="repo as repo.name for repo in userRepos track by repo.id"></select>
+                      <span class="caret"></span>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="CloneGithub()">Clone</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+          <div id="newEngineModal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Add engine version</h4>
+                </div>
+                <div class="modal-body text-left">
+                    <div>
+                      <div class="styled-select">
+                        <select class="form-control" ng-model="currentEngineVersion" ng-options="engine as engine.name for engine in engineReleases track by engine.sha">
+                        </select>
+                        <span class="caret"></span>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" ng-click="clone(currentEngineVersion)">Clone</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
 </div>

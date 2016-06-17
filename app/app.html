@@ -49,6 +49,9 @@
 
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+        <link href="vendor/powertour/powertour.min.3.1.0.css" rel="stylesheet" type="text/css">
+        <link href="vendor/powertour/powertour-style-clean.min.css" rel="stylesheet" type="text/css">
+        <link href="vendor/powertour/animate.min.css" rel="stylesheet" type="text/css">
 
         <script src="vendor/electron_boilerplate/context_menu.js"></script>
         <script src="vendor/electron_boilerplate/external_links.js"></script>
@@ -61,7 +64,9 @@
 
         <script src="bower_components/blob/Blob.js"></script>
         <script src="bower_components/FileSaver/FileSaver.js"></script>
+        <script src="vendor/powertour/powertour.lite.3.1.0.min.js"></script>
 
+        <script src="vendor/card.js"></script>
 
         <script src="js/engine.js"></script>
         <script src="appBundle.js"></script>
@@ -91,7 +96,7 @@
 
         <script src="app.js"></script>
     </head>
-    <body ng-controller="engineCtrl">
+    <body ng-controller="engineCtrl" id="Thelauncher">
 
         <div class="launcher-side-menu">
             <div class="logo nopadding">
@@ -110,7 +115,7 @@
                     <li class="marketplace" ng-class="getClass('/marketplace')">
                         <a href="#/marketplace"><span class="icon-rocket"></span><span class="text">Marketplace</span></a>
                     </li>
-                    <li class="library" ng-class="getClass('/library')">
+                    <li class="library" ng-class="getClass('/library')" id="menu-library">
                         <a href="#/library"><span class="icon-books"></span><span class="text">Library</span></a>
                     </li>
                     <li class="tools" ng-class="getClass('/tools')">
@@ -127,23 +132,45 @@
                     <li class="bug" ng-class="getClass('/bug')">
                         <a href="#/bug"><span class="icon-bug"></span><span class="text">Report a bug</span></a>
                     </li>
-                    <li class="message" ng-class="getClass('/message')">
-                        <a href="#/message"><span class="icon-message-2"></span><span class="text">Contact</span></a>
-                    </li>
                     <li class="settings" ng-class="getClass('/settings')">
                         <a href="#/settings"><span class="icon-gear"></span><span class="text">Settings</span></a>
                     </li>
                 </ul>
             </div>
-
         </div>
 
 
         <div class="container" id="mainContainer">
 
             <div class="toolbar">
+                <div class="toolbar-bg-bottom"></div>
                 <div class="tabs">
-                  <div class="tab current-tab">Library</div>
+                  <div class="tab current-tab">
+                    <div class="tab-state"><div class="tabbed-state-contain"><div class="tabbed-side-state-bg"></div></div></div>
+                    <div class="tab-seperator"></div>
+                    <div class="tab-text">Library</div>
+                  </div>
+                  <!-- <div class="tab">Set in Stone</div> -->
+                  <div class="tabbed-side-left"><div class="tabbed-left-contain"><div class="tabbed-side-left-bg"></div></div></div>
+                </div>
+                <div class="account">
+                  <div class="account-name">
+                    <div class="dropdown">
+                      <a class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{user.firstName}} {{user.lastName}} ({{user.subscription || 'free'}}) <span class="icon-chevron-down"></span>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#/license">Change Subscription</a></li>
+                        <li><a href="#/account">Account Settings</a></li>
+                        <li><a href="#/slack"><span class="icon-slack"></span> Slack</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="javascript:void(0)" ng-click="signout()">Sign out</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="window-side-right-bg">
+                  <div class="tabbed-right-contain"><div class="tabbed-side-right-bg"></div></div>
                 </div>
                 <div class="window">
                     <a class="window-minimize" href="javascript:void(0);" id="minimize">
@@ -175,5 +202,41 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="single-step" id="step-id-1">
+            <div class="step-content">
+              <h3>Welcome to the OPengine Launcher!</h3>
+            </div>
+            <div class="step-navigation one">
+              <a class="btn btn-primary" href="#" data-powertour-action="next" style="float:right">Take a look around  ></a>
+            </div>
+            <a class="close" href="#" data-powertour-action="stop">X</a>
+        </div>
+
+        <div class="single-step" id="step-id-2">
+            <div class="step-content">
+              <h3>Step two</h3>
+              <p>This is the second step and should be located next to (left side) 'demo box 2' example blocks. This step highlights the step and hookTo element.</p>
+            </div>
+            <div class="step-navigation">
+              <a class="btn btn-default" href="#" data-powertour-action="prev">Prev step</a>
+              <a class="btn btn-primary" href="#" data-powertour-action="next" style="float:right">Next step</a>
+            </div>
+            <a class="close" href="#" data-powertour-action="stop">X</a>
+        </div>
+
+        <div class="single-step" id="step-id-3">
+            <div class="step-content">
+              <h3>Step three</h3>
+              <p>This is the third and last step and should be located above and over the 'demo box 3' example blocks with the use of the 'offsetY' and 'offsetX' options.</p>
+            </div>
+            <div class="step-navigation">
+              <a class="btn btn-default" href="#" data-powertour-action="prev">Prev step</a>
+              <a class="btn btn-primary" href="#" data-powertour-action="next" style="float:right">Next step</a>
+            </div>
+            <a class="close" href="#" data-powertour-action="stop">X</a>
+        </div>
     </body>
+
 </html>

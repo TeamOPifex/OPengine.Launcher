@@ -1,0 +1,11 @@
+/*
+ * Name        : Power Tour
+ * Description : CSS for the tour plugin.
+ * Version     : Version 3.1.0
+ * Author      : CreativeMilk
+ * Author URI  : www.creativemilk.net
+ * Updated     : 2015-11-22 15:34:41 UTC+02:00
+ * Copyright   : (c) 2015 CreativeMilk
+ */
+ 
+.powertour-step,.powertour-step.powertour-hide iframe{visibility:hidden}.powertour-step{padding:0;position:absolute;z-index:-1}.powertour-hook{position:relative}.powertour-activestep,.powertour-step.animated,.powertour-step.powertour-show,.powertour-tooltip:hover .powertour-step{visibility:visible}.powertour-step.powertour-show iframe{visibility:visible;display:block}.powertour-step:after,.powertour-step:before,.powertour-step>:after,.powertour-step>:before{content:"";display:table}.powertour-step:after,.powertour-step>:after{clear:both}.powertour-step,.powertour-step>:after{zoom:1}#powertour-mask{width:100%;height:100%;z-index:9000!important;position:fixed;top:0;left:0;display:none}.powertour-step>*{position:relative}[data-powertour-position]{position:fixed!important}.powertour-activehook.powertour-highlight,.powertour-step.powertour-activestep,.powertour-step.powertour-keepvisible,.powertour-tooltip:hover .powertour-step{z-index:9001!important}body .powertour-step>*{display:inherit}.powertour-fxin{opacity:1;-moz-transition:.4s;-webkit-transition:.4s;transition:.4s}.powertour-fxout{opacity:0;-moz-transition:.4s;-webkit-transition:.4s;transition:.4s}

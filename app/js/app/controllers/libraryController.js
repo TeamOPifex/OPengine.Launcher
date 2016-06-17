@@ -10,7 +10,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
     window.localStorage.setItem('oproot', $scope.root);
     global.root = $scope.root;
 
-    $('.current-tab').text('Library');
+    $('.current-tab .tab-text').text('Library');
 
     var Github = require('github-api');
     // user.github = new Github({
@@ -97,13 +97,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
 
   	$scope.clone = function(commit) {
 
-        var clone = {
-            name: 'OPengine',
-            version: commit.name,
-            cloning: true
-        };
-
-        $scope.engineVersions.push(clone);
+      $('#newEngineModal').modal('hide');
 
         var version = commit.name.split('.').join('_');
         //var name = "opengine_" + version;
@@ -113,14 +107,26 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
             return v.toString(16);
         });
 
-        git.cloneEngine('TeamOPifex', 'OPengine', name, function(err, repo) {
+          var clone = {
+              id: name,
+              name: 'OPengine',
+              version: commit.name,
+              cloning: true
+          };
+
+          $scope.engineVersions.push(clone);
+
+        git.CLI.cloneEngine('TeamOPifex', 'OPengine', name, function(err, repo) {
             clone.cloning = false;
 
             var engineConfig = config.getEngine(name);
             engineConfig.engine.version = commit.name;
             config.saveEngine(name, engineConfig);
 
-            $scope.$digest();
+            git.CLI.setBranch('OPengine', name, commit.sha, function() {
+              $scope.$digest();
+            });
+
         });
   	};
 
@@ -130,6 +136,19 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
             CreateRepo: false
         };
         $('#newProjectModal').modal();
+    };
+
+    $scope.currentEngineVersion = null;
+    $scope.NewEngine = function() {
+        $scope.newEngine = {
+            RepoName: '',
+            CreateRepo: false
+        };
+        if(!$scope.currentEngineVersion) {
+          $scope.currentEngineVersion = $scope.engineReleases[0];
+        }
+        console.log($scope.currentEngineVersion);
+        $('#newEngineModal').modal();
     };
 
     $scope.ExistingProject = function() {
@@ -148,9 +167,11 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
             $scope.config.projects.push({
                 id: name,
                 name: name,
-                path: folders[0]
+                path: folders[0],
+                bg: 'content/imgs/project-bg.png'
             });
             config.saveLauncher($scope.config);
+            $('#newProjectModal').modal('hide');
         }
     }
 
@@ -231,7 +252,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
                      if (err) return console.log(err);
 
                      var projectConfig = config.getProject(path);
-                     projectConfig.solution = safeName + '.sln';
+                     projectConfig.solution = safeName;
                      projectConfig.launchOSX = projectConfig.launchLinux = './' + safeName;
                      projectConfig.launchWindows = 'Debug/' + safeName + '.exe';
                      config.saveProject(path, projectConfig);
@@ -246,4 +267,74 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
         });
     };
 
+    function Setup() {
+
+
+      $.powerTour({
+        tours: [
+          {
+            startWith          : 1,
+            easyCancel         : true,
+            escKeyCancel       : true,
+            steps : [
+                {
+                  hookTo          : '#EngineReleases',
+                  content         : '#step-id-1',
+                  width           : 400,
+                  position        : 'sc',
+                  offsetY         : 0,
+                  offsetX         : 20,
+                  fxIn            : 'flipInX',
+                  fxOut           : 'bounceOutLeft',
+                  showStepDelay   : 0,
+                  center          : 'step',
+                  scrollSpeed     : 400,
+                  scrollEasing    : 'swing',
+                  scrollDelay     : 0,
+                },
+                    {
+                      hookTo          : '#EngineVersionsTitle',
+                      content         : '#step-id-2',
+                      width           : 400,
+                      position        : 'bl',
+                      fxIn            : 'fadeIn',
+                      fxOut           : 'fadeOut',
+                      showStepDelay   : 0,
+                      center          : 'step',
+                      scrollSpeed     : 400,
+                      scrollEasing    : 'swing',
+                      scrollDelay     : 0,
+                    },
+                        {
+                          hookTo          : '#EngineReleases',
+                          content         : '#step-id-3',
+                          width           : 400,
+                          position        : 'bm',
+                          fxIn            : 'rotateIn',
+                          fxOut           : 'rotateOut',
+                          showStepDelay   : 0,
+                          center          : 'step',
+                          scrollSpeed     : 400,
+                          scrollEasing    : 'swing',
+                          scrollDelay     : 0,
+                        }
+            ]
+          }
+        ]
+      });
+    }
+    $scope.tour = function(e) {
+      setTimeout(function() {
+        $.powerTour('destroy');
+        Setup();
+        $.powerTour('run', 1);
+      }, 0);
+      console.log('test', e);
+      return false;
+    }
+
+    if(!window.localStorage["tour"]) {
+      //$scope.tour();
+
+    }
   }]);

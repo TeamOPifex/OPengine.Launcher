@@ -1,0 +1,35 @@
+
+<div style="height: 100%; overflow: scroll-y; display:block; padding: 20px; text-align: left">
+  <h3>Report a Bug</h3>
+  <h5>Project</h5>
+  <div class="styled-select">
+    <select ng-model="project" class="form-control">
+      <option>OPengine</option>
+      <option>Launcher</option>
+      <option>Scene Editor</option>
+      <option>OPengine Tools</option>
+      <option>Marketplace</option>
+      <option>Project</option>
+      <option>Other</option>
+    </select>
+    <span class="caret"></span>
+  </div>
+  <h5>
+    The problem
+  </h5>
+  <textarea ng-model="problem" class="form-control" rows="10"></textarea>
+  <br />
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="checkbox">
+        <input ng-model="includeTerminal" type="checkbox" id="terminalLog" />
+        <label class="check" for="terminalLog"></label>
+        <label class="text">Include the current <a href="javascript:void(0)" ng-click="toggleConsole()"><span class="icon-terminal"></span> terminal</a> log?</label>
+      </div>
+    </div>
+    <div class="col-xs-6 text-right">
+      <a ng-if="!submitting" href="javascript:void(0)" class="btn btn-primary btn-lg" ng-click="submit()">Submit Bug Report</a>
+      <a ng-if="submitting" href="javascript:void(0)" class="btn btn-primary btn-lg" disabled="disabled">Submitting...</a>
+    </div>
+  </div>
+</div>
