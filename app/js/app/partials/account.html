@@ -1,19 +1,24 @@
-<div style="text-align:left; height: 100%; overflow: scroll-y; display:block; padding: 10px;">
-  <h3>Subscription: <span ng-if="!user.subscription">Free</span><span ng-if="user.subscription">{{user.subscription}}</span></h3>
-  <div ng-if="!user.subscription">
-    <a href="#/license">Get an OPengine subscription</a> and start selling your games.
-    <div><i>Note that you do not need an active subscription unless you're selling your games.</i></div>
-  </div>
-
+<div style="text-align:left; height: 100%; overflow: scroll-y; display:block; padding: 30px;">
 
   <div style="max-width: 900px">
-  <h3>Profile</h3>
-  <div>
-    <input type="text" placeholder="First Name" ng-model="user.firstName" class="form-control" /><br />
-    <input type="text" placeholder="Last Name" ng-model="user.lastName" class="form-control" /><br />
-    <div class="text-right">
-      <a class="btn btn-primary btn-lg" href="javascript:void(0)" ng-click="submit()">Save</a>
+    <div class="row">
+      <div class="col-xs-4">
+        <img src="content/imgs/account-default.png" style="width: 100%;" />
+      </div>
+      <div class="col-xs-8">
+        <h3>Profile</h3>
+        <input type="text" placeholder="First Name" ng-model="user.firstName" class="form-control" /><br />
+        <input type="text" placeholder="Last Name" ng-model="user.lastName" class="form-control" /><br />
+        <div class="text-right">
+          <a class="btn btn-primary btn-lg" href="javascript:void(0)" ng-click="submit()">Save</a>
+        </div>
+
+        <h3>Subscription: <span ng-if="!user.subscription">personal</span><span ng-if="user.subscription">{{user.subscription}}</span></h3>
+        <div ng-if="!user.subscription">
+          <a href="#/license">Get an OPengine subscription</a> and start selling your games.
+          <div><i>Note that you do not need an active subscription unless you're selling your games.</i></div>
+        </div>
+      </div>
     </div>
-  </div>
 </div>
 </div>

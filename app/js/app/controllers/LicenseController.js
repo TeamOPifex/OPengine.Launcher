@@ -20,6 +20,7 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
         }
 
         $scope.unsubscribe = function() {
+          $('.loading-icon').addClass('active');
             require('electron').remote.getCurrentWindow().webContents.session.clearCache(function(res, err) { console.log(res, err) })
             $.ajax({
               url: 'http://api.opengine.io/api/v1/account/unsubscribe?token=' + window.localStorage['login-token'] + '&cache=' + (+new Date),
@@ -28,14 +29,21 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
               },
               success: function(data) {
                   console.log(data);
+                  $('.loading-icon').removeClass('active');
                   if(data.success) {
                     alert('Unsubscribed successfully');
                     $scope.user.subscription = null;
+                    $('.license-choices-content-wrapper').removeClass('payment');
+                    $('.license-choices-content-wrapper').removeClass('unsubscribe');
                   	$(window).trigger('update-account');
                     $scope.$digest();
                   } else {
                     alert('ERR unsubscribing');
                   }
+              },
+              error: function(data) {
+                $('.loading-icon').removeClass('active');
+                alert('There was a problem making the call');
               }
             });
         };
@@ -44,6 +52,7 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
 
         $scope.subscribe = function() {
           console.log('subscribing');
+          $('.loading-icon').addClass('active');
 
           $scope.cardNumber = $('#card-number').val();
           $scope.cardName = $('#card-name').val();
@@ -75,6 +84,7 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
               },
               success: function(data) {
                   console.log(data);
+                  $('.loading-icon').removeClass('active');
                   if(data.success) {
                     alert('Subscribed successfully');
                   	$(window).trigger('update-account');
@@ -85,6 +95,10 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
                   }
                   $scope.subscribing = false;
                   $scope.$digest();
+              },
+              error: function(data) {
+                $('.loading-icon').removeClass('active');
+                alert('There was a problem making the call: ' + data);
               }
             });
           });
