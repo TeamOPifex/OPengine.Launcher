@@ -52,7 +52,7 @@ engineApp.config(['$routeProvider',
       }).
       when('/learn', {
         templateUrl: 'js/app/partials/learn.html',
-        controller: 'StaticCtrl'
+        controller: 'LearnCtrl'
       }).
       when('/license', {
         templateUrl: 'js/app/partials/license.html',

@@ -406,12 +406,6 @@
       });
 
 
-      if(window.localStorage['login-username']) {
-        $('#username').val(window.localStorage['login-username']);
-      }
-      if(window.localStorage['login-remember']) {
-        ipc.send('signin', window.localStorage['login-token']);
-      }
 
             var qs = (function(a) {
                 if (a == "") return {};
@@ -429,8 +423,16 @@
 
             if(qs['signout'] == 'true') {
                 window.localStorage.removeItem('githubAccessToken');
+                window.localStorage.removeItem('login-token');
             }
 
+
+            if(window.localStorage['login-username']) {
+              $('#username').val(window.localStorage['login-username']);
+            }
+            if(window.localStorage['login-remember'] && qs['signout'] != 'true') {
+              ipc.send('signin', window.localStorage['login-token']);
+            }
 
 
             $('#githubLogin').click(function() {
