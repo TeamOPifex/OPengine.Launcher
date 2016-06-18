@@ -349,6 +349,7 @@
           $('#signup').text('Create Account');
           $('.logo-icon').addClass('rotating');
 
+          require('electron').remote.getCurrentWindow().webContents.session.clearCache(function(res, err) { console.log(res, err) });
           $.ajax({
               url: 'http://api.opengine.io/api/v1/login',
               method: 'POST',
@@ -406,6 +407,7 @@
           $('#login').attr('disabled','disabled');
           $('#login').text("Signing In...");
           $('.logo-icon').addClass('rotating');
+          require('electron').remote.getCurrentWindow().webContents.session.clearCache(function(res, err) { console.log(res, err) });
           $.ajax({
               url: 'http://api.opengine.io/api/v1/login?username=' + username + '&password=' + password,
               method: 'GET',
