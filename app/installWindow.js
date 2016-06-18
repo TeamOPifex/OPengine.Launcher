@@ -71,17 +71,10 @@ function installWindow(app, token) {
         event.returnValue = results;
       });
     }
-    // Helper functions from within the actual app
-    ipcMain.on('installed', installed);
 
-		function exit() {
-			mainWindow.destroy();
-		}
-		ipcMain.on('close-installWindow', exit);
+		function installCmake() {
 
-    ipcMain.on('install-cmake', function() {
-
-        var Spawn = require('child_process').spawn;
+				var Spawn = require('child_process').spawn;
 				var Exec = require('child_process').exec;
 
 				var file = {
@@ -104,67 +97,79 @@ function installWindow(app, token) {
 						}
 					}
 				};
-        Download(file, function(err, result) {
-            if(err) {
-                return;
-            }
+				Download(file, function(err, result) {
+						if(err) {
+								return;
+						}
 						console.log('Launching: ', result.file, 'from: ', result.folder );
 
 						mainWindow.webContents.send('finished', result);
 
 						switch(require('os').platform()) {
 							case 'win32': {
-	            	var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
+								var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
 								break;
 							}
 							default: {
-	            	var child = Spawn('open', [ result.file ], { cwd: result.folder });
+								var child = Spawn('open', [ result.file ], { cwd: result.folder });
 								break;
 							}
 						}
-        }, function(progress) {
+				}, function(progress) {
 					mainWindow.webContents.send('progress', progress);
-        });
-    });
+				});
+		}
 
-
-    ipcMain.on('install', function(event, file) {
+		function installProgram(event, file) {
 
 				mainWindow.webContents.send('progress', file);
 
-        var Spawn = require('child_process').spawn;
+				var Spawn = require('child_process').spawn;
 				var Exec = require('child_process').exec;
 
-        Download(file, function(err, result) {
-            if(err) {
-                return;
-            }
+				Download(file, function(err, result) {
+						if(err) {
+								return;
+						}
 						console.log('Launching: ', result.file, 'from: ', result.folder );
 
 						mainWindow.webContents.send('finished', result);
 
 						switch(require('os').platform()) {
 							case 'win32': {
-	            	var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
+								var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
 								child.on('close', function(code) {
 										mainWindow.webContents.send('install-closed');
 								});
 								break;
 							}
 							default: {
-	            	var child = Spawn('open', [ result.file ], { cwd: result.folder });
+								var child = Spawn('open', [ result.file ], { cwd: result.folder });
 								child.on('close', function(code) {
 										mainWindow.webContents.send('install-closed');
 								});
 								break;
 							}
 						}
-        }, function(progress) {
+				}, function(progress) {
 					mainWindow.webContents.send('progress', progress);
-        });
-    });
+				});
+		}
 
 
+
+		function exit() {
+			ipcMain.removeListener('close-installWindow', exit);
+			ipcMain.removeListener('install-program', installProgram);
+			ipcMain.removeListener('install-cmake', installCmake);
+			ipcMain.removeListener('installed', installed);
+			mainWindow.destroy();
+		}
+
+		ipcMain.on('close-installWindow', exit);
+    ipcMain.on('install-program', installProgram);
+    ipcMain.on('install-cmake', installCmake);
+    ipcMain.on('installed', installed);
 
 
 	return mainWindow;
