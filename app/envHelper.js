@@ -23,6 +23,8 @@ var envHelper = function() {
 	    // Make sure we can find MSBuild
 	    // These are all of the default locations that it's installed to
 	    // This should work for 99% of all users
+	    process.env.Path += ';C:\\Program Files\\Git\\bin';
+	    process.env.Path += ';C:\\Program Files (x86)\\CMake\\bin';
 	    process.env.Path += ';C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\';
 	    process.env.Path += ';C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\amd64';
 	    process.env.Path += ';C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\';
