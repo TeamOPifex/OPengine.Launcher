@@ -5,8 +5,18 @@ var os = require('os');
 function prg_make(cb) {
     var child = require('child_process').spawn('make', ['--version'], { env: process.env });
     var output = '';
+        var error = false;
     child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('error', function(err) {
+      error = true;
+    });
     child.on('close', function(result) {
+      if(error) {
+        cb && cb(false, {
+          installed: false
+        });
+        return;
+      }
       var strToFind = 'GNU Make ';
       var index = output.indexOf(strToFind);
       var version = '';
@@ -27,8 +37,18 @@ function prg_make(cb) {
 function prg_cmake(cb) {
     var child = require('child_process').spawn('cmake', ['--version'], { env: process.env });
     var output = '';
+        var error = false;
     child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('error', function(err) {
+      error = true;
+    });
     child.on('close', function(result) {
+      if(error) {
+        cb && cb(false, {
+          installed: false
+        });
+        return;
+      }
       var strToFind = 'cmake version ';
       var index = output.indexOf(strToFind);
       var version = '';
@@ -49,8 +69,18 @@ function prg_cmake(cb) {
 function prg_git(cb) {
     var child = require('child_process').spawn('git', ['--version'], { env: process.env });
     var output = '';
+        var error = false;
     child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('error', function(err) {
+      error = true;
+    });
     child.on('close', function(result) {
+      if(error) {
+        cb && cb(false, {
+          installed: false
+        });
+        return;
+      }
       var strToFind = 'git version ';
       var index = output.indexOf(strToFind);
       var version = '';
@@ -74,8 +104,19 @@ function prg_git(cb) {
 function prg_msvs(cb) {
     var child = require('child_process').spawn('msbuild.exe', ['/version'], { env: process.env });
     var output = '';
+
+    var error = false;
     child.stdout.on('data', function(data) { output += data + ''; });
+    child.on('error', function(err) {
+      error = true;
+    });
     child.on('close', function(result) {
+      if(error) {
+        cb && cb(false, {
+          installed: false
+        });
+        return;
+      }
       var strToFind = 'Microsoft (R) Build Engine version ';
       var index = output.indexOf(strToFind);
       var version = '';
