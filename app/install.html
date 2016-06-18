@@ -87,7 +87,7 @@
           color: #fff;
           border: 3px solid #fff;
         }
-        #close:hover {
+        #close-installWindow:hover {
             background-color: #c13333;
         }
           .input-box {
@@ -163,7 +163,7 @@
         <div class="container">
             <div class="row toolbar" style="height: auto;">
                 <div class="col-xs-12 text-right nopadding">
-                    <a href="javascript:void(0)" id="close" style="display: block;float:right;width:40px; padding-right: 15px;padding-top: 7px; padding-bottom: 4px; font-size: 10px;">
+                    <a href="javascript:void(0)" id="close-installWindow" style="display: block;float:right;width:40px; padding-right: 15px;padding-top: 7px; padding-bottom: 4px; font-size: 10px;">
                         <span class="icon-delete-2">
                         </span>
                     </a>
@@ -193,7 +193,7 @@
 
                 <h2 style="margin-bottom: 30px">Missing Apps</h2>
 
-                <p>The OPengine Launcher requires command line access to the following programs:</p>
+                <p>The OPengine requires command line access to the these programs to compile:</p>
                 <table id="install-table" class="table">
 
                 </table>
@@ -270,12 +270,17 @@
         </div>
 
         <script>
+          function externalLink() {
+            require('electron').shell.openExternal($(el).data('href'));
+            return false;
+          }
+
             var ipc = require('electron').ipcRenderer;
 
     				var cmake = {
               exe: 'cmake',
               name: 'CMake',
-              desc: 'Generates project files: <a href="http://cmake.org">http://cmake.org</a>',
+              desc: 'Generates project files: <a data-href="http://cmake.org" onclick="return externalLink(this)">http://cmake.org</a>',
     					windows: {
     						x86_x64: {
     							file: 'cmake-3.5.2-win32-x86.msi',
@@ -299,7 +304,7 @@
             var git = {
               exe: 'git',
               name: 'Git',
-              desc: 'Distributed version control: <a href="https://git-scm.com">https://git-scm.com</a>',
+              desc: 'Distributed version control: <a data-href="https://git-scm.com" onclick="return externalLink(this)">https://git-scm.com</a>',
     					windows: {
     						x86: {
     							file: 'Git-2.8.1-32-bit.exe',
@@ -326,7 +331,7 @@
               programsToCheck.push({
                 exe: 'msvc',
                 name: 'MS Visual Studio',
-                desc: 'Microsoft Visual Studio: <a href="https://www.visualstudio.com/products/free-developer-offers-vs">http://visualstudio.com</a>',
+                desc: 'Microsoft Visual Studio: <a data-href="https://www.visualstudio.com/products/free-developer-offers-vs" onclick="return externalLink(this)">http://visualstudio.com</a>',
       					windows: {
       						x86_x64: {
       							file: 'vs_community_ENU.exe',
@@ -338,7 +343,7 @@
               programsToCheck.push({
                 exe: 'make',
                 name: 'Make',
-                desc: 'Controls the generation of executables: <a href="https://www.gnu.org/software/make/">http://gnu.org</a>',
+                desc: 'Controls the generation of executables: <a data-href="https://www.gnu.org/software/make/" onclick="return externalLink(this)">http://gnu.org</a>',
       					osx: {
                   // apt-get
       					},
@@ -357,12 +362,14 @@
 
               console.log(installed);
 
+              var allInstalled = true;
               for(var i = 0; i < installed.length; i++) {
                   var temp;
                   if(installed[i].installed) {
                       temp = $('#template-installed').clone();
                       temp.find('.program-version').text(installed[i].version);
                   } else {
+                    allInstalled = false;
                       temp = $('#template-not-installed').clone();
                       temp.find('.program-install').data('index', i);
                       temp.find('.program-install').click(function() {
@@ -380,6 +387,10 @@
                   for(var j = 0; j < rows.length; j++) {
                       $('#install-table').append($(rows[j]));
                   }
+              }
+
+              if(allInstalled) {
+              	ipc.send('close-installWindow');
               }
             }
 
@@ -400,6 +411,10 @@
 
             ipc.on('install-closed', function() {
                 CheckInstalled();
+            });
+
+            $('#close-installWindow').click(function() {
+            	ipc.send('close-installWindow');
             });
 
         </script>

@@ -17,6 +17,7 @@ import loginWindow from './loginWindow'
 
 envHelper();
 
+global.windowCount = 0;
 global.webRoot = 'file://' + __dirname;
 if (env.name == 'production') {
     global.webRoot = 'http://launcher.opengine.io'

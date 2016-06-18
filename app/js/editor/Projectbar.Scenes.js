@@ -8,6 +8,10 @@ Projectbar.Scenes = function ( editor ) {
 
 
     var scenes = [];
+    var fs = require('fs');
+    if(!fs.existsSync(window.projectPath + '/Assets/Scenes/')) {
+      fs.mkdirSync(window.projectPath + '/Assets/Scenes/');
+    }
     OPIFEX.Utils.Walk(window.projectPath + '/Assets/Scenes/', function(result, name, stat) {
         if(name.endsWith('.opscene')) {
           scenes.push(name);

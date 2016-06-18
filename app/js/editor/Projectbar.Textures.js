@@ -25,6 +25,9 @@ Projectbar.Textures = function ( editor ) {
 
 
   var textures = [];
+	if(!fs.existsSync(window.projectPath + '/Assets/Textures/')) {
+		fs.mkdirSync(window.projectPath + '/Assets/Textures/');
+	}
   walk(window.projectPath + '/Assets/Textures/', true, function(result, name, stat) {
     if(name.endsWith('.png')) {
       textures.push(name);

@@ -16,6 +16,8 @@ const globalShortcut = electron.globalShortcut;
 
 function sceneEditorWindow(app, project, projectPath) {
 
+	var currentWindow = global.windowCount++;
+
 	var registeredShortcuts = [];
 
 	var mainWindowState = WindowStateKeeper('main', {
@@ -50,7 +52,7 @@ function sceneEditorWindow(app, project, projectPath) {
     // var menu = Menu.buildFromTemplate(MenuBuilder(mainWindow));
     // Menu.setApplicationMenu(menu);
 
-  	mainWindow.loadURL(global.webRoot + '/sceneEditor.html');
+  	mainWindow.loadURL(global.webRoot + '/sceneEditor.html?currentWindow=' + currentWindow);
 
 	// Helper function for using the ipcMain stuff with shortcut keys
 	function ipcMainMethod(m) {
@@ -95,6 +97,7 @@ function sceneEditorWindow(app, project, projectPath) {
     ipcMain.on('shortcuts', shortcuts);
 
 	function folder(event, arg) {
+		if(arg != currentWindow) return;
 		Dialog.showOpenDialog({
 			properties: [ 'openDirectory' ]
 		}, function(results) {
@@ -106,62 +109,73 @@ function sceneEditorWindow(app, project, projectPath) {
 			event.returnValue = results;
 		});
 	}
-	// Helper functions from within the actual app
-    ipcMain.on('folder', folder);
-
-	function minimize(event, arg) {
-		mainWindow.minimize();
-	}
-    ipcMain.on('minimize', minimize);
 
 	function load(event, arg) {
+		if(arg != currentWindow) return;
 		mainWindow.loadURL(global.webRoot + '/' + arg);
 	}
-    ipcMain.on('load', load);
 
 	function absPath(event, arg) {
+		if(arg != currentWindow) return;
 		event.returnValue = global.webRoot + '/' + arg;
 	}
-    ipcMain.on('absPath', absPath);
 
-
-	function exit(event, arg) {
-		mainWindow.destroy();
-	}
-	ipcMain.on('exit', exit);
-
-	ipcMain.on('title', function(event) {
+	function title(event, arg) {
+		if(arg != currentWindow) return;
 			mainWindow.webContents.send('title', project);
-	});
-
-	ipcMain.on('models', function(event) {
-
-			event.returnValue = results;
-	});
-
-	ipcMain.on('projectPath', function(event) {
-			event.returnValue = projectPath;
-	});
-
-	function exit(event, arg) {
-		mainWindow.destroy();
 	}
-	ipcMain.on('close-editor', exit);
+
+	function models(event, arg) {
+		if(arg != currentWindow) return;
+			event.returnValue = results;
+	}
+
+	function projectPathFn(event, arg) {
+		if(arg != currentWindow) return;
+			event.returnValue = projectPath;
+	}
 
 	function minimize(event, arg) {
+		if(arg != currentWindow) return;
 		mainWindow.minimize();
 	}
-		ipcMain.on('minimize-editor', minimize);
-
 
 	function maximize(event, arg) {
+		if(arg != currentWindow) return;
 		if(mainWindow.isMaximized()) {
 			mainWindow.unmaximize();
 			return;
 		}
 		mainWindow.maximize();
 	}
-    ipcMain.on('maximize-editor', maximize);
+
+	function exit(event, arg) {
+		if(arg != currentWindow) return;
+		ipcMain.removeListener('exit', exit);
+		ipcMain.removeListener('close-editor', exit);
+		ipcMain.removeListener('minimize', minimize);
+		ipcMain.removeListener('folder', folder);
+		ipcMain.removeListener('load', load);
+		ipcMain.removeListener('absPath', absPath);
+		ipcMain.removeListener('title', title);
+		ipcMain.removeListener('models', models);
+		ipcMain.removeListener('projectPath', projectPathFn);
+		ipcMain.removeListener('maximize', maximize);
+		ipcMain.removeListener('minimize', minimize);
+		mainWindow.destroy();
+	}
+
+	ipcMain.on('exit', exit);
+	ipcMain.on('close-editor', exit);
+  ipcMain.on('folder', folder);
+  ipcMain.on('minimize', minimize);
+  ipcMain.on('load', load);
+  ipcMain.on('absPath', absPath);
+	ipcMain.on('title', title);
+	ipcMain.on('models', models);
+	ipcMain.on('projectPath', projectPathFn);
+	ipcMain.on('maximize-editor', maximize);
+	ipcMain.on('minimize-editor', minimize);
 
 	return mainWindow;
 }

@@ -8,6 +8,10 @@ Projectbar.Models = function ( editor ) {
 
 
   var models = [];
+	var fs = require('fs');
+	if(!fs.existsSync(window.projectPath + '/Assets/Models/')) {
+		fs.mkdirSync(window.projectPath + '/Assets/Models/');
+	}
   OPIFEX.Utils.Walk(window.projectPath + '/Assets/Models/', function(result, name, stat) {
     if(name.endsWith('.opm')) {
       models.push(name);

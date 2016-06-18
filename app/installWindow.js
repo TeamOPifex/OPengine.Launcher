@@ -64,8 +64,8 @@ function installWindow(app, token) {
 					config.installed = true;
 					LauncherConfig.saveConfig(config);
 
-					LauncherWindow(app, arg);
-					mainWindow.destroy();
+					//LauncherWindow(app, arg);
+					//mainWindow.destroy();
 				}
 
         event.returnValue = results;
@@ -74,6 +74,10 @@ function installWindow(app, token) {
     // Helper functions from within the actual app
     ipcMain.on('installed', installed);
 
+		function exit() {
+			mainWindow.destroy();
+		}
+		ipcMain.on('close-installWindow', exit);
 
     ipcMain.on('install-cmake', function() {
 

@@ -41,6 +41,8 @@
           window.localStorage.setItem('githubAccessToken', qs['access_token']);
       }
 
+			window.currentWindow = qs['currentWindow'];
+
 
       function define() {
 
@@ -220,9 +222,9 @@
 
 			var ipc = require('electron').ipcRenderer;
 			ipc.on('title', function(event, title) {
-				$('#title').text(title);
+				$('.tab-text').text(title);
 			});
-			window.projectPath = ipc.sendSync('projectPath').split('\\').join('/');
+			window.projectPath = ipc.sendSync('projectPath', window.currentWindow).split('\\').join('/');
 			var fs = require('fs');
 			var editorJson = window.projectPath + '/editor.json';
 			window.editorSettings = {
@@ -494,11 +496,11 @@
 
 
 			$(function() {
-					$('#windowBar').append($('<div class="toolbar"><div class="tabs"><div id="title" class="tab current-tab">Library</div></div>					<div class="window"><a class="window-minimize" href="javascript:void(0);" id="minimize">	<span class="icon-delete"></span>							</a>	<a class="window-maximize" href="javascript:void(0);" id="maximize"><span class="icon-square-o"></span>	</a>							<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">									<span class="icon-close2"></span>							</a>					</div></div>'));
-					ipc.send('title');
-					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize-editor'); })
-					$('#windowBar').find('#close').click(function() { ipc.send('close-editor'); })
-					$('#windowBar').find('#maximize').click(function() { ipc.send('maximize-editor'); })
+					$('#windowBar').append($('<div class="toolbar">								<div class="toolbar-bg-bottom"></div>								<div class="tabs">									<div class="tab current-tab">										<div class="tab-state"><div class="tabbed-state-contain"><div class="tabbed-side-state-bg"></div></div></div>										<div class="tab-seperator"></div>										<div class="tab-text">Library</div>									</div>									<!-- <div class="tab">Set in Stone</div> -->									<div class="tabbed-side-left"><div class="tabbed-left-contain"><div class="tabbed-side-left-bg"></div></div></div>								</div>								<div class="window-side-right-bg">									<div class="tabbed-right-contain"><div class="tabbed-side-right-bg"></div></div>								</div>								<div class="window">										<a class="window-minimize" href="javascript:void(0);" id="minimize">												<span class="icon-delete"></span>										</a>										<a class="window-maximize" href="javascript:void(0);" id="maximize">												<span class="icon-square-o"></span>										</a>										<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">												<span class="icon-close2"></span>										</a>								</div></div>'));
+					ipc.send('title', window.currentWindow);
+					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize-editor', window.currentWindow); })
+					$('#windowBar').find('#close').click(function() { ipc.send('close-editor', window.currentWindow); })
+					$('#windowBar').find('#maximize').click(function() { ipc.send('maximize-editor', window.currentWindow); })
 			});
 
 			/*
