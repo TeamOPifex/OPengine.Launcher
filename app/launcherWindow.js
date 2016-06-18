@@ -3,8 +3,10 @@ import DevHelper from './vendor/electron_boilerplate/dev_helper';
 
 import MenuBuilder from './menuBuilder.js';
 import LoginWindow from './loginWindow.js';
+import InstallWindow from './installWindow.js';
 import Download from './download-file.js';
 import SceneEditorWindow from './sceneEditorWindow.js';
+import LauncherConfig from './launcher-config.js';
 
 const electron = require('electron');
 const ipcMain = electron.ipcMain;
@@ -62,6 +64,13 @@ function launcherWindow(app, token) {
     	mainWindow.loadURL(global.webRoot + '/app.html');
 	}
 
+
+		var config = LauncherConfig.config() || {};
+
+		if(!config.installed) {
+				InstallWindow(app, token);
+		}
+
 	// Helper function for using the ipcMain stuff with shortcut keys
 	function ipcMainMethod(m) {
 		return function() {
@@ -74,18 +83,20 @@ function launcherWindow(app, token) {
 	// whether the window was active or not. Not the correct intention.
 
 	// When the window loses focus
-    mainWindow.on('blur', function() {
-        for(var i = 0 ; i < registeredShortcuts.length; i++) {
-            globalShortcut.unregister(registeredShortcuts[i].keys);
-        }
-    });
+		function removeShortcuts() {
+				for(var i = 0 ; i < registeredShortcuts.length; i++) {
+						globalShortcut.unregister(registeredShortcuts[i].keys);
+				}
+		}
+    mainWindow.on('blur', removeShortcuts);
 
 	// When the window regains focus
-    mainWindow.on('focus', function() {
+		function addShortcuts() {
         for(var i = 0 ; i < registeredShortcuts.length; i++) {
             globalShortcut.register(registeredShortcuts[i].keys, ipcMainMethod(registeredShortcuts[i].method));
         }
-    });
+    }
+    mainWindow.on('focus', addShortcuts );
 
 
 
@@ -134,69 +145,80 @@ function launcherWindow(app, token) {
 	}
     ipcMain.on('absPath', absPath);
 
-	ipcMain.on('signout', function(event, arg) {
+
+		function sceneEditor(event, project, projectPath) {
+			SceneEditorWindow(app, project, projectPath);
+		}
+	  ipcMain.on('sceneEditor', sceneEditor);
+
+		function install(event, file) {
+
+					// mainWindow.webContents.send('progress', file);
+
+					var Spawn = require('child_process').spawn;
+					var Exec = require('child_process').exec;
+
+					Download(file, function(err, result) {
+							if(err) {
+									return;
+							}
+							console.log('Launching: ', result.file, 'from: ', result.folder );
+
+
+							var root = require('os').homedir() + '/.opengine';
+							var folder = root + '/marketplace/';
+							var unzipExtractor = require('unzip').Extract({ path: folder });
+							unzipExtractor.on('close', function() {
+									mainWindow.webContents.send('finished', result);
+							});
+							require('fs').createReadStream(result.folder + result.file).pipe(unzipExtractor);
+							//
+							// switch(require('os').platform()) {
+							// 	case 'win32': {
+							//   	var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
+							// 		child.on('close', function(code) {
+							// 				mainWindow.webContents.send('install-closed');
+							// 		});
+							// 		break;
+							// 	}
+							// 	default: {
+							//   	var child = Spawn('open', [ result.file ], { cwd: result.folder });
+							// 		child.on('close', function(code) {
+							// 				mainWindow.webContents.send('install-closed');
+							// 		});
+							// 		break;
+							// 	}
+							// }
+					}, function(progress) {
+						mainWindow.webContents.send('progress', progress);
+					});
+		}
+  ipcMain.on('install', install);
+
+	function exit(event, arg) {
+		removeShortcuts();
+		mainWindow.destroy();
+	}
+	ipcMain.on('exit', exit);
+
+
+	function signout() {
+		ipcMain.removeListener('signout', signout);
 		ipcMain.removeListener('folder', folder);
 		ipcMain.removeListener('shortcuts', shortcuts);
 		ipcMain.removeListener('minimize', minimize);
 		ipcMain.removeListener('load', load);
 		ipcMain.removeListener('absPath', absPath);
+		ipcMain.removeListener('sceneEditor', sceneEditor);
+		ipcMain.removeListener('install', install);
+		ipcMain.removeListener('exit', exit);
+		removeShortcuts();
 		console.log(LoginWindow);
 		require('./loginWindow.js')(app, true);
 		mainWindow.destroy();
-	});
-
-
-	  ipcMain.on('sceneEditor', function(event, project, projectPath) {
-			SceneEditorWindow(app, project, projectPath);
-		});
-
-  ipcMain.on('install', function(event, file) {
-
-				// mainWindow.webContents.send('progress', file);
-
-        var Spawn = require('child_process').spawn;
-				var Exec = require('child_process').exec;
-
-        Download(file, function(err, result) {
-            if(err) {
-                return;
-            }
-						console.log('Launching: ', result.file, 'from: ', result.folder );
-
-
-						var root = require('os').homedir() + '/.opengine';
-				    var folder = root + '/marketplace/';
-						var unzipExtractor = require('unzip').Extract({ path: folder });
-						unzipExtractor.on('close', function() {
-								mainWindow.webContents.send('finished', result);
-						});
-						require('fs').createReadStream(result.folder + result.file).pipe(unzipExtractor);
-						//
-						// switch(require('os').platform()) {
-						// 	case 'win32': {
-	          //   	var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
-						// 		child.on('close', function(code) {
-						// 				mainWindow.webContents.send('install-closed');
-						// 		});
-						// 		break;
-						// 	}
-						// 	default: {
-	          //   	var child = Spawn('open', [ result.file ], { cwd: result.folder });
-						// 		child.on('close', function(code) {
-						// 				mainWindow.webContents.send('install-closed');
-						// 		});
-						// 		break;
-						// 	}
-						// }
-        }, function(progress) {
-					mainWindow.webContents.send('progress', progress);
-        });
-	});
-
-	function exit(event, arg) {
-		mainWindow.destroy();
 	}
-	ipcMain.on('exit', exit);
+
+	ipcMain.on('signout', signout);
 
 	return mainWindow;
 }

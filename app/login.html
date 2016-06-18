@@ -46,6 +46,11 @@
             padding-top: 5px;
             width: 44px;
         }
+
+        .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+          background-color: #344c58;
+          color: #ccc;
+        }
         .offline {
             position: absolute;;
             bottom: 0;
@@ -258,7 +263,7 @@
               <div class="checkbox" style="margin: 20px 0px; font-size: 14px;">
                   <input type="checkbox" id="termsOfService" />
                   <label class="check" for="termsOfService"></label>
-                  <label class="text">I have read and agree to the <a href="#">terms of service</a></label>
+                  <label class="text">I have read and agree to the <a data-href="http://opengine.io/license" onclick="return externalLink(this)">terms of service</a></label>
               </div>
 
               <div style="margin: 5px;">
@@ -276,6 +281,11 @@
             </div>
         </div>
 		<script>
+
+    function externalLink(el) {
+      require('electron').shell.openExternal($(el).data('href'));
+      return false;
+    }
 
       var ipc = require('electron').ipcRenderer;
 
@@ -370,59 +380,59 @@
           });
       });
 
-      $('#login').click(function() {
+      function LOGIN() {
+          var username = $('#username').val();
+          var password = $('#password').val();
+          var remember = $('#rememberMe')[0].checked;
 
-        var username = $('#username').val();
-        var password = $('#password').val();
-        var remember = $('#rememberMe')[0].checked;
+          var error = false;
 
-        var error = false;
+          $('#username').parent().removeClass('error');
+          $('#password').parent().removeClass('error');
 
-        $('#username').parent().removeClass('error');
-        $('#password').parent().removeClass('error');
+          if(!username || username == '') {
+              $('#username').parent().addClass('error');
+              error = true;
+          }
+          if(!password || password == '') {
+              $('#password').parent().addClass('error');
+              error = true;
+          }
 
-        if(!username || username == '') {
-            $('#username').parent().addClass('error');
-            error = true;
-        }
-        if(!password || password == '') {
-            $('#password').parent().addClass('error');
-            error = true;
-        }
+          if(error) {
+            return;
+          }
 
-        if(error) {
-          return;
-        }
+          $('#login').attr('disabled','disabled');
+          $('#login').text("Signing In...");
+          $('.logo-icon').addClass('rotating');
+          $.ajax({
+              url: 'http://api.opengine.io/api/v1/login?username=' + username + '&password=' + password,
+              method: 'GET',
+              success: function(res) {
+                $('.logo-icon').removeClass('rotating');
+                console.log(res);
 
-        $('#login').attr('disabled','disabled');
-        $('#login').text("Signing In...");
-        $('.logo-icon').addClass('rotating');
-        $.ajax({
-            url: 'http://api.opengine.io/api/v1/login?username=' + username + '&password=' + password,
-            method: 'GET',
-            success: function(res) {
-              $('.logo-icon').removeClass('rotating');
-              console.log(res);
+                $('#login').removeAttr('disabled');
+                $('#login').text("Sign In");
 
-              $('#login').removeAttr('disabled');
-              $('#login').text("Sign In");
-
-              if(res.success) {
-                window.localStorage.setItem('login-username', username);
-                window.localStorage.setItem('login-remember', remember);
-                window.localStorage.setItem('login-token', res.token);
-                ipc.send('signin', res.token);
-              } else {
-                alert(res.message);
+                if(res.success) {
+                  window.localStorage.setItem('login-username', username);
+                  window.localStorage.setItem('login-remember', remember);
+                  window.localStorage.setItem('login-token', res.token);
+                  ipc.send('signin', res.token);
+                } else {
+                  alert(res.message);
+                }
+              },
+              error: function(err) {
+                $('#login').removeAttr('disabled');
+                $('#login').text("Sign In");
+                alert('There was a problem, please try again: ' + err);
               }
-            },
-            error: function(err) {
-              $('#login').removeAttr('disabled');
-              $('#login').text("Sign In");
-              alert('There was a problem, please try again: ' + err);
-            }
-        });
-      });
+          });
+      };
+      $('#login').click(LOGIN);
 
 
 
@@ -446,12 +456,31 @@
             }
 
 
-            if(window.localStorage['login-username']) {
+            if(window.localStorage['login-remember'] == "true" && window.localStorage['login-username']) {
               $('#username').val(window.localStorage['login-username']);
             }
-            if(window.localStorage['login-remember'] && qs['signout'] != 'true') {
-              ipc.send('signin', window.localStorage['login-token']);
+
+            if(window.localStorage['login-remember'] == "true") {
+              $('#rememberMe')[0].checked = true;
+              $('#password').focus();
+            } else {
+              $('#username').focus();
             }
+
+            document.getElementById('password').onkeypress = function(e){
+              if (!e) e = window.event;
+              var keyCode = e.keyCode || e.which;
+              if (keyCode == '13'){
+                // Enter pressed
+                LOGIN();
+                return false;
+              }
+            }
+
+            // Having some issues with AccessTokens for right now lets wait on the auto-login stuff
+            // if(window.localStorage['login-remember'] && qs['signout'] != 'true') {
+            //   ipc.send('signin', window.localStorage['login-token']);
+            // }
 
 
             $('#githubLogin').click(function() {
@@ -464,52 +493,52 @@
 
             var token;
 
-        	function login() {
-
-                window.localStorage.setItem('githubToken', token);
-
-                var tmp = define;
-                define = null;
-                var Github = require('github-api');
-                define = tmp;
-                var github = new Github({
-                    token: token,
-                    auth: "oauth"
-                });
-
-        		var githubUser = github.getUser();
-                //console.log(githubUser);
-
-        		githubUser.orgs(function(err, results) {
-        			if(err) {
-        				if(err.error == 401) {
-        					alert('Failed to authenticate');
-        					return;
-        				}
-        			}
-
-        			var orgs = results;
-                    var OPifex = false;
-        			for(var i = 0; i < orgs.length; i++) {
-        				if(orgs[i].login == 'TeamOPifex') {
-        					OPifex = true;
-        					break;
-        				}
-        			}
-
-        			if(!OPifex) {
-                        ipc.send('github');
-        			} else {
-        				githubUser.orgRepos('teamopifex', function(err, results) {
-        					//console.log('org repos', err, results);
-        				});
-
-                        ipc.send('signin', token);
-
-        				// window.location = 'app.html?access_token=' + token;
-        			}
-        		});
-        	}
+        	// function login() {
+          //
+          //       window.localStorage.setItem('githubToken', token);
+          //
+          //       var tmp = define;
+          //       define = null;
+          //       var Github = require('github-api');
+          //       define = tmp;
+          //       var github = new Github({
+          //           token: token,
+          //           auth: "oauth"
+          //       });
+          //
+        	// 	var githubUser = github.getUser();
+          //       //console.log(githubUser);
+          //
+        	// 	githubUser.orgs(function(err, results) {
+        	// 		if(err) {
+        	// 			if(err.error == 401) {
+        	// 				alert('Failed to authenticate');
+        	// 				return;
+        	// 			}
+        	// 		}
+          //
+        	// 		var orgs = results;
+          //           var OPifex = false;
+        	// 		for(var i = 0; i < orgs.length; i++) {
+        	// 			if(orgs[i].login == 'TeamOPifex') {
+        	// 				OPifex = true;
+        	// 				break;
+        	// 			}
+        	// 		}
+          //
+        	// 		if(!OPifex) {
+          //               ipc.send('github');
+        	// 		} else {
+        	// 			githubUser.orgRepos('teamopifex', function(err, results) {
+        	// 				//console.log('org repos', err, results);
+        	// 			});
+          //
+          //               ipc.send('signin', token);
+          //
+        	// 			// window.location = 'app.html?access_token=' + token;
+        	// 		}
+        	// 	});
+        	// }
 
             // If a token was set in the Query String
             if(qs['access_token']) {

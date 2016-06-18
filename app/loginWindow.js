@@ -1,10 +1,6 @@
 import DevHelper from './vendor/electron_boilerplate/dev_helper';
 import env from './env';
 import LauncherWindow from './launcherWindow.js';
-import SceneEditorWindow from './sceneEditorWindow.js';
-import InstallWindow from './installWindow.js';
-import isInstalled from './is-installed.js';
-import LauncherConfig from './launcher-config.js';
 
 const electron = require('electron');
 const ipcMain = electron.ipcMain;
@@ -55,23 +51,11 @@ function loginWindow(app, signout) {
 	}
 
 	function signin(event, arg) {
-
-		var config = LauncherConfig.config() || {};
-
-		if(config.installed) {
-				ipcMain.removeListener('signin', signin);
-				ipcMain.removeListener('github', github);
-				ipcMain.removeListener('access', access);
-				LauncherWindow(app, arg);
-				window.destroy();
-		} else {
-				ipcMain.removeListener('signin', signin);
-				ipcMain.removeListener('github', github);
-				ipcMain.removeListener('access', access);
-				//window.destroy();
-				InstallWindow(app, arg);
-				window.destroy();
-		}
+			ipcMain.removeListener('signin', signin);
+			ipcMain.removeListener('github', github);
+			ipcMain.removeListener('access', access);
+			LauncherWindow(app, arg);
+			window.destroy();
 	}
 
 	ipcMain.on('signin', signin);

@@ -5,19 +5,7 @@
     <div class="row extrapadding library" id="EngineReleases">
         <div class="col-xs-12 text-left">
             <div id="EngineVersionsTitle">
-            <h2 class="title"> Engine Versions
-                <span class="action dropdown">
-    			  <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                	<span class="icon-add"></span>
-    			    Add Version
-    			  </a>
-    			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    			  	<li ng-repeat="engine in engineReleases">
-    			  		<a href="" ng-click="clone(engine)">{{engine.name}} {{engine.version}}</a>
-    			  	</li>
-    			  </ul>
-    			</span>
-            </h2>
+            <h2 class="title"> Engine Versions </h2>
           </div>
             <div>
             	<div class="engine-version" ng-repeat="engine in engineVersions">
@@ -43,26 +31,7 @@
     </div>
     <div class="row extrapadding library">
         <div class="col-xs-12 text-left">
-            <h2 class="title"> My Projects
-                <span class="action dropdown">
-    			  <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-                	<span class="icon-add"></span>
-    			    New
-    			  </button>
-    			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    			  	<li>
-    			  		<a href="" ng-click="NewProject()">New Project</a>
-    			  	</li>
-      			  	<li>
-      			  		<a href="" ng-click="ExistingProject()">From Existing...</a>
-      			  	</li>
-      			  	<li>
-      			  		<a href="" ng-click="CreateFromGithub()">From Github...</a>
-      			  	</li>
-    			  </ul>
-    			</span>
-            </h2>
+            <h2 class="title"> My Projects </h2>
             <div>
             	<div class="engine-version" ng-repeat="project in projects track by project.id">
                     <a href="#/library/project/{{project.id}}">
