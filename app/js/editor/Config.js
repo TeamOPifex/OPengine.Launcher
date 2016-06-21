@@ -6,7 +6,7 @@ var Config = function ( name ) {
 
 	var storage = {
 		'autosave': false,
-		'theme': 'stylesheets/editor/light.css',
+		'theme': 'stylesheets/editor/opifex.css',
 
 		'project/renderer': 'WebGLRenderer',
 		'project/renderer/antialias': true,

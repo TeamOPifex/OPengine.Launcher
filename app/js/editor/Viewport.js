@@ -334,18 +334,6 @@ var Viewport = function ( editor ) {
 
 		switch ( value ) {
 
-			case 'stylesheets/editor/light.css':
-				sceneHelpers.remove( grid );
-				grid = new THREE.GridHelper( 30, 1, 0x444444, 0x888888 );
-				sceneHelpers.add( grid );
-				clearColor = 0xaaaaaa;
-				break;
-			case 'stylesheets/editor/dark.css':
-				sceneHelpers.remove( grid );
-				grid = new THREE.GridHelper( 30, 1, 0xbbbbbb, 0x888888 );
-				sceneHelpers.add( grid );
-				clearColor = 0x333333;
-				break;
 			case 'stylesheets/editor/opifex.css':
 				sceneHelpers.remove( grid );
 				grid = new THREE.GridHelper( 30, 1, 0xbbbbbb, 0x888888 );
