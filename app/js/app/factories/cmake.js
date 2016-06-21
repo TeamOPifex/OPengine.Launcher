@@ -120,7 +120,7 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
             }
         },
 
-        project: function(source, path, engine, config, os, cb) {
+        project: function(source, path, engine, config, os, force, cb) {
 	        var sourceDir = source;
 	        var buildDir = global.root + '/build/' + path + '_build';
             var engineDir = global.root + '/repos/OPengine/' + engine.id;
@@ -163,17 +163,22 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 
             cmake.addVariables(args, config, os);
 
-            rimraf(buildDir + '/CMakeCache.txt', function() {
-
+            if(force) {
+              rimraf(buildDir + '/CMakeCache.txt', function() {
                 rimraf(buildDir + '/CMakeFiles', function() {
-    		        mkdirp(buildDir, function(err) {
-                        run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
-    		        });
+            			mkdirp(buildDir, function(err) {
+                    run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
+            			});
                 });
-            });
+              });
+            } else {
+              mkdirp(buildDir, function(err) {
+                run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
+              });
+            }
 		},
 
-		engine: function(path, config, os, cb) {
+		engine: function(path, config, os, force, cb) {
 			var sourceDir = nodePath.resolve(global.root + '/repos/OPengine/' + path);
 			var buildDir = nodePath.resolve(global.root + '/build/' + path + '_build');
 
@@ -191,13 +196,19 @@ angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 
 
             cmake.addVariables(args, config, os);
 
-            //rimraf(buildDir + '/CMakeCache.txt', function() {
-                //rimraf(buildDir + '/CMakeFiles', function() {
-        			mkdirp(buildDir, function(err) {
-                        run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
-        			});
-                //});
-            //});
+            if(force) {
+              rimraf(buildDir + '/CMakeCache.txt', function() {
+                rimraf(buildDir + '/CMakeFiles', function() {
+            			mkdirp(buildDir, function(err) {
+                    run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
+            			});
+                });
+              });
+            } else {
+              mkdirp(buildDir, function(err) {
+                run.cmd('cmake ' + path, 'cmake', args, buildDir, cb);
+              });
+            }
 		}
 
     }

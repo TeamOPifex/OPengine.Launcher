@@ -4,11 +4,27 @@ angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(a
 
     var run = {
 
-        cmd: function(title, cmd, args, dir, cb) {
+        cmd: function(title, cmd, args, dir, cb, noOutput) {
 
-            appConsole.display = true;
-            appConsole.lines = [];
-            appConsole.task = title;
+            if(noOutput) {
+              var child = spawn(cmd, args, {
+                  cwd: dir,
+                  env: process.env
+              });
+              child.on('close', function (code) {
+                cb && cb(code != 0);
+                $rootScope.$digest();
+              });
+              child.on('error', function(code) {
+                  cb && cb(true);
+                  $rootScope.$digest();
+              });
+              return;
+            }
+
+              appConsole.display = true;
+              appConsole.lines = [];
+              appConsole.task = title;
 
             var child = spawn(cmd, args, {
                 cwd: dir,
@@ -38,11 +54,12 @@ angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(a
             });
 
             child.on('error', function(code) {
-                cb && cb(true)
+                cb && cb(true);
+                $rootScope.$digest();
             });
         },
 
-        command: function(title, cmd, args, dir, cb) {
+        command: function(title, cmd, args, dir, cb, noOutput) {
 
             if(require('os').type() == 'Windows_NT') {
                 tmpArgs = ['/C', cmd ];
@@ -53,7 +70,7 @@ angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(a
                 cmd = 'cmd';
             }
 
-            run.cmd(title, cmd, args, dir, cb);
+            run.cmd(title, cmd, args, dir, cb, noOutput);
 
         },
 

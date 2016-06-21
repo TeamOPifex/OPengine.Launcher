@@ -52,7 +52,7 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
             this.repo = {
                 relative: global.root + '/repos/OPengine/' + this.path,
                 openFolder: function() {
-                    run.command('Open Folder', 'explorer', [ me.repo.absolute + '\\' ], 'C:\\');
+                    run.command('Open Folder', 'explorer', [ me.repo.absolute + '\\' ], 'C:\\', null, true);
                 },
                 openWith: function(program) {
                     spawn(program, [ me.repo.absolute ], {
@@ -71,7 +71,7 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
             this.build = {
                 relative: global.root + '/build/' + this.path + '_build',
                 openFolder: function() {
-                    run.command('Open Folder', 'explorer', [ me.build.absolute + '\\' ], 'C:\\');
+                    run.command('Open Folder', 'explorer', [ me.build.absolute + '\\' ], 'C:\\', null, true);
                 },
                 openWith: function(program) {
                     spawn(program, [ me.build.absolute ], {
@@ -86,10 +86,10 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
             shell.openItem(this.build.relative + '/OPifexEngine.sln');
         },
 
-        cmake: function(force, cb) {
+        cmake: function(force, cb, external) {
             appConsole.task = 'CMake OPengine';
-            config.saveEngine(this.path, this.config);
-            cmake.engine(this.path, this.config, this.OS, cb);
+            config.saveEngine(this.path, this.config, external);
+            cmake.engine(this.path, this.config, this.OS, force, cb);
         },
 
         make: function(force, cb) {

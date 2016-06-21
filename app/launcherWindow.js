@@ -7,6 +7,7 @@ import InstallWindow from './installWindow.js';
 import Download from './download-file.js';
 import SceneEditorWindow from './sceneEditorWindow.js';
 import LauncherConfig from './launcher-config.js';
+import isInstalled from './is-installed.js';
 
 const electron = require('electron');
 const ipcMain = electron.ipcMain;
@@ -135,6 +136,15 @@ function launcherWindow(app, token) {
 	}
     ipcMain.on('minimize', minimize);
 
+	function maximize(event, arg) {
+		if(mainWindow.isMaximized()) {
+			mainWindow.unmaximize();
+			return;
+		}
+		mainWindow.maximize();
+	}
+    ipcMain.on('maximize', maximize);
+
 	function load(event, arg) {
 		mainWindow.loadURL(global.webRoot + '/' + arg);
 	}
@@ -195,6 +205,25 @@ function launcherWindow(app, token) {
 		}
   ipcMain.on('install', install);
 
+	function msvc(event) {
+    if(require('os').type() != 'Windows_NT') {
+			return;
+		}
+
+		isInstalled([{ exe: 'msvc' }], null, function(err, versions) {
+			if(err) {
+				console.log('ERR', err);
+				return;
+			}
+			console.log(versions);
+
+			if(versions.length > 0) {
+				mainWindow.webContents.send('msvc', versions[0].version);
+			}
+		});
+	}
+	ipcMain.on('msvc', msvc);
+
 	function exit(event, arg) {
 		removeShortcuts();
 		mainWindow.destroy();
@@ -207,10 +236,12 @@ function launcherWindow(app, token) {
 		ipcMain.removeListener('folder', folder);
 		ipcMain.removeListener('shortcuts', shortcuts);
 		ipcMain.removeListener('minimize', minimize);
+		ipcMain.removeListener('maximize', maximize);
 		ipcMain.removeListener('load', load);
 		ipcMain.removeListener('absPath', absPath);
 		ipcMain.removeListener('sceneEditor', sceneEditor);
 		ipcMain.removeListener('install', install);
+		ipcMain.removeListener('msvc', msvc);
 		ipcMain.removeListener('exit', exit);
 		removeShortcuts();
 		console.log(LoginWindow);

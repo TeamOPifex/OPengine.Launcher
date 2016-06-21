@@ -235,6 +235,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
 
             var path = nodePath.resolve(global.root + "/repos/projects/" + safeName);
 
+            var fs = require('fs');
             require('rimraf')(path + '/.git', function() {
                 // Find CMakeLists.txt and replace YOURAPPNAME with clone.name
                 fs.readFile(path + '/CMakeLists.txt', 'utf8', function (err,data) {
@@ -257,7 +258,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
                      projectConfig.launchWindows = 'Debug/' + safeName + '.exe';
                      config.saveProject(path, projectConfig);
 
-                     git.init(path, function() {
+                     git.CLI.init(path, function() {
 
                          $scope.$digest();
                      });

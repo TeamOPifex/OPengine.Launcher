@@ -55,7 +55,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             this.repo = {
                 relative: global.root + '/repos/projects/' + this.path,
                 openFolder: function() {
-                    run.command('Open Folder', 'explorer', [ me.repo.absolute + '\\' ], 'C:\\');
+                    run.command('Open Folder', 'explorer', [ me.repo.absolute + '\\' ], 'C:\\', null, true);
                 },
                 openWith: function(program) {
                     spawn(program, [ me.repo.absolute ], {
@@ -83,7 +83,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             this.build = {
                 relative: global.root + '/build/' + this.path + '_build',
                 openFolder: function() {
-                    run.command('Open Folder', 'explorer', [ me.build.absolute + '\\' ], 'C:\\');
+                    run.command('Open Folder', 'explorer', [ me.build.absolute + '\\' ], 'C:\\', null, true);
                 },
                 openWith: function(program) {
                     spawn(program, [ me.build.absolute ], {
@@ -115,7 +115,8 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
             if(this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
 
                 // CMake OPengine
-                cmake.engine(this.config.engine.id, this.config, this.OS, function(err) {
+                config.saveEngine(this.config.engine.id, this.config, true);
+                cmake.engine(this.config.engine.id, this.config, this.OS, force, function(err) {
                     if(err) return;
 
                     // Build OPengine
@@ -134,7 +135,7 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
             } else {
                 // CMake the project
-                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, this.OS, function() {
+                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, this.OS, false, function() {
                     me.rebuild = false;
                     cb && cb();
                 });

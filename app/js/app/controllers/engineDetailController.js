@@ -21,8 +21,8 @@ function extension(name) {
     else return dots[dots.length - 1];
 }
 
-angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$routeParams', 'Engine', 'Terminal', 'system', 'OS', 'VisualStudio', 'console', '$rootScope', 'config', 'cmake', 'make', 'run', 'git', 'marketplace', 'CodeEditor',
-    function($scope, $routeParams, Engine, Terminal, system, OS, VisualStudio, appConsole, $rootScope, config, cmake, make, run, git, marketplace, CodeEditor) {
+angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$routeParams', 'Engine', 'Terminal', 'system', 'OS', 'VisualStudio', 'console', '$rootScope', 'config', 'cmake', 'make', 'run', 'git', 'marketplace', 'CodeEditor', 'engineReleases',
+    function($scope, $routeParams, Engine, Terminal, system, OS, VisualStudio, appConsole, $rootScope, config, cmake, make, run, git, marketplace, CodeEditor, engineReleases) {
         $scope.os = OS;
         $scope.engine = new Engine($routeParams.versionId, $scope.os, $scope);
         $scope.terminal = new Terminal($scope.engine, $scope);
@@ -39,9 +39,33 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
         };
         $scope.pinned = [ ];
 
+        $scope.updates = [  ];
+        engineReleases.all(function(err, releases) {
+          $scope.updates = [];
 
+          var engineVersion = $scope.engine.config.engine.version;
+          console.log(engineVersion);
 
-        $scope.openFolder = function() { $scope.terminal.CurrentPath.path.openFolder(); };
+          var semver = require('semver');
+          for(var i = 0; i < releases.length; i++) {
+            //if(semver.lt(engineVersion, releases[i].name)) {
+              $scope.updates.push(releases[i]);
+            //}
+          }
+
+          $scope.$digest();
+        });
+
+        $scope.updateTo = function(update) {
+          git.CLI.getCommit($scope.engine.repo.absolute, update.sha, function() {
+
+            $scope.$digest();
+          });
+        }
+
+        $scope.openFolder = function() { $scope.engine.repo.openFolder(); };
+        $scope.openBuildFolder = function() { $scope.engine.build.openFolder(); };
+
         $scope.openSLN = function() { $scope.engine.openSolution(); };
         $scope.openWith = function(program) { $scope.engine.repo.openWith(program); };
 

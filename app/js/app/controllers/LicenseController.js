@@ -66,7 +66,7 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
 
           $scope.subscribing = true;
 
-          Stripe.setPublishableKey('pk_test_QWqVKr9DSp6r9yFACBb9r22C');
+          Stripe.setPublishableKey('pk_live_XknMkJP1JCX82Ev7QcC0Hf3R');
           Stripe.card.createToken({
             number: $scope.cardNumber.split(' ').join(''),
             cvc: $scope.cvc,
@@ -74,7 +74,11 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
             exp_year: $scope.year,
             name: $scope.cardName
           }, function(err, cardToken) {
+
             console.log(err, cardToken);
+            if(err) {
+              alert(cardToken.error.message);
+            }
 
             $.ajax({
               url: 'http://api.opengine.io/api/v1/account/subscribe?token=' + window.localStorage['login-token'],
