@@ -123,6 +123,7 @@ function installWindow(app, token) {
 		function installProgram(event, file) {
 
 				//mainWindow.webContents.send('progress', file);
+				console.log(file);
 
 				var Spawn = require('child_process').spawn;
 				var Exec = require('child_process').exec;
@@ -131,17 +132,18 @@ function installWindow(app, token) {
 						if(err) {
 								return;
 						}
-						console.log('Launching: ', result.file, 'from: ', result.folder );
+						console.log('Launching: ', result.file + ' ' + file.args, 'from: ', result.folder );
 
 						mainWindow.webContents.send('finished', result);
 
 						switch(require('os').platform()) {
 							case 'win32': {
 								var args = '';
-								if(file.args && file.args.length > 0) {
-									args = files.args.join(' ');
+								if(file.windows && file.windows.x86_x64 && file.windows.x86_x64.args) {
+									args = file.windows.x86_x64.args.join(' ');
 								}
-								var child = Exec(result.file + args, { cwd: result.folder.split('/').join('\\') });
+								console.log(result.file + ' ' + args);
+								var child = Exec(result.file + ' ' + args, { cwd: result.folder.split('/').join('\\') });
 								child.on('close', function(code) {
 										mainWindow.webContents.send('install-closed');
 								});
