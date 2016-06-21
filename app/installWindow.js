@@ -122,7 +122,7 @@ function installWindow(app, token) {
 
 		function installProgram(event, file) {
 
-				mainWindow.webContents.send('progress', file);
+				//mainWindow.webContents.send('progress', file);
 
 				var Spawn = require('child_process').spawn;
 				var Exec = require('child_process').exec;
@@ -137,7 +137,11 @@ function installWindow(app, token) {
 
 						switch(require('os').platform()) {
 							case 'win32': {
-								var child = Exec(result.file, { cwd: result.folder.split('/').join('\\') });
+								var args = '';
+								if(file.args && file.args.length > 0) {
+									args = files.args.join(' ');
+								}
+								var child = Exec(result.file + args, { cwd: result.folder.split('/').join('\\') });
 								child.on('close', function(code) {
 										mainWindow.webContents.send('install-closed');
 								});

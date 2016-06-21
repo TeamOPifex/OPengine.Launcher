@@ -68,7 +68,7 @@ function launcherWindow(app, token) {
 
 		var config = LauncherConfig.config() || {};
 
-		if(!config.installed) {
+		if(!config.installed || true) {
 				InstallWindow(app, token);
 		}
 

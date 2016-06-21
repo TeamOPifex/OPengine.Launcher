@@ -260,17 +260,14 @@
               </td>
               <td width="92" style="padding-right: 0px;padding-bottom: 0px;">
                  <div class="btn-group">
-                   <button type="button" class="btn btn-primary" class="program-install">Install</button>
+                   <button type="button" class="btn btn-primary program-install">Install</button>
                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <span class="caret"></span>
                      <span class="sr-only">Toggle Dropdown</span>
                    </button>
                    <ul class="dropdown-menu">
                      <li>
-                       <a href="#" class="program-install">Install</a>
-                     </li>
-                     <li>
-                       <a href="#">Set .exe location</a>
+                       <a href="">Set .exe location (not working yet)</a>
                      </li>
                    </ul>
                  </div>
@@ -352,7 +349,8 @@
                 desc: 'Microsoft Visual Studio: <a data-href="https://www.visualstudio.com/products/free-developer-offers-vs" onclick="return externalLink(this)">http://visualstudio.com</a>',
       					windows: {
       						x86_x64: {
-      							file: 'vs_community_ENU.exe /InstallSelectableItems ProgrammingLanguages_Group',
+      							file: 'vs_community_ENU.exe',
+                    args: ['/InstallSelectableItems', 'ProgrammingLanguages_Group'],
       							url: 'http://go.microsoft.com/fwlink/?LinkID=626924&clcid=0x409'
       						}
       					}
@@ -383,6 +381,7 @@
               var allInstalled = true;
               for(var i = 0; i < installed.length; i++) {
                   var temp;
+                  installed[i].installed = false;
                   if(installed[i].installed) {
                       temp = $('#template-installed').clone();
                       temp.find('.program-version').text(installed[i].version);
