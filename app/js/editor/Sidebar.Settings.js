@@ -14,8 +14,6 @@ Sidebar.Settings = function ( editor ) {
 	// class
 
 	var options = {
-		'stylesheets/editor/light.css': 'light',
-		'stylesheets/editor/dark.css': 'dark',
 		'stylesheets/editor/opifex.css': 'opifex'
 	};
 
