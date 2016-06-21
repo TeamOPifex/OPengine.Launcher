@@ -381,7 +381,6 @@
               var allInstalled = true;
               for(var i = 0; i < installed.length; i++) {
                   var temp;
-                  installed[i].installed = false;
                   if(installed[i].installed) {
                       temp = $('#template-installed').clone();
                       temp.find('.program-version').text(installed[i].version);
