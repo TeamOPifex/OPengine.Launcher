@@ -18,7 +18,22 @@
           <a href="#/license">Get an OPengine subscription</a> and start selling your games.
           <div><i>Note that you do not need an active subscription unless you're selling your games.</i></div>
         </div>
+        <div ng-if="subscription != null">
+          <br />
+          <div class="subscription">
+            <p></p>
+            <p ng-if="!subscription.cancelled">Status: {{subscription.status}}</p>
+            <p ng-if="subscription.cancelled">Status: cancelled</p>
+            <p>Started: {{subscription.created}}</p>
+            <p ng-if="subscription.cancelled">Cancelled: {{subscription.cancelled}}</p>
+            <p>Period Started: {{subscription.current_period_start}}</p>
+            <p>Period Ends: {{subscription.current_period_end}}</p>
+            <p>Amount: ${{subscription.amount}}</p>
+            <p ng-if="!subscription.renew"><b>* Will not renew at the end of the period *</b></p>
+          </div>
+        </div>
       </div>
     </div>
+
 </div>
 </div>

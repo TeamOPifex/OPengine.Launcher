@@ -80,6 +80,21 @@ angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
 
         },
 
+        getCommit: function(path, sha, cb) {
+          this.pull(path, function(err) {
+            if(err) {
+              cb && cb(err);
+              return;
+            }
+              run.command('Get Release', 'git', ['reset', sha], path, function(err, data) {
+                  if(err) {
+                      alert(err);
+                  }
+                  cb && cb(err);
+              });
+          });
+        },
+
         branches: function(path, cb) {
             run.silent('Check for changes', 'git', ['branch', '-a'], path, function(err, data) {
 

@@ -135,6 +135,16 @@ function GetUpdatedUser() {
 		$('#minimize').click(function() {
 			ipc.send('minimize');
 		});
+		$('#maximize').click(function() {
+			ipc.send('maximize');
+		});
+
+
+		ipc.on('msvc', function(evt, result) {
+			if(!result) return;
+			window.localStorage.setItem('msvc', result.split('.')[0]);
+		});
+		ipc.send('msvc');
 
 		$scope.signout = function() {
 				user.OPifex = false;

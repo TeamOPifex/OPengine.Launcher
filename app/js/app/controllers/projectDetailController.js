@@ -33,7 +33,8 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
     		}, true);
 
         // Open the project
-        $scope.openFolder = function() { $scope.terminal.CurrentPath.path.openFolder(); };
+        $scope.openFolder = function() { $scope.project.repo.openFolder(); };
+        $scope.openBuildFolder = function() { $scope.project.build.openFolder(); };
         $scope.openSLN = function() { $scope.project.openSolution(); };
         $scope.openWith = function(program) { $scope.project.repo.openWith(program); };
 

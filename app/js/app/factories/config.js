@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("config",[ 'marketplace', function(marketplace) {
+angular.module('engineApp').factory("config",[ 'marketplace', 'VisualStudio', function(marketplace, VisualStudio) {
 	var fs = require('fs');
 
 	var configFactory = {
@@ -34,7 +34,9 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 		// Save the configuration for a project
 		saveProject: function(projectPath, config) {
 		    var configFilePath = projectPath + '/opifex.json';
-		    fs.writeFileSync(configFilePath, JSON.stringify(config));
+				var result = this.defaultConfig();
+				this.mergeConfig(result, config);
+		    fs.writeFileSync(configFilePath, JSON.stringify(result));
 		},
 
 		// Get the configuration for the current OPengine version
@@ -55,9 +57,11 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 				return configFactory.mergeConfig(baseConfig, config);
 		},
 		// Save the configuration for the current OPengine version
-		saveEngine: function(projectPath, config) {
+		saveEngine: function(projectPath, config, external) {
 		    var configFilePath = global.root + '/repos/OPengine/' + projectPath + '/opifex.json';
-		    fs.writeFileSync(configFilePath, JSON.stringify(config));
+				var result = this.defaultConfig();
+				this.mergeConfig(result, config);
+		    fs.writeFileSync(configFilePath, JSON.stringify(result));
 		},
 
 		// Get the configuration that was last used when building the engine
@@ -187,7 +191,6 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 			base.launchOSX = proj.launchOSX;
 			base.launchLinux = proj.launchLinux;
 			base.solution = proj.solution;
-			base.tools = proj.tools;
 
 			for(var i = 0; i < base.options.length; i++) {
 				for(var j = 0; j < proj.options.length; j++) {
@@ -240,7 +243,7 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 		defaultConfig: function() {
 			var tmp = {
 				engine: { version: null },
-				visualStudio: { name: 'Visual Studio 12 2013', id: 4 },
+				visualStudio: VisualStudio[4],
 				solution: null,
 				launch: null,
 				launchWindows: null,
@@ -252,6 +255,35 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 				targetSelectors: [],
 				addons: []
 			};
+
+			if(window.localStorage["msvc"]) {
+				switch(window.localStorage["msvc"]) {
+					case "14": {
+						tmp.visualStudio = VisualStudio[5];
+						break;
+					}
+					case "12": {
+						tmp.visualStudio = VisualStudio[4];
+						break;
+					}
+					case "11": {
+						tmp.visualStudio = VisualStudio[3];
+						break;
+					}
+					case "10": {
+						tmp.visualStudio = VisualStudio[2];
+						break;
+					}
+					case "7": {
+						tmp.visualStudio = VisualStudio[1];
+						break;
+					}
+					case "6": {
+						tmp.visualStudio = VisualStudio[0];
+						break;
+					}
+				}
+			}
 
 			var options = configFactory.defaultOptions();
 
@@ -274,10 +306,18 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 						break;
 					}
 					case 'optionSelector': {
+						// get initial value
+						var initial = options[i].options[0];
+						for(var j = 0; j < options[i].options.length; j++) {
+							if(options[i].options[j].initial) {
+								initial = options[i].options[j];
+								break;
+							}
+						}
 						tmp.optionSelectors.push({
 							id: options[i].id,
 							name: options[i].name,
-							value: options[i].options[0],
+							value: initial,
 							options: options[i].options
 						});
 						break;
@@ -364,7 +404,7 @@ angular.module('engineApp').factory("config",[ 'marketplace', function(marketpla
 					{ name: 'OpenGL', id: 'OPENGL_DESKTOP_TARGET', type: 'optionSelector',
 				        options: [
 							{ name: 'OpenGL 2.0', id: 'OPENGL_2_0' },
-				            { name: 'OpenGL 3.3', id: 'OPENGL_3_3' },
+				            { name: 'OpenGL 3.3', id: 'OPENGL_3_3', initial: true },
 							            { name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' }
 				        ]
 					},

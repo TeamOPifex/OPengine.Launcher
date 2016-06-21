@@ -4,14 +4,16 @@
 
         <div class="header">
           <div class="row">
-            <div class="col-xs-9 text-left">
+            <div class="col-xs-7 text-left">
               <div style="padding-top: 5px;">
-        			<div class="btn-group">
-        				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        					Open <span class="caret"></span>
-        				</a>
+        			<div class="btn-group btn-group-split">
+                <a ng-click="openSLN()" class="btn btn-primary"><span class="icon-folder-open"></span> Open Project </a>
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </a>
                 <ul class="dropdown-menu">
-                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</a></li>
+                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</div></li>
                   <li><a href="" ng-if="windows" ng-click="openSLN()">
                     <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
                   <li><a href="" ng-click="openWith('sublime')">
@@ -23,17 +25,51 @@
                   <li><a href="" ng-click="openBuildFolder()"><span class="icon-folder-2"></span> Build Folder</a></li>
                 </ul>
         			</div>
-        			<a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a>
-        			<a ng-click="make()" href="javascript:void();" class="btn btn-primary">Build</a>
-        			<a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run</a>
-        			<a ng-click="editor()" href="javascript:void();" class="btn btn-primary">Editor</a>
+              <div class="btn-group btn-group-split">
+                <a ng-click="cmake()" class="btn btn-primary"><span class="icon-cmake2">
+                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+              </span> Generate Project</a>
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="" ng-click="cmake(true)">Clean & Generate</a></li>
+                </ul>
+              </div>
+
+        			<!-- <a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a> -->
+        			<a ng-click="make()" href="javascript:void();" class="btn btn-primary"> <span class="icon-calculate"></span> Build</a>
+        			<a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run&nbsp;&nbsp;<span class="icon-play2"></span></a>
             </div>
           </div>
-          <div class="col-xs-3 text-right">
+          <div class="col-xs-5 text-right">
 
-        			<a href="javascript:void(0)" ng-click="toggleCode()"><span class="icon-equalizer"></a>
+              <div style="padding-top: 5px;">
+
+              <div class="btn-group" ng-if="updates.length > 0">
+                <a class="btn btn-updates dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Updates!
+                </a>
+                <ul class="dropdown-menu">
+                  <li ng-repeat="update in updates"><a ng-click="updateTo(update);" href="javascript:void();">Update to {{update.name}}</a></li>
+                </ul>
+              </div>
+
+            <div class="btn-group">
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="icon-hammer"></span> Tools
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a ng-click="editor()" href="javascript:void();">Scene Editor</a></li>
+              </ul>
+            </div>
+            <a ng-click="toggleCode()" href="javascript:void();" class="btn btn-primary"><span class="icon-equalizer"></span> Build Options</a>
 
                 </div>
+              </div>
             </div>
         				<!-- <div class="col-xs-9 text-left">
         						<div class="btn-group project-name">

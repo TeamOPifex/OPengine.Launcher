@@ -71,6 +71,21 @@ a {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+
+.icon-cmake2 .path1:before {
+    content: "\e92c";
+    color: rgb(204, 0, 0);
+}
+.icon-cmake2 .path2:before {
+    content: "\e92d";
+    margin-left: -1.01953125em;
+    color: rgb(115, 210, 22);
+}
+.icon-cmake2 .path3:before {
+    content: "\e92e";
+    margin-left: -1.01953125em;
+    color: rgb(52, 101, 164);
+}
 .icon-sublime-logo .path1:before {
     content: "\e925";
     color: rgb(255, 255, 255);
@@ -507,8 +522,17 @@ a {
 .icon-gamepad2:before {
     content: "\e91a";
 }
+.icon-calculate:before {
+    content: "\e937";
+}
 .icon-forbid:before {
     content: "\e923";
+}
+.icon-device-desktop:before {
+    content: "\f27c";
+}
+.icon-device-mobile:before {
+    content: "\f038";
 }
 .icon-mark-github:before {
     content: "\f00a";
@@ -522,6 +546,15 @@ a {
 .icon-octoface:before {
     content: "\f008";
 }
+.icon-package:before {
+    content: "\f0c4";
+}
+.icon-rocket2:before {
+    content: "\f033";
+}
+.icon-sign-out:before {
+    content: "\f032";
+}
 .icon-tools:before {
     content: "\f031";
 }
@@ -530,6 +563,9 @@ a {
 }
 .icon-books:before {
     content: "\e91c";
+}
+.icon-folder-open2:before {
+    content: "\e938";
 }
 .icon-ticket:before {
     content: "\e91d";
@@ -563,6 +599,12 @@ a {
 }
 .icon-check-square-o:before {
     content: "\f046";
+}
+.icon-play2:before {
+    content: "\f04b";
+}
+.icon-stop:before {
+    content: "\f04d";
 }
 .icon-plus-circle:before {
     content: "\f055";
@@ -630,6 +672,9 @@ a {
 .icon-bell-o:before {
     content: "\f0a2";
 }
+.icon-wrench:before {
+    content: "\f0ad";
+}
 .icon-caret-down:before {
     content: "\f0d7";
 }
@@ -671,6 +716,9 @@ a {
 }
 .icon-circle:before {
     content: "\f111";
+}
+.icon-folder-open-o:before {
+    content: "\f115";
 }
 .icon-gamepad:before {
     content: "\f11b";
@@ -717,12 +765,26 @@ a {
 .icon-shopping-basket:before {
     content: "\f291";
 }
+.icon-blur_linear:before {
+    content: "\e3a3";
+}
+.icon-call_made:before {
+    content: "\e0b2";
+}
 .icon-close2:before {
     content: "\e5cd";
+}
+.icon-photo_filter:before {
+    content: "\e43b";
+}
+.icon-play_arrow:before {
+    content: "\e037";
 }
 .icon-school:before {
     content: "\e80c";
 }
+
+
 
 
 
@@ -767,6 +829,10 @@ body {
 a {
     text-decoration: none;
     color: @highlight-color;
+    cursor: pointer;
+}
+a:hover {
+  color: @highlight-color;
 }
 
 .container {
@@ -822,7 +888,7 @@ h2 {
 
 .btn-group {
     .btn {
-        line-height: 1.1;
+        // line-height: 1.1;
         span.header {
             font-family: 'OpenSansBold';
             font-size: 18px;
@@ -831,8 +897,8 @@ h2 {
             font-family: 'OpenSansRegular';
             font-size: 12px;
         }
-        padding: 4px 12px;
-        height: 45px;
+        // padding: 4px 12px;
+        // height: 45px;
     }
     .btn:focus {
         background-color: @active-dark-color !important;
@@ -1311,11 +1377,18 @@ h2 {
   overflow: auto;
   overflow-x: hidden;
     a {
-        color: @highlight-color;
+        //color: @highlight-color;
+        color: lighten(@secondary-color, 40%);
+        [class^="icon-"], [class*=" icon-"] {
+          color: @highlight-color;
+        }
     }
     a:hover {
         text-decoration: none;
-        color: @secondary-color;
+        color: lighten(@secondary-color, 20%);
+    }
+    a.btn {
+      color: @highlight-color;
     }
 }
 
@@ -1343,27 +1416,55 @@ h2 {
         margin-top: -4px;
     }
     a.btn:hover, button.btn:hover {
-      border: 1px solid #7c9d6a;
-      color: #7c9d6a;
-    }
-    a.btn.dropdown-toggle {
-        height: 27px;
-        margin: 1px;
-        margin-top: -4px;
-        padding: 6px 16px;
+      //border: 1px solid #7c9d6a;
+      //color: #7c9d6a;
+      background-color: @secondary-color;
     }
 
-    .project-name {
-        a.btn.dropdown-toggle {
-            padding: 6px 17px;
-            border: 0px solid #7c9d6a;
-            color: #fff;
-            font-size: 14px;
-        }
-        a.btn.dropdown-toggle:active, a.btn.dropdown-toggle:hover {
-            background-color: transparent;
-        }
+    a.btn-danger {
+      color: #f00;
+      border: 1px solid #f00;
     }
+
+    a.btn-updates {
+      color: @active-color;
+      border: 2px solid @active-color;
+      background-color: #fff;
+    }
+
+    a.btn-updates:hover {
+        background-color: @active-color;
+        color: #fff;
+      }
+
+    .btn-group-split {
+        a.btn {
+          margin-right: 0px;
+        }
+        a.btn.dropdown-toggle {
+          margin-left: 0px;
+          border-left: 0px;
+          padding: 4px 10px;
+        }
+      }
+    // a.btn.dropdown-toggle {
+    //     height: 27px;
+    //     margin: 1px;
+    //     margin-top: -4px;
+    //     padding: 6px 16px;
+    // }
+
+    // .project-name {
+    //     a.btn.dropdown-toggle {
+    //         padding: 6px 17px;
+    //         border: 0px solid #7c9d6a;
+    //         color: #fff;
+    //         font-size: 14px;
+    //     }
+    //     a.btn.dropdown-toggle:active, a.btn.dropdown-toggle:hover {
+    //         background-color: transparent;
+    //     }
+    // }
 
     ul.dropdown-menu {
         padding: 0px;
@@ -1804,7 +1905,8 @@ a:hover, a:focus, a:active {
   background-color: @primary-color;
   z-index: 800;
   text-align: left;
-  padding-left: 22px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 ol.codetree {
     width: 100%;
@@ -1981,6 +2083,9 @@ body.main {
                 overflow: hidden;
             }
 
+        }
+        .btn-primary:hover {
+          background-color: @secondary-color;
         }
 
         .btn {

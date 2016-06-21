@@ -1,28 +1,15 @@
 <div class="header">
     <div class="row">
-        <div class="col-xs-9 text-left">
+        <div class="col-xs-7 text-left">
           <div style="padding-top: 5px;">
-
-            <!-- <a href="javascript:void();" ng-click="toggleSideBar()">
-                <span style="position: relative; top: 2px;" class="icon-list"></span></a>
-            <div class="btn-group project-name">
-              <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{project.path}} <span ng-if="project.repo.git.changes > 0">*</span> <span class="caret"></span>
+            <div class="btn-group btn-group-split">
+              <a ng-click="openSLN()" class="btn btn-primary"><span class="icon-folder-open"></span> Open Project </a>
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
               </a>
               <ul class="dropdown-menu">
-                  <li ng-if="project.repo.git.changes > 0"><a href="javascript:void(0);" ng-click="pull()">Pull Changes ({{project.repo.git.changes}})</a></li>
-                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">local</a></li>
-                  <li ng-repeat="branch in project.repo.git.localBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
-                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">remote</a></li>
-                  <li ng-repeat="branch in project.repo.git.remoteBranches"><a href="" ng-click="checkout(branch)"><span ng-if="branch.active">*</span>{{branch.name}}</a></li>
-              </ul>
-            </div> -->
-            <div class="btn-group">
-              <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Open <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</a></li>
+                <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</div></li>
                 <li><a href="" ng-if="windows" ng-click="openSLN()">
                   <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
                 <li><a href="" ng-click="openWith('sublime')">
@@ -34,27 +21,43 @@
                 <li><a href="" ng-click="openBuildFolder()"><span class="icon-folder-2"></span> Build Folder</a></li>
               </ul>
             </div>
-            <a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a>
-            <a ng-click="make()" href="javascript:void();" class="btn btn-primary">Build</a>
-            <a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run</a>
-            <a ng-click="editor()" href="javascript:void();" class="btn btn-primary">Editor</a>
-                            </div>
-        </div>
-        <div class="col-xs-3 text-right">
-            <!-- <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></a>
-            <a href="#/bug"><span class="icon-bug"></a>
-            <a href="#/message"><span class="icon-message-2"></a> -->
-            <!-- <a href="#/library/project/settings/{{project.name}}"><span class="icon-gear"></span></a> -->
-      			<a href="javascript:void(0)" ng-click="showSettingsFn()"><span class="icon-gear"></a>
-      			<a href="javascript:void(0)" ng-click="showOptionsFn()"><span class="icon-equalizer"></a>
+            <div class="btn-group btn-group-split">
+              <a ng-click="cmake()" class="btn btn-primary"><span class="icon-cmake2">
+              <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+            </span> Generate Project</a>
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="" ng-click="cmake(true)">Clean & Generate</a></li>
+              </ul>
+            </div>
 
-            <!-- <a href="" id="toggle-menu" class="navbar-toggle" onclick="$('#bs-navbar').toggle();">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a> -->
+            <!-- <a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a> -->
+            <a ng-click="make()" href="javascript:void();" class="btn btn-primary"> <span class="icon-calculate"></span> Build</a>
+            <a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run&nbsp;&nbsp;<span class="icon-play2"></span></a>
+
+          </div>
         </div>
+        <div class="col-xs-5 text-right">
+                      <div style="padding-top: 5px;">
+                    <div class="btn-group">
+                      <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="icon-hammer"></span> Tools
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a ng-click="editor()" href="javascript:void();">Scene Editor</a></li>
+                      </ul>
+                    </div>
+
+                    <a ng-click="showSettingsFn()" href="javascript:void();" class="btn btn-primary"><span class="icon-gear"></span> Project Settings</a>
+                    <a ng-click="showOptionsFn()" href="javascript:void();" class="btn btn-primary"><span class="icon-equalizer"></span> Build Options</a>
+
+        </div>
+    </div>
 
     </div>
 </div>
