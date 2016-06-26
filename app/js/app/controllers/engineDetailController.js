@@ -48,9 +48,9 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
 
           var semver = require('semver');
           for(var i = 0; i < releases.length; i++) {
-            //if(semver.lt(engineVersion, releases[i].name)) {
+            if(semver.lt(engineVersion, releases[i].name)) {
               $scope.updates.push(releases[i]);
-            //}
+            }
           }
 
           $scope.$digest();

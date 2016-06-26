@@ -1468,12 +1468,25 @@ h2 {
 
     ul.dropdown-menu {
         padding: 0px;
+        background-color: @primary-color;
+        color: #fff;
+        .with {
+          margin: 5px;
+          color: #ccc;
+          font-size: 8px;
+          padding: 0px;
+          margin-bottom: 0px;
+        }
         li a {
           font-size: 14px;
           margin: 0;
           padding: 10px;
           padding-left: 10px;
           width: 100%;
+          color: #fff;
+        }
+        li a:hover {
+          background-color: @secondary-color;
         }
     }
 }
