@@ -1,0 +1,15 @@
+<div>
+  <a alt="New File" ng-click="newFile()" class="helper-button"><span class="icon-add"></span></a>
+  <a ng-click="helperCMake()" alt="Generate Project" class="helper-button" ng-class="{ 'running': cmakeRunning, 'error': cmakeRunningErr }">
+    <img class="logo-icon rotating" src="content/imgs/OPengineLogoWhite.png" alt="..." style="width: 100%; height: 100%" />
+    <span class="icon-cmake2">
+  <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+</span></a>
+  <a ng-click="helperMake()" alt="Build Project" class="helper-button" ng-class="{ 'running': making, 'error': makingErr }">
+    <img class="logo-icon rotating" src="content/imgs/OPengineLogoWhite.png" alt="..." style="width: 100%; height: 100%" />
+    <span class="icon-calculate"></span></a>
+  <a ng-click="helperRun()" alt="Run Project" class="helper-button" ng-class="{ 'running': running, 'error': runningErr }">
+    <img class="logo-icon rotating" src="content/imgs/OPengineLogoWhite.png" alt="..." style="width: 100%; height: 100%" />
+    <span class="icon-play2"></span>
+  </a>
+</div>

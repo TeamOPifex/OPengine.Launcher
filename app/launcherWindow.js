@@ -4,6 +4,7 @@ import DevHelper from './vendor/electron_boilerplate/dev_helper';
 import MenuBuilder from './menuBuilder.js';
 import LoginWindow from './loginWindow.js';
 import InstallWindow from './installWindow.js';
+import ProjectHelperWindow from './projectHelperWindow.js';
 import Download from './download-file.js';
 import SceneEditorWindow from './sceneEditorWindow.js';
 import LauncherConfig from './launcher-config.js';
@@ -71,6 +72,7 @@ function launcherWindow(app, token) {
 		if(!config.installed) {
 				InstallWindow(app, token);
 		}
+
 
 	// Helper function for using the ipcMain stuff with shortcut keys
 	function ipcMainMethod(m) {
@@ -230,6 +232,15 @@ function launcherWindow(app, token) {
 	}
 	ipcMain.on('exit', exit);
 
+	function projectHelperToolFn(event, arg) {
+			ProjectHelperWindow(app, arg, true);
+
+	}
+	function engineHelperToolFn(event, arg) {
+			ProjectHelperWindow(app, arg, false);
+	}
+	ipcMain.on('project-helper-tool', projectHelperToolFn);
+	ipcMain.on('engine-helper-tool', engineHelperToolFn);
 
 	function signout() {
 		ipcMain.removeListener('signout', signout);
@@ -242,6 +253,8 @@ function launcherWindow(app, token) {
 		ipcMain.removeListener('sceneEditor', sceneEditor);
 		ipcMain.removeListener('install', install);
 		ipcMain.removeListener('msvc', msvc);
+		ipcMain.removeListener('project-helper-tool', projectHelperToolFn);
+		ipcMain.removeListener('engine-helper-tool', engineHelperToolFn);
 		ipcMain.removeListener('exit', exit);
 		removeShortcuts();
 		console.log(LoginWindow);

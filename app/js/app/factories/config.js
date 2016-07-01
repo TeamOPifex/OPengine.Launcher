@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("config",[ 'marketplace', 'VisualStudio', function(marketplace, VisualStudio) {
+angular.module('launcherFactories').factory("config",[ 'marketplace', 'VisualStudio', function(marketplace, VisualStudio) {
 	var fs = require('fs');
 
 	var configFactory = {

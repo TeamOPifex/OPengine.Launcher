@@ -73,6 +73,10 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
           ipc.send('sceneEditor', 'OPengine', $scope.engine.repo.absolute);
         }
 
+        $scope.helperTool = function() {
+          ipc.send('engine-helper-tool', $scope.engine.path);
+        }
+
         // On KeyBind events coming from the underlining application
         ipc.on('build', function() { $scope.make(); });
         ipc.on('forceBuild', function() { $scope.make(true); });

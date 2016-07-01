@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'console', 'cmake', 'make', 'engines', function(config, run, git, appConsole, cmake, make, engines) {
+angular.module('launcherFactories').factory("Project", [ 'config', 'run', 'git', 'console', 'cmake', 'make', 'engines', function(config, run, git, appConsole, cmake, make, engines) {
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
     var open = require('open');
@@ -117,27 +117,33 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                 // CMake OPengine
                 config.saveEngine(this.config.engine.id, this.config, true);
                 cmake.engine(this.config.engine.id, this.config, this.OS, force, function(err) {
-                    if(err) return;
+                    if(err) {
+                      cb && cb(true);
+                      return;
+                    }
 
                     // Build OPengine
                     make.engine(me.config.engine.id, me.config, function(err) {
-                        if(err) return;
+                        if(err) {
+                          cb && cb(true);
+                          return;
+                        }
 
                         // Save config as the latest build config
                         config.saveBuildConfig(me.config.engine, me.config);
 
                         // Finally, CMake the project
-                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, me.OS, function() {
-                            cb && cb();
+                        cmake.project(me.repo.relative, me.path, me.config.engine, me.config, me.OS, function(err) {
+                            cb && cb(err);
                         });
                     });
                 });
 
             } else {
                 // CMake the project
-                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, this.OS, false, function() {
+                cmake.project(this.repo.relative, this.path, this.config.engine, this.config, this.OS, false, function(err) {
                     me.rebuild = false;
-                    cb && cb();
+                    cb && cb(err);
                 });
             }
         },
@@ -147,7 +153,11 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
 
             var lastBuildConfig = config.getBuildConfig(this.config.engine);
             if(this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
-                this.cmake(force, function() {
+                this.cmake(force, function(err) {
+                    if(err) {
+                      cb && cb(true);
+                      return;
+                    }
                     make.project(me.path, me.config, cb);
                 });
             } else {
@@ -195,7 +205,12 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                         var proc = new $.Deferred();
                         promise.then(function() {
                             appConsole.task = 'run ' + cmds[i];
-                            RUN(cmds[i], function() {
+                            RUN(cmds[i], function(err) {
+                              console.log(err);
+                                if(err) {
+                                  cb && cb(true);
+                                  return;
+                                }
                                 proc.resolve();
                             });
                         });
@@ -203,7 +218,12 @@ angular.module('engineApp').factory("Project", [ 'config', 'run', 'git', 'consol
                     } else {
                         var proc = new $.Deferred();
                         appConsole.task = 'run ' + cmds[i];
-                        RUN(cmds[i], function() {
+                        RUN(cmds[i], function(err) {
+                          console.log(err);
+                            if(err) {
+                              cb && cb(true);
+                              return;
+                            }
                             proc.resolve();
                         });
                         promise = proc.promise();

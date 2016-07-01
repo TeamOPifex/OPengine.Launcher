@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("OS", function() {
+angular.module('launcherFactories').factory("OS", function() {
     var result = {
         name: 'Operating System',
         id: 'OPIFEX_OS',

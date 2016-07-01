@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console', 'cmake', 'make', function(config, run, git, appConsole, cmake, make) {
+angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 'console', 'cmake', 'make', function(config, run, git, appConsole, cmake, make) {
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
     var open = require('open');
@@ -95,7 +95,10 @@ angular.module('engineApp').factory("Engine", [ 'config', 'run', 'git', 'console
         make: function(force, cb) {
             var me = this;
             make.engine(this.path, this.config, function(err) {
-                if(err) return;
+                if(err) {
+                  cb && cb(err);
+                  return;
+                }
 
                 config.saveBuildConfig({ id: me.path }, me.config);
                 cb && cb();

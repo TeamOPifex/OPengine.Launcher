@@ -1,6 +1,6 @@
 var mkdirp = require('mkdirp');
 var nodePath = require('path');
-angular.module('engineApp').factory("git", ['user', 'run', function(user, run){
+angular.module('launcherFactories').factory("git", ['user', 'run', function(user, run){
     var opts = {
       remoteCallbacks: {
         credentials: function() {

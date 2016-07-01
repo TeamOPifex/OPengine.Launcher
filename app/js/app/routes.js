@@ -1,5 +1,4 @@
-var engineApp = angular.module('engineApp');
-engineApp.config(['$routeProvider',
+angular.module('engineApp').config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/login', {

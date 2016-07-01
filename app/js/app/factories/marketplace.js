@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("marketplace",function(){
+angular.module('launcherFactories').factory("marketplace",function(){
 
     var root = require('os').homedir() + '/.opengine';
     window.localStorage.setItem('oproot', root);

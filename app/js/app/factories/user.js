@@ -1,3 +1,3 @@
-angular.module('engineApp').factory("user",function(){
+angular.module('launcherFactories').factory("user",function(){
     return {};
 });

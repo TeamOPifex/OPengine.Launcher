@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("engineReleases",[ 'user', function(user){
+angular.module('launcherFactories').factory("engineReleases",[ 'user', function(user){
 	return {
 		all: function(cb) {
 			//console.log('GET RELEASES');

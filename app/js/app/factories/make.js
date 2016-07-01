@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("make",['console', 'run', '$rootScope', 'config', function(appConsole, run, $rootScope, configuration){
+angular.module('launcherFactories').factory("make",['console', 'run', '$rootScope', 'config', function(appConsole, run, $rootScope, configuration){
 
     var spawn = require('child_process').spawn;
 

@@ -195,10 +195,8 @@
                         {{console.task}}
                         <a href="javascript:void(0)" ng-click="toggleConsole()" style="position: absolute; right: 12px;"><span class="icon-close"></span></a>
                     </div>
-                    <div class="console text-left" ng-if="console.display">
-                        <div class="line" ng-repeat="line in console.lines track by $index">
-                            <span ng-class="{ error: line.type == 2, success: line.type == 3 }">{{line.text}}</span>
-                        </div>
+                    <div class="console text-left" ng-show="console.display">
+
                     </div>
 
                     <div ng-view style="display:block;"> </div>

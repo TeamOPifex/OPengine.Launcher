@@ -1,0 +1,128 @@
+@secondary-color: #466674;
+@primary-color: #344c58;
+@active-color: #7c9d6a;
+@active-dark-color: #6c8d5a;
+@highlight-color: #ffffff;
+@danger-color: #c13333;
+@opifex-blue-color: #2abade;
+
+@toolbar-height: 20px;
+
+html, body {
+  border-radius: 3px;
+  background-color: transparent;
+}
+
+.content-container {
+  background-color: @primary-color;
+  width: 100%;
+  height: 100%;
+}
+.project-helper {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+
+  .toolbar {
+    height: @toolbar-height;
+
+    .tabs {
+      .tab {
+        height: @toolbar-height - 3px;
+        margin-top: 0px;
+        -webkit-app-region: drag;
+        .tab-state, .tab-seperator {
+          display: none;
+        }
+        .tab-text {
+          height:@toolbar-height - 6px;
+          padding: 0px 10px;
+          font-size: 12px;
+          -webkit-app-region: drag;
+        }
+      }
+      .tabbed-side-left {
+        height: @toolbar-height - 1px;
+        width: 10px;
+        border-top: 0px;
+        .tabbed-left-contain {
+          height: @toolbar-height - 1px;
+          .tabbed-side-left-bg {
+            top: @toolbar-height - 2px;
+            right: -9px;
+          }
+        }
+      }
+    }
+    .window {
+      height: @toolbar-height;
+    }
+    .window-side-right-bg {
+      height: @toolbar-height - 1px;
+      width: 70px;
+      .tabbed-right-contain {
+        height: @toolbar-height - 4px;
+        .tabbed-side-right-bg {
+          top: @toolbar-height - 6px;
+          right: -156px;
+        }
+      }
+    }
+    .toolbar-bg-bottom {
+      top: 10px;
+    }
+    .window-minimize {
+      height: 20px;
+      width: 21px;
+      font-size: 9px;
+    }
+    .window-close {
+      height: @toolbar-height;
+      width: 30px;
+      font-size: 14px;
+    }
+  }
+
+  .helper-button {
+    float:left;
+    padding: 8px;
+    margin: 10px;
+    width: 38px;
+    border: 1px solid #fff;
+    cursor: pointer;
+    text-align: center;
+    -webkit-app-region: no-drag;
+    span {
+      cursor: pointer;
+    }
+    img {
+      display:none;
+    }
+  }
+  a.helper-button:hover {
+    background-color: @secondary-color;
+  }
+  a.helper-button:focus {
+    color: #fff;
+  }
+  a.helper-button.running {
+    padding: 3px;
+    img {
+      display:block;
+    }
+    span {
+      display: none;
+    }
+  }
+  a.helper-button.error {
+    padding: 6px;
+    border: 3px solid #f00;
+  }
+  .rotating {
+    -webkit-animation: rotating 15s linear infinite;
+    -moz-animation: rotating 15s linear infinite;
+    -ms-animation: rotating 15s linear infinite;
+    -o-animation: rotating 15s linear infinite;
+    animation: rotating 15s linear infinite;
+  }
+}
