@@ -6,7 +6,7 @@ var Editor = function () {
 
 	this.DEFAULT_CAMERA = new THREE.PerspectiveCamera( 50, 1, 0.1, 10000 );
 	this.DEFAULT_CAMERA.name = 'Camera';
-	this.DEFAULT_CAMERA.position.set( 20, 10, 20 );
+	this.DEFAULT_CAMERA.position.set( -20, 10, 20 );
 	this.DEFAULT_CAMERA.lookAt( new THREE.Vector3() );
 
 	var Signal = signals.Signal;
@@ -434,7 +434,7 @@ Editor.prototype = {
 		var light = new THREE.DirectionalLight( color, intensity );
 		light.name = 'Default DirectionalLight';
 		light.target.name = 'Default DirectionalLight Target';
-		light.position.set( 5, 10, 7.5 );
+		light.position.set( -5, 10, 7.5 );
 		editor.execute( new AddObjectCommand( light ) );
 
 		// Add a default ambient light

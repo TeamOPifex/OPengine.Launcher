@@ -42,60 +42,64 @@ Menubar.File = function ( editor ) {
 	option.setClass( 'option' );
 	option.setTextContent( 'Save' );
 	option.onClick( function () {
-        editor.storage.set( editor.toJSON() );
+		if(window.activeScene != undefined && window.activeScene != null) {
+				var exporter = new OPIFEX.OPsceneExporter(editor);
+				exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + window.activeScene);
+		}
+        //editor.storage.set( editor.toJSON() );
 	} );
 	options.add( option );
 
 	// Export Scene
-
-	var option = new UI.Row();
-	option.setClass( 'option' );
-	option.setTextContent( 'Save Scene' );
-	option.onClick( function () {
-
-		var output = editor.scene.toJSON();
-
-		try {
-
-			output = JSON.stringify( output, null, '\t' );
-			output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
-
-		} catch ( e ) {
-
-			output = JSON.stringify( output );
-
-		}
-
-		saveString( output, 'scene.json' );
-
-	} );
-	options.add( option );
-
-	options.add( new UI.HorizontalRule() );
+	//
+	// var option = new UI.Row();
+	// option.setClass( 'option' );
+	// option.setTextContent( 'Save Scene' );
+	// option.onClick( function () {
+	//
+	// 	var output = editor.scene.toJSON();
+	//
+	// 	try {
+	//
+	// 		output = JSON.stringify( output, null, '\t' );
+	// 		output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
+	//
+	// 	} catch ( e ) {
+	//
+	// 		output = JSON.stringify( output );
+	//
+	// 	}
+	//
+	// 	saveString( output, 'scene.json' );
+	//
+	// } );
+	// options.add( option );
+	//
+	// options.add( new UI.HorizontalRule() );
 
 	// Import
 
-	var fileInput = document.createElement( 'input' );
-	fileInput.type = 'file';
-	fileInput.addEventListener( 'change', function ( event ) {
-
-		editor.loader.loadFile( fileInput.files[ 0 ] );
-
-	} );
-
-	var option = new UI.Row();
-	option.setClass( 'option' );
-	option.setTextContent( 'Import' );
-	option.onClick( function () {
-
-		fileInput.click();
-
-	} );
-	options.add( option );
-
+	// var fileInput = document.createElement( 'input' );
+	// fileInput.type = 'file';
+	// fileInput.addEventListener( 'change', function ( event ) {
 	//
-
-	options.add( new UI.HorizontalRule() );
+	// 	editor.loader.loadFile( fileInput.files[ 0 ] );
+	//
+	// } );
+	//
+	// var option = new UI.Row();
+	// option.setClass( 'option' );
+	// option.setTextContent( 'Import' );
+	// option.onClick( function () {
+	//
+	// 	fileInput.click();
+	//
+	// } );
+	// options.add( option );
+	//
+	// //
+	//
+	// options.add( new UI.HorizontalRule() );
 
 	// Export Geometry
     //
@@ -176,18 +180,18 @@ Menubar.File = function ( editor ) {
 
     // Export Set in Stone scene
 
-    var option = new UI.Panel();
-	option.setClass( 'option' );
-	option.setTextContent( 'Export Set in Stone Scene' );
-	option.onClick( function () {
-
-		// var exporter = new OPIFEX.SetInStoneExporter(editor);
-        //
-		// exportString( exporter.output, 'scene.js' );
-        var exporter = new OPIFEX.OPsceneExporter(editor);
-				exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + 'scene.opscene');
-	} );
-	options.add( option );
+  //   var option = new UI.Panel();
+	// option.setClass( 'option' );
+	// option.setTextContent( 'Export Set in Stone Scene' );
+	// option.onClick( function () {
+	//
+	// 	// var exporter = new OPIFEX.SetInStoneExporter(editor);
+  //       //
+	// 	// exportString( exporter.output, 'scene.js' );
+  //       var exporter = new OPIFEX.OPsceneExporter(editor);
+	// 			exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + 'scene.opscene');
+	// } );
+	// options.add( option );
 
 	// Export OBJ
 

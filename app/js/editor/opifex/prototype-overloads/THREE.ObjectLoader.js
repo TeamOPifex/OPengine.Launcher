@@ -258,6 +258,7 @@ THREE.ObjectLoader.prototype.parseObject = function(data, geometries, materials)
 			if ( data.visible !== undefined ) object.visible = data.visible;
 			if ( data.userData !== undefined ) object.userData = data.userData;
 			if ( data.gameType !== undefined ) object.gameType = data.gameType;
+      else object.gameType = ' ';
 
 			if ( data.children !== undefined ) {
 

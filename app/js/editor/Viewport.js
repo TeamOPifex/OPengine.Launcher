@@ -39,6 +39,7 @@ var Viewport = function ( editor ) {
 	var objectScaleOnDown = null;
 
 	var transformControls = new THREE.TransformControls( camera, container.dom );
+	transformControls.setTranslationSnap( 0.5 );
 	transformControls.addEventListener( 'change', function () {
 
 		var object = transformControls.object;
@@ -162,23 +163,43 @@ var Viewport = function ( editor ) {
 		if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) {
 
 			var intersects = getIntersects( onUpPosition, objects );
-
 			if ( intersects.length > 0 ) {
 
-				var object = intersects[ 0 ].object;
 
-				if ( object.userData.object !== undefined ) {
+				for(var i = 0; i < intersects.length; i++) {
 
-					// helper
+					var object = intersects[ i ].object;
 
-					editor.select( object.userData.object );
-					selected = object.userData.object;
+					if(!object.visible) continue;
 
-				} else {
+					var parent = object;
+					var parentInvisible = false;
+					while(parent != null) {
+						if(!parent.visible) {
+							parentInvisible = true;
+							break;
+						}
+						parent = parent.parent;
+					}
+					if(parentInvisible) {
+						continue;
+					}
 
-					editor.select( object );
-					selected = object;
+					if ( object.userData.object !== undefined ) {
 
+						// helper
+
+						editor.select( object.userData.object );
+						selected = object.userData.object;
+
+					} else {
+
+						editor.select( object );
+						selected = object;
+
+					}
+
+					break;
 				}
 
 			} else {

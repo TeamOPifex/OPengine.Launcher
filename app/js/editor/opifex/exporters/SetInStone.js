@@ -32,7 +32,7 @@ function SetInStoneExporter(editor) {
         			}
         		}
 
-                ProcessChildren(m.children);
+            ProcessChildren(m.children);
 
         		output.models.push(obj);
         	} else if(m.type == "Mesh" && m.userData.gameType == 'Static Triangle') {

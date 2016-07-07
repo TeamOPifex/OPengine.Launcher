@@ -28,8 +28,28 @@ OPsceneExporter.prototype = {
                     gameType: m.gameType
                 };
 
-                if(m.material && m.material.map) {
-                    obj.texture = m.material.map.sourceFile
+                if(m.material) {
+                  obj.material = {
+                    transparent: m.material.transparent,
+                    opacity: m.material.opacity,
+                    wireframe: m.material.wireframe
+                  };
+
+                  if(m.material.color) {
+                    obj.material.color = [ m.material.color.r, m.material.color.g, m.material.color.b ];
+                  }
+
+                  if(m.material.map) {
+                      obj.material.texture = m.material.map.sourceFile
+                  }
+                }
+
+                var scripts = editor.scripts[m.uuid];
+                if(scripts) {
+                  obj.scripts = {};
+                  for(var j = 0; j < scripts.length; j++) {
+                    obj.scripts[scripts[j].name] = scripts[j].source;
+                  }
                 }
 
                 if(m.gameType == 'Bounding Box') {

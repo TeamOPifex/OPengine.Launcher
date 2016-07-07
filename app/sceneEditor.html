@@ -421,6 +421,18 @@
 									exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + window.activeScene);
               }
               break;
+          case 68:
+						if(event.ctrlKey) {
+							var object = editor.selected;
+
+							if ( object.parent === null ) return; // avoid cloning the camera or scene
+
+							object = object.clone();
+							object.gameType = editor.selected.gameType;
+
+							editor.execute( new AddObjectCommand( object ) );
+						}
+						break;
 
 					case 46: // Register R for scaling transform mode
 
@@ -440,7 +452,7 @@
 							editor.signals.snapChanged.dispatch(true);
               break;
 					default:
-						//console.log(event);
+						console.log(event);
 						break;
 				}
 

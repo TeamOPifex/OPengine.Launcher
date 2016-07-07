@@ -94,6 +94,7 @@ Menubar.Edit = function ( editor ) {
 		if ( object.parent === null ) return; // avoid cloning the camera or scene
 
 		object = object.clone();
+		object.gameType = editor.selected.gameType;
 
 		editor.execute( new AddObjectCommand( object ) );
 
