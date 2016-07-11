@@ -35,6 +35,7 @@ var Menubar = function ( editor ) {
 		mesh.material.color.g = 0.4666666666666667;
 		mesh.material.color.b = 1.0;
 		mesh.material.transparent = true;
+		mesh.material.wireframe = true;
 		mesh.material.opacity = 0.5;
 		mesh.gameType = 'BoundingBox';
 		editor.selected.children.push(mesh);

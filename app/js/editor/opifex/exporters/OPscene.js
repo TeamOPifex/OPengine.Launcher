@@ -20,6 +20,7 @@ OPsceneExporter.prototype = {
 
                 var obj = {
                     name: m.name,
+                    opm: m.opm,
                     type: 'MESH',
                     position: [ m.position.x, m.position.y, m.position.z ],
                     scale: [ m.scale.x, m.scale.y, m.scale.z ],
@@ -27,6 +28,16 @@ OPsceneExporter.prototype = {
                     children: [],
                     gameType: m.gameType
                 };
+
+                m.geometry.computeBoundingBox();
+                obj.boundingBox = {
+                  min: [ m.geometry.boundingBox.min.x, m.geometry.boundingBox.min.y, m.geometry.boundingBox.min.z ],
+                  max: [ m.geometry.boundingBox.max.x, m.geometry.boundingBox.max.y, m.geometry.boundingBox.max.z ]
+                };
+                
+                if(m.userData) {
+                  obj.userData = m.userData;
+                }
 
                 if(m.material) {
                   obj.material = {

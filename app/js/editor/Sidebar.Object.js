@@ -94,6 +94,19 @@ Sidebar.Object = function ( editor ) {
 
 	container.add( objectNameRow );
 
+		// opm
+
+		var objectOPMRow = new UI.Row();
+		var objectOPM = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+
+			editor.execute( new SetValueCommand( editor.selected, 'opm', objectOPM.getValue() ) );
+
+		} );
+
+		objectOPMRow.add( new UI.Text( 'OPM' ).setWidth( '90px' ) );
+		objectOPMRow.add( objectOPM );
+
+		container.add( objectOPMRow );
 
 	// game type
 
@@ -670,6 +683,7 @@ Sidebar.Object = function ( editor ) {
 
 		//objectUUID.setValue( object.uuid );
 		objectName.setValue( object.name );
+		objectOPM.setValue( object.opm || '' );
 
 		/*
 		if ( object.parent !== null ) {
@@ -786,7 +800,7 @@ Sidebar.Object = function ( editor ) {
 
 		try {
 
-			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
+			//objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 
 		} catch ( error ) {
 

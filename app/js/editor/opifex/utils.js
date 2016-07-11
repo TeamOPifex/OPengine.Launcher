@@ -8,6 +8,13 @@ OPIFEX.Utils = {
         if(object == null || object == undefined) {
             return;
         }
+
+        node.position = node.position || [ 0, 0, 0 ];
+        node.scale = node.scale || [ 1, 1, 1 ];
+        node.rotation = node.rotation || [ 0, 0, 0 ];
+
+        object.name = node.name.split('.')[0];
+        object.opm = node.opm;
         object.position.x = node.position[0];
         object.position.y = node.position[1];
         object.position.z = node.position[2];
@@ -17,6 +24,10 @@ OPIFEX.Utils = {
         object.rotation.x = node.rotation[0];
         object.rotation.y = node.rotation[1];
         object.rotation.z = node.rotation[2];
+
+        if(node.userData) {
+          object.userData = node.userData;
+        }
 
         if(node.gameType) {
           editor.execute( new SetValueCommand( object, 'gameType', node.gameType ) );
@@ -60,7 +71,8 @@ OPIFEX.Utils = {
           // OPM doesn't exist, assume it's a cube for now
           var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
           var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
-          mesh.name = meshFileName;
+          mesh.name = node.name.split('.')[0];
+          mesh.opm = meshFileName;
 
           editor.execute( new AddObjectCommand( mesh ) );
 
@@ -139,7 +151,7 @@ OPIFEX.Utils = {
         }
 
         if(node.type == "MESH") {
-            OPIFEX.Utils.AddMesh(editor, node.name, node, ProcessChildren);
+            OPIFEX.Utils.AddMesh(editor, node.opm || node.name, node, ProcessChildren);
         } else if(node.type == "GROUP") {
             OPIFEX.Utils.AddGroup(editor, node.name, node, ProcessChildren);
         }

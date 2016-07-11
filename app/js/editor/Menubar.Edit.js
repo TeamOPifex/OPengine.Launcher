@@ -95,6 +95,7 @@ Menubar.Edit = function ( editor ) {
 
 		object = object.clone();
 		object.gameType = editor.selected.gameType;
+		object.opm = editor.selected.opm;
 
 		editor.execute( new AddObjectCommand( object ) );
 

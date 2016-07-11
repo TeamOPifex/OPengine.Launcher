@@ -156,7 +156,7 @@ var Viewport = function ( editor ) {
 
 	}
 
-	function handleClick() {
+	function handleClick(doNotSelect) {
 
 		var selected = null;
 
@@ -194,7 +194,9 @@ var Viewport = function ( editor ) {
 
 					} else {
 
-						editor.select( object );
+						if(!doNotSelect) {
+							editor.select( object );
+						}
 						selected = object;
 
 					}
@@ -204,8 +206,9 @@ var Viewport = function ( editor ) {
 
 			} else {
 
-				editor.select( null );
-
+				if(!doNotSelect) {
+					editor.select( null );
+				}
 			}
 
 			render();
@@ -316,7 +319,26 @@ var Viewport = function ( editor ) {
 		else if(t == 'model') {
 			var texName = data.split('.opm');
 			texName = texName[0] + '.png';
-			OPIFEX.Utils.AddMesh(editor, data, texName);
+
+			var intersects = getIntersects( onUpPosition, objects );
+			if ( intersects.length > 0 ) {
+				var object = intersects[ 0 ].object;
+				if ( object.userData.object !== undefined ) {
+					selected = object.userData.object;
+				} else {
+					selected = object;
+				}
+			}
+
+			var node = { name: data, opm: data, material: texName };
+			if(selected != null) {
+				console.log('Dropping mesh on', selected);
+				selected.geometry.computeBoundingBox();
+				node.position = [ selected.position.x, selected.position.y, selected.position.z ];
+				node.position[1] += selected.geometry.boundingBox.max.y;
+			}
+
+			OPIFEX.Utils.AddMesh(editor, data, node);
 		}
 
 
