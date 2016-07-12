@@ -3,7 +3,7 @@
   "productName": "OPengine Launcher",
   "identifier": "com.opifex.opengine-launcher",
   "description": "OPengine Launcher",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "author": "Garrett Hoofman <garrett@teamopifex.com>",
   "copyright": "© 2016, OPifex Entertainment",
   "main": "background.js",
