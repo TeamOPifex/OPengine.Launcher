@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("CodeEditor",[function(){
+angular.module('launcherFactories').factory("CodeEditor",[function(){
 
     var fs = require('fs'), path = require('path');
 	var remote = require('electron').remote;

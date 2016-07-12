@@ -48,9 +48,9 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
 
           var semver = require('semver');
           for(var i = 0; i < releases.length; i++) {
-            //if(semver.lt(engineVersion, releases[i].name)) {
+            if(semver.lt(engineVersion, releases[i].name)) {
               $scope.updates.push(releases[i]);
-            //}
+            }
           }
 
           $scope.$digest();
@@ -71,6 +71,10 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
 
         $scope.editor = function() {
           ipc.send('sceneEditor', 'OPengine', $scope.engine.repo.absolute);
+        }
+
+        $scope.helperTool = function() {
+          ipc.send('engine-helper-tool', $scope.engine.path);
         }
 
         // On KeyBind events coming from the underlining application

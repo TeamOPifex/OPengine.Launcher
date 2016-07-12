@@ -94,6 +94,19 @@ Sidebar.Object = function ( editor ) {
 
 	container.add( objectNameRow );
 
+		// opm
+
+		var objectOPMRow = new UI.Row();
+		var objectOPM = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+
+			editor.execute( new SetValueCommand( editor.selected, 'opm', objectOPM.getValue() ) );
+
+		} );
+
+		objectOPMRow.add( new UI.Text( 'OPM' ).setWidth( '90px' ) );
+		objectOPMRow.add( objectOPM );
+
+		container.add( objectOPMRow );
 
 	// game type
 
@@ -102,12 +115,12 @@ Sidebar.Object = function ( editor ) {
 	objectGameTypeRow.add( new UI.Text( 'GameType' ).setWidth( '90px' ) );
 
 	var objectGameTypes = new UI.Select().setPosition('absolute').setRight( '8px' ).setFontSize( '11px' );
-	var gameTypeOptions = {};
+	var gameTypeOptions = { " ": " " };
 	for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
 		gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
 	}
 	objectGameTypes.setOptions( gameTypeOptions );
-	// 	{ 
+	// 	{
 	// 	'Static': 'Static',
 	// 	'Static Triangle': 'Static Triangle',
 	// 	'Dynamic': 'Dynamic',
@@ -438,8 +451,9 @@ Sidebar.Object = function ( editor ) {
 
 			}
 
-			var newRotation = new THREE.Euler( objectRotationX.getValue(), objectRotationY.getValue(), objectRotationZ.getValue() );
-			if ( object.rotation.toVector3().distanceTo( newRotation.toVector3() ) >= 0.01 ) {
+			var degToRad = 3.14 / 180.0;
+			var newRotation = new THREE.Euler( objectRotationX.getValue() * degToRad, objectRotationY.getValue() * degToRad, objectRotationZ.getValue() * degToRad );
+			if ( object.rotation.toVector3().distanceTo( newRotation.toVector3() ) >= 0.0001 ) {
 
 				editor.execute( new SetRotationCommand( object, newRotation ) );
 
@@ -669,6 +683,7 @@ Sidebar.Object = function ( editor ) {
 
 		//objectUUID.setValue( object.uuid );
 		objectName.setValue( object.name );
+		objectOPM.setValue( object.opm || '' );
 
 		/*
 		if ( object.parent !== null ) {
@@ -682,9 +697,10 @@ Sidebar.Object = function ( editor ) {
 		objectPositionY.setValue( object.position.y );
 		objectPositionZ.setValue( object.position.z );
 
-		objectRotationX.setValue( object.rotation.x );
-		objectRotationY.setValue( object.rotation.y );
-		objectRotationZ.setValue( object.rotation.z );
+		var radToDeg = 180.0 / 3.14;
+		objectRotationX.setValue( object.rotation.x * radToDeg );
+		objectRotationY.setValue( object.rotation.y * radToDeg );
+		objectRotationZ.setValue( object.rotation.z * radToDeg );
 
 		objectScaleX.setValue( object.scale.x );
 		objectScaleY.setValue( object.scale.y );
@@ -784,7 +800,7 @@ Sidebar.Object = function ( editor ) {
 
 		try {
 
-			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
+			//objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 
 		} catch ( error ) {
 

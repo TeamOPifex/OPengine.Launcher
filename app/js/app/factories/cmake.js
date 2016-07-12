@@ -2,7 +2,7 @@ var nodePath = require('path');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 
-angular.module('engineApp').factory("cmake",['console', '$rootScope', 'config', 'run', 'ios', function(appConsole, $rootScope, configuration, run, ios){
+angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'config', 'run', 'ios', function(appConsole, $rootScope, configuration, run, ios){
 
     var cmake = {
         addVariables: function(args, config, os) {

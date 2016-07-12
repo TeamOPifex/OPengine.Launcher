@@ -37,11 +37,11 @@ var Toolbar = function ( editor ) {
 
 	// grid
 
-	var grid = new UI.Number( 1 ).setWidth( '40px' ).onChange( update );
+	var grid = new UI.Number( 0.5 ).setWidth( '40px' ).onChange( update );
 	buttons.add( new UI.Text( 'grid: ' ) );
 	buttons.add( grid );
 
-	var snap = new UI.THREE.Boolean( false, 'snap' ).onChange( update );
+	var snap = new UI.THREE.Boolean( true, 'snap' ).onChange( update );
 	buttons.add( snap );
 
 	var local = new UI.THREE.Boolean( false, 'local' ).onChange( update );

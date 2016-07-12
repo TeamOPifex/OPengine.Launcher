@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("config",[ 'marketplace', 'VisualStudio', function(marketplace, VisualStudio) {
+angular.module('launcherFactories').factory("config",[ 'marketplace', 'VisualStudio', function(marketplace, VisualStudio) {
 	var fs = require('fs');
 
 	var configFactory = {
@@ -401,11 +401,12 @@ angular.module('engineApp').factory("config",[ 'marketplace', 'VisualStudio', fu
 				        ]
 					},
 
-					{ name: 'OpenGL', id: 'OPENGL_DESKTOP_TARGET', type: 'optionSelector',
+					{ name: 'Renderer', id: 'RENDER_TARGET', type: 'optionSelector',
 				        options: [
 							{ name: 'OpenGL 2.0', id: 'OPENGL_2_0' },
 				            { name: 'OpenGL 3.3', id: 'OPENGL_3_3', initial: true },
-							            { name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' }
+							            { name: 'OpenGL ES 2.0', id: 'OPENGL_ES_2' },
+										            { name: 'DirectX 11', id: 'DIRECTX_11' }
 				        ]
 					},
 

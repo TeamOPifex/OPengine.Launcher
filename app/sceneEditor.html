@@ -421,6 +421,19 @@
 									exporter.outputJSON(window.projectPath + '/Assets/Scenes/' + window.activeScene);
               }
               break;
+          case 68:
+						if(event.ctrlKey) {
+							var object = editor.selected;
+
+							if ( object.parent === null ) return; // avoid cloning the camera or scene
+
+							object = object.clone();
+							object.gameType = editor.selected.gameType;
+							object.opm = editor.selected.opm;
+
+							editor.execute( new AddObjectCommand( object ) );
+						}
+						break;
 
 					case 46: // Register R for scaling transform mode
 
@@ -440,7 +453,7 @@
 							editor.signals.snapChanged.dispatch(true);
               break;
 					default:
-						//console.log(event);
+						console.log(event);
 						break;
 				}
 
@@ -496,7 +509,7 @@
 
 
 			$(function() {
-					$('#windowBar').append($('<div class="toolbar">								<div class="toolbar-bg-bottom"></div>								<div class="tabs">									<div class="tab current-tab">										<div class="tab-state"><div class="tabbed-state-contain"><div class="tabbed-side-state-bg"></div></div></div>										<div class="tab-seperator"></div>										<div class="tab-text">Library</div>									</div>									<!-- <div class="tab">Set in Stone</div> -->									<div class="tabbed-side-left"><div class="tabbed-left-contain"><div class="tabbed-side-left-bg"></div></div></div>								</div>								<div class="window-side-right-bg">									<div class="tabbed-right-contain"><div class="tabbed-side-right-bg"></div></div>								</div>								<div class="window">										<a class="window-minimize" href="javascript:void(0);" id="minimize">												<span class="icon-delete"></span>										</a>										<a class="window-maximize" href="javascript:void(0);" id="maximize">												<span class="icon-square-o"></span>										</a>										<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">												<span class="icon-close2"></span>										</a>								</div></div>'));
+					$('#windowBar').append($('<div class="toolbar">								<div class="toolbar-bg-bottom"></div>								<div class="tabs">									<div class="tab current-tab">										<div class="tab-state"><div class="tabbed-state-contain"><div class="tabbed-side-state-bg"></div></div></div>										<div class="tab-seperator"></div>										<div class="tab-text">Library</div>									</div>									<!-- <div class="tab">Set in Stone</div> -->									<div class="tabbed-side-left"><span style="padding-left:40px; font-size: 0.5em; color: #ccc;white-space: nowrap;">Early Alpha 0.1.0</span><div class="tabbed-left-contain"><div class="tabbed-side-left-bg">tezt</div></div></div>								</div>								<div class="window-side-right-bg">									<div class="tabbed-right-contain"><div class="tabbed-side-right-bg"></div></div>								</div>								<div class="window">										<a class="window-minimize" href="javascript:void(0);" id="minimize">												<span class="icon-delete"></span>										</a>										<a class="window-maximize" href="javascript:void(0);" id="maximize">												<span class="icon-square-o"></span>										</a>										<a class="window-close" href="javascript:void(0);" id="close" ng-click="close()">												<span class="icon-close2"></span>										</a>								</div></div>'));
 					ipc.send('title', window.currentWindow);
 					$('#windowBar').find('#minimize').click(function() { ipc.send('minimize-editor', window.currentWindow); })
 					$('#windowBar').find('#close').click(function() { ipc.send('close-editor', window.currentWindow); })

@@ -1,6 +1,6 @@
 var spawn = require('child_process').spawn;
 
-angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(appConsole, $rootScope) {
+angular.module('launcherFactories').factory("run", [ 'console', '$rootScope', function(appConsole, $rootScope) {
 
     var run = {
 
@@ -24,6 +24,7 @@ angular.module('engineApp').factory("run", [ 'console', '$rootScope', function(a
 
               appConsole.display = true;
               appConsole.lines = [];
+              appConsole.Clear();
               appConsole.task = title;
 
             var child = spawn(cmd, args, {

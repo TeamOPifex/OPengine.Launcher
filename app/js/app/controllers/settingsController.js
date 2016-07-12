@@ -1,5 +1,6 @@
 angular.module('engineControllers').controller('SettingsCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
+      $('.current-tab .tab-text').text('Settings');
 
         $scope.logout = function() {
         	user.OPifex = false;

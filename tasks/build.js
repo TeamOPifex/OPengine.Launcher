@@ -133,7 +133,8 @@ var bundleApplication = function () {
         bundle(srcDir.path('launcherWindow.js'), destDir.path('launcherWindow.js')),
         bundle(srcDir.path('loginWindow.js'), destDir.path('loginWindow.js')),
         bundle(srcDir.path('app.js'), destDir.path('app.js')),
-        appBundle('js/app/', destDir.path('appBundle'))
+        appBundle('js/app/', destDir.path('appBundle')),
+        appBundle('js/projectHelper/', destDir.path('projectHelperBundle'))
     ]);
 };
 
@@ -157,9 +158,14 @@ gulp.task('bundle-watch', bundleTask);
 
 
 var lessTask = function () {
-    return gulp.src('app/stylesheets/main.less')
+  return Q.all([
+    gulp.src('app/stylesheets/main.less')
     .pipe(less())
-    .pipe(gulp.dest(destDir.path('stylesheets')));
+    .pipe(gulp.dest(destDir.path('stylesheets'))),
+    gulp.src('app/stylesheets/projectHelper.less')
+    .pipe(less())
+    .pipe(gulp.dest(destDir.path('stylesheets')))
+  ]);
 };
 gulp.task('less', ['clean'], lessTask);
 gulp.task('less-watch', lessTask);

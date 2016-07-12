@@ -4,7 +4,7 @@ var xcode = require('node-xcode-opifex'),
     xcodeProjectSource = 'SOURCE.xcodeproj',
     projectPath = 'OPengine.xcodeproj/project.pbxproj';
 
-angular.module('engineApp').factory("ios", [ '$rootScope', function($rootScope) {
+angular.module('launcherFactories').factory("ios", [ '$rootScope', function($rootScope) {
 
     var ios = {
 

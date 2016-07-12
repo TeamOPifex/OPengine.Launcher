@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("Terminal", ['console', 'run', function(appConsole, run) {
+angular.module('launcherFactories').factory("Terminal", ['console', 'run', function(appConsole, run) {
     function Terminal(project, $scope) {
         this.project = project;
         this.$scope = $scope;

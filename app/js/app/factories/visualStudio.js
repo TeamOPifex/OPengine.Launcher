@@ -1,4 +1,4 @@
-angular.module('engineApp').factory("VisualStudio", function() {
+angular.module('launcherFactories').factory("VisualStudio", function() {
     return [
         { name: 'Visual Studio 6', id: 0 },
         { name: 'Visual Studio 7', id: 1 },

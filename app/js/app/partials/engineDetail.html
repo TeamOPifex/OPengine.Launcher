@@ -13,7 +13,7 @@
                   <span class="sr-only">Toggle Dropdown</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li style=""><div style="margin: 5px;color: #666; font-size: 8px; padding: 0px; margin-bottom: 0px;">with</div></li>
+                  <li style=""><div class="with">with</div></li>
                   <li><a href="" ng-if="windows" ng-click="openSLN()">
                     <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
                   <li><a href="" ng-click="openWith('sublime')">
@@ -64,6 +64,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a ng-click="editor()" href="javascript:void();">Scene Editor</a></li>
+                <li><a ng-click="helperTool()" href="javascript:void();">Helper Tool</a></li>
               </ul>
             </div>
             <a ng-click="toggleCode()" href="javascript:void();" class="btn btn-primary"><span class="icon-equalizer"></span> Build Options</a>

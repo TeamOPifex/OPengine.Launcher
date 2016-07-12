@@ -1,0 +1,135 @@
+<!doctype html>
+<html ng-app="projectHelperApp">
+    <head>
+        <meta charset="utf-8">
+        <title>Electron Boilerplate</title>
+                <script>
+                var path = require('path');
+
+                module.paths.push(path.resolve('node_modules'));
+                module.paths.push(path.resolve('../node_modules'));
+                module.paths.push(path.resolve(__dirname, '..', '..', 'electron', 'node_modules'));
+                module.paths.push(path.resolve(__dirname, '..', '..', 'electron.asar', 'node_modules'));
+                module.paths.push(path.resolve(__dirname, '..', '..', 'app', 'node_modules'));
+                module.paths.push(path.resolve(__dirname, '..', '..', 'app.asar', 'node_modules'));
+
+                var Module = require('module');
+                Module.globalPaths.push( path.join(__dirname, 'node_modules') );
+                Module.globalPaths.push( path.join(__dirname, '..', 'node_modules') );
+                Module.globalPaths.push( path.join(__dirname, '..', '..', '..', 'app.asar', 'node_modules') );
+
+                path = undefined;
+
+                var qs = (function(a) {
+                    if (a == "") return {};
+                    var b = {};
+                    for (var i = 0; i < a.length; ++i)
+                    {
+                        var p=a[i].split('=', 2);
+                        if (p.length == 1)
+                            b[p[0]] = "";
+                        else
+                            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                    }
+                    return b;
+                })(window.location.search.substr(1).split('&'));
+
+                if(qs['path']) {
+                    window.localStorage.setItem('projectPath', qs['path']);
+                }
+                window.currentWindow = qs['currentWindow'];
+
+
+                function define() {
+
+                }
+                </script>
+
+                <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+                <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+                <link href="./stylesheets/projectHelper.css" rel="stylesheet" type="text/css">
+                <link href="vendor/powertour/powertour.min.3.1.0.css" rel="stylesheet" type="text/css">
+                <link href="vendor/powertour/powertour-style-clean.min.css" rel="stylesheet" type="text/css">
+                <link href="vendor/powertour/animate.min.css" rel="stylesheet" type="text/css">
+
+                <script src="vendor/electron_boilerplate/context_menu.js"></script>
+                <script src="vendor/electron_boilerplate/external_links.js"></script>
+
+                <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+                <script src="vendor/bootstrap.min.js"></script>
+                <script src="bower_components/angular/angular.min.js"></script>
+                <script src="bower_components/angular-route/angular-route.min.js"></script>
+                <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+                <script src="bower_components/blob/Blob.js"></script>
+                <script src="bower_components/FileSaver/FileSaver.js"></script>
+                <script src="vendor/powertour/powertour.lite.3.1.0.min.js"></script>
+
+                <script src="vendor/card.js"></script>
+
+                <script src="js/engine.js"></script>
+                <script src="js/projectHelper.js"></script>
+                <script src="appBundle.js"></script>
+                <script src="projectHelperBundle.js"></script>
+
+                <script src="vendor/splitter.js"></script>
+
+                <script>
+                    $.browser = $.browser || {};
+                    String.prototype.endsWith = function(suffix) {
+                        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+                    };
+                    String.prototype.extension = function() {
+                        var ind = this.lastIndexOf('.');
+                        if(ind < 0) return '';
+                        return this.substr(ind);
+                    };
+                </script>
+                <script>
+                  function externalLink(el) {
+                    require('electron').shell.openExternal($(el).data('href'));
+                    return false;
+                  }
+                </script>
+                <script>
+                  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+                  ga('create', 'UA-28069191-7', 'auto');
+                  ga('send', 'pageview');
+                </script>
+
+            </head>
+            <body ng-controller="projectHelperCtrl" id="Thelauncher" class="project-helper">
+              <div class="content-container">
+                <div class="toolbar">
+                    <div class="toolbar-bg-bottom"></div>
+                    <div class="tabs">
+                      <div class="tab current-tab">
+                        <div class="tab-state"><div class="tabbed-state-contain"><div class="tabbed-side-state-bg"></div></div></div>
+                        <div class="tab-seperator"></div>
+                        <div class="tab-text">Set in Stone</div>
+                      </div>
+                      <!-- <div class="tab">Set in Stone</div> -->
+                      <div class="tabbed-side-left"><div class="tabbed-left-contain"><div class="tabbed-side-left-bg"></div></div></div>
+                    </div>
+                    <div class="window-side-right-bg">
+                      <div class="tabbed-right-contain"><div class="tabbed-side-right-bg"></div></div>
+                    </div>
+                    <div class="window">
+                        <a class="window-minimize" ng-click="minimize()" href="javascript:void(0);" id="minimize">
+                            <span class="icon-delete"></span>
+                        </a>
+                        <a class="window-close" ng-click="exit()" href="javascript:void(0);" id="close" ng-click="close()">
+                            <span class="icon-close2"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div ng-view style="display:block;"> </div>
+            </div>
+            </body>
+
+        </html>

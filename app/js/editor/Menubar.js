@@ -18,9 +18,9 @@ var Menubar = function ( editor ) {
 	option.setClass( 'option' );
 	option.setTextContent( 'Add Bounding Box' );
 	option.onClick( function () {
-		var width = 5;
-		var height = 5;
-		var depth = 5;
+		var width = 1;
+		var height = 1;
+		var depth = 1;
 
 		var widthSegments = 1;
 		var heightSegments = 1;
@@ -35,10 +35,9 @@ var Menubar = function ( editor ) {
 		mesh.material.color.g = 0.4666666666666667;
 		mesh.material.color.b = 1.0;
 		mesh.material.transparent = true;
+		mesh.material.wireframe = true;
 		mesh.material.opacity = 0.5;
-		mesh.userData = {
-			gameType: 'Bounding Box'
-		};
+		mesh.gameType = 'BoundingBox';
 		editor.selected.children.push(mesh);
 
         //console.log(editor.selected, mesh);
