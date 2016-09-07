@@ -87,9 +87,50 @@ OPIFEX.Utils = {
           name: meshFileName,
           data: fileData
         }, true, function(object) {
-          OPIFEX.Utils.SetNode(editor, node, object, cb);
+
+
+          if(object.type == 'Group') {
+            object.opm = meshFileName;
+            object.gameType = node.gameType;
+            node.opm = '';
+            node.type = 'SUBMESH';
+            object.position.x = node.position[0];
+            object.position.y = node.position[1];
+            object.position.z = node.position[2];
+
+            for(var i = 0; i < object.children.length; i++) {
+            	if(!node.material.texture && object.children[i].meta && object.children[i].meta['albedo']) {
+            		node.material.texture = object.children[i].meta['albedo'];
+            	}
+              var passedNode = node;
+              if(node.children) {
+                passedNode = node.children[i];
+              }
+              OPIFEX.Utils.SetNode(editor, passedNode, object.children[i], cb);
+            }
+          } else {
+          	if(!node.material.texture && object.meta && object.meta['albedo']) {
+          		node.material.texture = object.meta['albedo'];
+          	}
+            OPIFEX.Utils.SetNode(editor, node, object, cb);
+          }
         });
     },
+    //
+    // LoadUpMultiMesh: function(editor, meshFileName, node, cb) {
+    //     var file = window.projectPath + '/Assets/Models/' + meshFileName;
+    //     var fileData = fs.readFileSync(file);
+    //
+    //     editor.loader.loadFile({
+    //       name: meshFileName,
+    //       data: fileData
+    //     }, true, function(object) {
+    //       // This is a mesh with multiple meshes in it
+    //       object.position.x = node.position[0];
+    //       object.position.y = node.position[1];
+    //       object.position.z = node.position[2];
+    //     });
+    // },
 
     AddGroup: function(editor, name, node, cb) {
         var mesh = new THREE.Group();
@@ -150,10 +191,29 @@ OPIFEX.Utils = {
             }
         }
 
+          function ProcessGroupChildren(result) {
+              if(parent) {
+                  OPIFEX.Utils.MoveObject( editor, result, parent );
+              }
+              if(node.children) {
+                  for(var i = 0; i < node.children.length; i++) {
+                      //OPIFEX.Utils.LoadSceneNode(editor, node.children[i], result);
+                  }
+              }
+          }
+
         if(node.type == "MESH") {
             OPIFEX.Utils.AddMesh(editor, node.opm || node.name, node, ProcessChildren);
         } else if(node.type == "GROUP") {
-            OPIFEX.Utils.AddGroup(editor, node.name, node, ProcessChildren);
+
+            if(node.opm) {
+              // This is a Mesh Group
+              // Load this group as a mesh
+              node.material = {};
+              OPIFEX.Utils.AddMesh(editor, node.opm || node.name, node, ProcessGroupChildren);
+            } else {
+              OPIFEX.Utils.AddGroup(editor, node.name, node, ProcessChildren);
+            }
         }
     },
 

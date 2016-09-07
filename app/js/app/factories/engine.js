@@ -2,6 +2,7 @@ angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
     var open = require('open');
+    var fs = require('fs');
 
     function Engine(path, OS, $scope) {
         this.path = path;
@@ -46,6 +47,7 @@ angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 
     }
 
     Engine.prototype = {
+
         setRepoPath: function() {
             // Default to the OPengine Launcher root/repos/projects
             var me = this;
@@ -58,6 +60,12 @@ angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 
                     spawn(program, [ me.repo.absolute ], {
                         env: process.env
                     });
+                },
+                openWithAtom: function() {
+                  spawn(process.env['LOCALAPPDATA'] + '\\atom\\bin\\atom.cmd', [ me.repo.absolute ]);
+                },
+                openWithSublime: function() {
+                  spawn('C:\\Program Files\\Sublime Text 3\\sublime_text.exe', [ me.repo.absolute ]);
                 }
             };
 
@@ -80,6 +88,10 @@ angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 
                 }
             };
             this.build.absolute = nodePath.resolve(this.build.relative);
+        },
+
+        solutionExists: function() {
+          return fs.existsSync(this.build.relative + '/OPifexEngine.sln');
         },
 
         openSolution: function() {

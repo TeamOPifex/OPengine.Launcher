@@ -330,7 +330,7 @@ var Viewport = function ( editor ) {
 				}
 			}
 
-			var node = { name: data, opm: data, material: texName };
+			var node = { name: data, opm: data, material: {  } };
 			if(selected != null) {
 				console.log('Dropping mesh on', selected);
 				selected.geometry.computeBoundingBox();
@@ -344,6 +344,7 @@ var Viewport = function ( editor ) {
 
 		//alert(data);
 	}
+
 
 	container.dom.addEventListener( 'mousedown', onMouseDown, false );
 	container.dom.addEventListener( 'touchstart', onTouchStart, false );

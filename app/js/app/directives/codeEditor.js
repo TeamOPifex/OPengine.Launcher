@@ -30,22 +30,27 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
             $scope.editor = editor;
             $scope.newFileName = '';
             $scope.showNewFile = false;
+            $scope.showNewFolder = false;
             $scope.newFileNode = null;
             $scope.showDeleteFile = false;
             $scope.deleteFileNode = null;
             $scope.showFileType = 1;
 
             editor.onNewFile = function(node) {
+                $scope.newFileName = '';
                 $scope.showNewFile = true;
                 $scope.newFileNode = node;
+                $scope.$digest();
                 setTimeout(function() {
                     $('#newFileText').focus();
                 }, 0);
             }
 
             editor.onNewFolder = function(node) {
+              console.log('new folder');
                 $scope.showNewFolder = true;
                 $scope.newFolderNode = node;
+                $scope.$digest();
                 setTimeout(function() {
                     $('#newFolderText').focus();
                 }, 0);
@@ -67,6 +72,7 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
 
 
             $scope.select = function(data) {
+              console.log('open');
                 var result = editor.Open(data);
                 if(result > 0) {
                   $scope.showFileType = result;
@@ -118,7 +124,6 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
 
             $scope.newFolder = function() {
                 var path = $scope.newFolderNode.fullPath + '/' + $scope.newFolderName;
-
                 var mkdirp = require('mkdirp');
                 mkdirp(path, function(err) {
                     var node = editor.AddToNode($scope.newFolderNode, $scope.newFolderName, true);
@@ -129,7 +134,12 @@ angular.module('engineApp').directive('codeEditor', ['CodeEditor', function (Cod
             };
             $scope.cancelFile = function() {
                 //console.log($scope.newFileName);
-                $scope.newFileName = ''; $scope.showNewFile = !$scope.showNewFile; };
+                $scope.newFileName = ''; $scope.showNewFile = !$scope.showNewFile;
+            };
+            $scope.cancelFolder = function() {
+                //console.log($scope.newFileName);
+                $scope.newFolderName = ''; $scope.showNewFolder = !$scope.showNewFolder;
+            };
 
             $scope.deleteFile = function() {
                 fs.unlink($scope.deleteFileNode.fullPath, function(err) {

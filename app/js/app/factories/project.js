@@ -2,6 +2,7 @@ angular.module('launcherFactories').factory("Project", [ 'config', 'run', 'git',
     var nodePath = require('path');
     var spawn = require('child_process').spawn;
     var open = require('open');
+    var fs = require('fs');
 
     function Project(path, OS, $scope) {
         this.path = path;
@@ -61,6 +62,12 @@ angular.module('launcherFactories').factory("Project", [ 'config', 'run', 'git',
                     spawn(program, [ me.repo.absolute ], {
                         env: process.env
                     });
+                },
+                openWithAtom: function() {
+                  spawn(process.env['LOCALAPPDATA'] + '\\atom\\bin\\atom.cmd', [ me.repo.absolute ]);
+                },
+                openWithSublime: function() {
+                  spawn('C:\\Program Files\\Sublime Text 3\\sublime_text.exe', [ me.repo.absolute ]);
                 }
             };
 
@@ -92,6 +99,15 @@ angular.module('launcherFactories').factory("Project", [ 'config', 'run', 'git',
                 }
             };
             this.build.absolute = nodePath.resolve(this.build.relative);
+        },
+
+        solutionExists: function() {
+          console.log('can', this.OS);
+          if(this.config.solution.indexOf('.sln') > -1) {
+              return fs.existsSync(this.build.relative + '/' + this.config.solution);
+          } else {
+              return fs.existsSync(this.build.relative + '/' + this.config.solution + '.sln');
+          }
         },
 
         openSolution: function() {

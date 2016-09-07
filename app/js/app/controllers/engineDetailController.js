@@ -66,9 +66,20 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
         $scope.openFolder = function() { $scope.engine.repo.openFolder(); };
         $scope.openBuildFolder = function() { $scope.engine.build.openFolder(); };
 
+        $scope.canOpen = function() {
+          if(!$scope.windows) return true;
+          return $scope.engine.solutionExists();
+        }
         $scope.openSLN = function() { $scope.engine.openSolution(); };
         $scope.openWith = function(program) { $scope.engine.repo.openWith(program); };
-
+        $scope.openWithAtom = function() {
+          if(!$scope.windows) return $scope.openWith('atom');
+          $scope.engine.repo.openWithAtom();
+        }
+        $scope.openWithSublime = function() {
+          if(!$scope.windows) return $scope.openWith('subl');
+          $scope.engine.repo.openWithSublime();
+        }
         $scope.editor = function() {
           ipc.send('sceneEditor', 'OPengine', $scope.engine.repo.absolute);
         }

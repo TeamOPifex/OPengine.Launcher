@@ -17,7 +17,6 @@ OPsceneExporter.prototype = {
         for(var i = 0; i < children.length; i++) {
             var m = children[i];
             if(m.type == "Mesh") {
-
                 var obj = {
                     name: m.name,
                     opm: m.opm,
@@ -34,7 +33,7 @@ OPsceneExporter.prototype = {
                   min: [ m.geometry.boundingBox.min.x, m.geometry.boundingBox.min.y, m.geometry.boundingBox.min.z ],
                   max: [ m.geometry.boundingBox.max.x, m.geometry.boundingBox.max.y, m.geometry.boundingBox.max.z ]
                 };
-                
+
                 if(m.userData) {
                   obj.userData = m.userData;
                 }
@@ -73,14 +72,17 @@ OPsceneExporter.prototype = {
                   this.result.models.push(obj);
                 }
             } else if(m.type == "Group") {
+              var bounds = this.calculateBounds(m);
                 var obj = {
                     name: m.name,
+                    opm: m.opm,
                     type: 'GROUP',
                     position: [ m.position.x, m.position.y, m.position.z ],
                     scale: [ m.scale.x, m.scale.y, m.scale.z ],
                     rotation: [ m.rotation.x, m.rotation.y, m.rotation.z ],
                     children: [],
-                    gameType: m.gameType
+                    gameType: m.gameType,
+                    boundingBox: bounds
                 };
 
                 if(parent) {
@@ -96,6 +98,33 @@ OPsceneExporter.prototype = {
         if(cb) {
             cb();
         }
+    },
+
+    calculateBounds: function(node, bounds) {
+      if(!bounds) {
+        bounds = {
+          min: [ 0, 0, 0 ],
+          max: [ 0, 0, 0 ]
+        };
+      }
+
+      console.log(node);
+
+      for(var i = 0; i < node.children.length; i++) {
+        if(node.children[i].type != 'Mesh') continue;
+
+        node.children[i].geometry.computeBoundingBox();
+        var mBB = node.children[i].geometry.boundingBox;
+
+        if(mBB.min.x < bounds.min[0]) bounds.min[0] = mBB.min.x;
+        if(mBB.min.y < bounds.min[1]) bounds.min[1] = mBB.min.y;
+        if(mBB.min.z < bounds.min[2]) bounds.min[2] = mBB.min.z;
+        if(mBB.max.x > bounds.max[0]) bounds.max[0] = mBB.max.x;
+        if(mBB.max.y > bounds.max[1]) bounds.max[1] = mBB.max.y;
+        if(mBB.max.z > bounds.max[2]) bounds.max[2] = mBB.max.z;
+      }
+
+      return bounds;
     },
 
     outputJSON: function(fileOutput, cb) {
