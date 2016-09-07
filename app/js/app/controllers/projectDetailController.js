@@ -37,6 +37,18 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
         $scope.openBuildFolder = function() { $scope.project.build.openFolder(); };
         $scope.openSLN = function() { $scope.project.openSolution(); };
         $scope.openWith = function(program) { $scope.project.repo.openWith(program); };
+        $scope.openWithAtom = function() {
+          if(!$scope.windows) return $scope.openWith('atom');
+          $scope.project.repo.openWithAtom();
+        }
+        $scope.openWithSublime = function() {
+          if(!$scope.windows) return $scope.openWith('subl');
+          $scope.project.repo.openWithSublime();
+        }
+        $scope.canOpen = function() {
+          if(!$scope.windows) return true;
+          return $scope.project.solutionExists();
+        }
 
         $scope.editor = function() {
           ipc.send('sceneEditor', $routeParams.versionId, $scope.project.repo.absolute);

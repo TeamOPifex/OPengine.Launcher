@@ -10,6 +10,9 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
             var root = require('os').homedir() + '/.opengine';
             args.push('-DOPIFEX_MARKETPLACE=' + root + '/marketplace');
 
+            args.push('-DCMAKE_BUILD_TYPE=Release');
+
+
             var toolchain = configuration.getValue(config, 'OPIFEX_OPTION_EMSCRIPTEN');
             if(toolchain) {
                 args.push('-DCMAKE_TOOLCHAIN_FILE=~/emsdk_portable/emscripten/1.35.0/cmake/Modules/Platform/Emscripten.cmake');
@@ -118,6 +121,7 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
                     break;
                 }
             }
+
         },
 
         project: function(source, path, engine, config, os, force, cb) {
@@ -195,7 +199,7 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
             }
 
             cmake.addVariables(args, config, os);
-
+            console.log(args);
             if(force) {
               rimraf(buildDir + '/CMakeCache.txt', function() {
                 rimraf(buildDir + '/CMakeFiles', function() {

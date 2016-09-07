@@ -205,14 +205,14 @@ angular.module('launcherFactories').factory("CodeEditor",[function(){
                 subDir: [],
                 parent: node
 			};
-            if(isFolder) {
-                newNode.type = 'folder';
-            } else {
-                this.open.push(newNode);
-                this._setOpen();
-            }
+      if(isFolder) {
+          newNode.type = 'folder';
+      } else {
+          this.open.push(newNode);
+          this._setOpen();
+      }
 			node.subDir.push(newNode);
-            this.Open(newNode);
+      this.Open(newNode);
 
 			node.subDir.sort(this._sortFoldersAndFiles);
 

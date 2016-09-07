@@ -77,6 +77,10 @@ angular.module('engineApp').config(['$routeProvider',
         templateUrl: 'js/app/partials/account.html',
         controller: 'AccountCtrl'
       }).
+      when('/games', {
+        templateUrl: 'js/app/partials/games.html',
+        controller: 'GamesCtrl'
+      }).
       otherwise({
         redirectTo: '/login'
       });

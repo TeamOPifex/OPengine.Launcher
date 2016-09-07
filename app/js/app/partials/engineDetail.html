@@ -7,7 +7,7 @@
             <div class="col-xs-7 text-left">
               <div style="padding-top: 5px;">
         			<div class="btn-group btn-group-split">
-                <a ng-click="openSLN()" class="btn btn-primary"><span class="icon-folder-open"></span> Open Project </a>
+                <a ng-click="openSLN()" class="btn btn-primary" ng-disabled="!canOpen()"><span class="icon-folder-open"></span> Open Project </a>
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
@@ -16,9 +16,9 @@
                   <li style=""><div class="with">with</div></li>
                   <li><a href="" ng-if="windows" ng-click="openSLN()">
                     <img src="content/imgs/Visual_Studio_logo.png" style="width: 24px;" /> Visual Studio</a></li>
-                  <li><a href="" ng-click="openWith('sublime')">
+                  <li><a href="" ng-click="openWithSublime()">
                     <img src="content/imgs/Sublime_text_logo.png" style="width: 24px;" /> Sublime</a></li>
-                  <li><a href="" ng-click="openWith('atom')">
+                  <li><a href="" ng-click="openWithAtom()">
                     <img src="content/imgs/Atom_logo.png" style="width: 24px;" /> <span>Atom</span></a></li>
                   <li role="separator" class="divider"></li>
                   <li><a href="" ng-click="openFolder()"><span class="icon-folder-2"></span> Project Folder</a></li>

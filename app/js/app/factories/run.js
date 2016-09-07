@@ -27,6 +27,7 @@ angular.module('launcherFactories').factory("run", [ 'console', '$rootScope', fu
               appConsole.Clear();
               appConsole.task = title;
 
+              console.log(cmd, args);
             var child = spawn(cmd, args, {
                 cwd: dir,
                 env: process.env
