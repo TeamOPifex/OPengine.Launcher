@@ -323,6 +323,7 @@ var Loader = function ( editor ) {
 					if(cb) cb(object);
 
 				}, false );
+				console.log("reading", file.name);
 				reader.readAsArrayBuffer( file );
 
 				break;

@@ -61,6 +61,10 @@ angular.module('engineApp').config(['$routeProvider',
         templateUrl: 'js/app/partials/marketplace.html',
         controller: 'MarketplaceCtrl'
       }).
+      when('/marketplace/addon/:addonName', {
+        templateUrl: 'js/app/partials/addon.html',
+        controller: 'AddonCtrl'
+      }).
       when('/bug', {
         templateUrl: 'js/app/partials/bug.html',
         controller: 'BugCtrl'

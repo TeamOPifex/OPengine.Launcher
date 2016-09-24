@@ -70,6 +70,7 @@ THREE.OPMLoader.prototype = {
 
 		var loader = new THREE.XHRLoader( scope.manager );
 		loader.setPath( this.path );
+    console.log('Model', url);
 		loader.load( url, function ( text ) {
 
 			onLoad( scope.parse( text ) );
@@ -134,6 +135,8 @@ THREE.OPMLoader.prototype = {
         var totalVertices = reader.ui32();
         var totalIndices = reader.ui32();
 
+        var indSize = reader.ui8();
+
         var ind = 0;
 
         for(var meshInd = 0; meshInd < meshCount; meshInd++) {
@@ -182,7 +185,11 @@ THREE.OPMLoader.prototype = {
 
           var indices = [];
           for(var i = 0; i < indicesCount; i++) {
-            indices.push(reader.ui16() - ind);
+            if(indSize == 2) {
+              indices.push(reader.ui16() - ind);
+            } else {
+              indices.push(reader.ui32() - ind);
+            }
           }
           ind += indicesCount;
 
@@ -191,6 +198,21 @@ THREE.OPMLoader.prototype = {
           reader.f32(); reader.f32(); reader.f32();
           reader.f32(); reader.f32(); reader.f32();
 
+          var material = {};
+          material.diffuse = reader.str();
+          material.specular = reader.str();
+          material.ambient = reader.str();
+          material.emissive = reader.str();
+          material.height = reader.str();
+          material.normals = reader.str();
+          material.shininess = reader.str();
+          material.opacity = reader.str();
+          material.displacement = reader.str();
+          material.lightMap = reader.str();
+          material.reflection = reader.str();
+          material.other1 = reader.str();
+          material.other2 = reader.str();
+          material.other3 = reader.str();
 
           var meta = {
 
