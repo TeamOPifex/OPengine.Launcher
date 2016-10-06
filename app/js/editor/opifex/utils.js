@@ -88,24 +88,41 @@ OPIFEX.Utils = {
           data: fileData
         }, true, function(object) {
 
+          if(!node.material) {
+            node.material = object.opmaterial;
+          }
 
           if(object.type == 'Group') {
             object.opm = meshFileName;
             object.gameType = node.gameType;
             node.opm = '';
             node.type = 'SUBMESH';
-            object.position.x = node.position[0];
-            object.position.y = node.position[1];
-            object.position.z = node.position[2];
+            if(node.position) {
+              object.position.x = node.position[0];
+              object.position.y = node.position[1];
+              object.position.z = node.position[2];
+            }
+            if(node.scale) {
+              object.scale.x = node.scale[0];
+              object.scale.y = node.scale[1];
+              object.scale.z = node.scale[2];
+            }
 
             for(var i = 0; i < object.children.length; i++) {
-            	if(!node.material.texture && object.children[i].meta && object.children[i].meta['albedo']) {
-            		node.material.texture = object.children[i].meta['albedo'];
-            	}
+              if(!node.material) {
+                node.material = {
+                  texture: object.children[i].opmaterial.diffuse
+                };
+              } else {
+            		node.material.texture = object.children[i].opmaterial.diffuse;
+              }
               var passedNode = node;
               if(node.children) {
                 passedNode = node.children[i];
               }
+              passedNode.position = [ 0, 0, 0];
+              passedNode.position.x = passedNode.position.y = passedNode.position.z = 0;
+
               OPIFEX.Utils.SetNode(editor, passedNode, object.children[i], cb);
             }
           } else {
@@ -138,6 +155,9 @@ OPIFEX.Utils = {
         mesh.position.x = node.position[0];
         mesh.position.y = node.position[1];
         mesh.position.z = node.position[2];
+        mesh.scale.x = node.scale[0];
+        mesh.scale.y = node.scale[1];
+        mesh.scale.z = node.scale[2];
         editor.execute( new AddObjectCommand( mesh ) );
         cb && cb(mesh);
     },
