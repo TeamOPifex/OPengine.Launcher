@@ -17,7 +17,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
     //     token: $scope.token,
     //     auth: "oauth"
     // });
-    user.github = new Github();
+    user.github = new Github({});
     user.token = $scope.token;
 
   //   user.githubUser = user.github.getUser();
