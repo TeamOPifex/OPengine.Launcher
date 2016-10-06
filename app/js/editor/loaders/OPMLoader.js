@@ -122,8 +122,8 @@ THREE.OPMLoader.prototype = {
         if((this.features.Skinning & features) > 0) {
           stride += 4;
           stride += 4;
-          alert('Skinning Unsupported');
-          return;
+          //alert('Skinning Unsupported');
+          //return;
         }
 
         var vertexMode = reader.ui16();
@@ -181,6 +181,16 @@ THREE.OPMLoader.prototype = {
               uvs.push(reader.f32());
               uvs.push(reader.f32());
             }
+            if((this.features.Skinning & features) > 0) {
+              reader.f32();
+              reader.f32();
+              reader.f32();
+              reader.f32();
+              reader.f32();
+              reader.f32();
+              reader.f32();
+              reader.f32();
+            }
           }
 
           var indices = [];
@@ -213,6 +223,10 @@ THREE.OPMLoader.prototype = {
           material.other1 = reader.str();
           material.other2 = reader.str();
           material.other3 = reader.str();
+
+          if(material.diffuse) {
+            material.texture = material.diffuse;
+          }
 
           var meta = {
 
@@ -256,6 +270,7 @@ THREE.OPMLoader.prototype = {
           var mesh = new THREE.Mesh( buffergeometry, createdMaterials[0] );
           mesh.name = "OPmesh";
           mesh.meta = meta;
+          mesh.opmaterial = material;
     			container.add( mesh );
 
         }

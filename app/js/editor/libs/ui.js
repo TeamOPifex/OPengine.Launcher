@@ -682,7 +682,7 @@ UI.Number = function ( number ) {
 	this.min = - Infinity;
 	this.max = Infinity;
 
-	this.precision = 2;
+	this.precision = 20;
 	this.step = 1;
 
 	this.dom = dom;
@@ -806,6 +806,8 @@ UI.Number.prototype.setValue = function ( value ) {
 	if ( value !== undefined ) {
 
 		value = parseFloat( value );
+
+		console.log(value);
 
 		if ( value < this.min ) value = this.min;
 		if ( value > this.max ) value = this.max;
