@@ -1,0 +1,51 @@
+<div class="row extrapadding section detail">
+    <div class="col-xs-12 text-left">
+        <div>
+            <a ng-click="folder()" href="javascript:void(0);" class="btn btn-lg btn-default">
+                Select Folder
+            </a>
+            <br />
+            <div>
+                {{folder}}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-6">
+                <div>Select Files</div>
+                <div class="fileSelection" style="width: 100%;">
+                    <div ng-repeat="file in files">
+                        <div class="checkbox">
+                            <input ng-model="file.selected" type="checkbox" id="file_{{file.id}}" />
+                            <label class="check" for="file_{{file.id}}"></label>
+                            <label class="text">{{file.name}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                Select Options
+            </div>
+        </div>
+        <br />
+
+        <a ng-click="addBinary()" href="javascript:void(0);" class="btn btn-lg btn-default">
+            Add Binary
+        </a>
+        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <div ng-repeat="binary in binaries">
+                    <div>
+                        Binary
+                    </div>
+                    <div>
+                        <a ng-click="binaryFiles(binary)" href="javascript:void(0);" class="btn btn-lg btn-default">
+                            Select files...
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -133,6 +133,23 @@ function launcherWindow(app, token) {
 	// Helper functions from within the actual app
     ipcMain.on('folder', folder);
 
+
+	function files(event, arg) {
+		Dialog.showOpenDialog({
+			properties: [ 'openFile', 'multiSelections' ],
+            filters: [ {name: 'All Files', extensions: ['*']} ]
+		}, function(results) {
+			console.log(results);
+			if(!results) {
+				event.returnValue = null;
+				return;
+			}
+			event.returnValue = results;
+		});
+	}
+	// Helper functions from within the actual app
+    ipcMain.on('files', files);
+
 	function minimize(event, arg) {
 		mainWindow.minimize();
 	}
@@ -245,6 +262,7 @@ function launcherWindow(app, token) {
 	function signout() {
 		ipcMain.removeListener('signout', signout);
 		ipcMain.removeListener('folder', folder);
+		ipcMain.removeListener('files', files);
 		ipcMain.removeListener('shortcuts', shortcuts);
 		ipcMain.removeListener('minimize', minimize);
 		ipcMain.removeListener('maximize', maximize);
