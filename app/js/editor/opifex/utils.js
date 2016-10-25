@@ -102,10 +102,22 @@ OPIFEX.Utils = {
               object.position.y = node.position[1];
               object.position.z = node.position[2];
             }
+            if(node.rotation) {
+              object.rotation.x = node.rotation[0];
+              object.rotation.y = node.rotation[1];
+              object.rotation.z = node.rotation[2];
+            }
             if(node.scale) {
               object.scale.x = node.scale[0];
               object.scale.y = node.scale[1];
               object.scale.z = node.scale[2];
+            }
+
+            if(node.scripts) {
+              for(var key in node.scripts) {
+                var script = { name: key, source: node.scripts[key] };
+                editor.execute( new AddScriptCommand( object, script ) );
+              }
             }
 
             for(var i = 0; i < object.children.length; i++) {
@@ -155,6 +167,9 @@ OPIFEX.Utils = {
         mesh.position.x = node.position[0];
         mesh.position.y = node.position[1];
         mesh.position.z = node.position[2];
+        mesh.rotation.x = node.rotation[0];
+        mesh.rotation.y = node.rotation[1];
+        mesh.rotation.z = node.rotation[2];
         mesh.scale.x = node.scale[0];
         mesh.scale.y = node.scale[1];
         mesh.scale.z = node.scale[2];

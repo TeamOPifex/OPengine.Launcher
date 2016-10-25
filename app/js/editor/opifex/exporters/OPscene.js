@@ -54,13 +54,22 @@ OPsceneExporter.prototype = {
                   }
                 }
 
+                obj.scripts = {
+
+                };
+
+                if(m.OnActivate) {
+                  obj.scripts.OnActivate = m.OnActivate;
+                }
+
                 var scripts = editor.scripts[m.uuid];
                 if(scripts) {
-                  obj.scripts = {};
                   for(var j = 0; j < scripts.length; j++) {
                     obj.scripts[scripts[j].name] = scripts[j].source;
                   }
                 }
+
+
 
                 if(m.gameType == 'Bounding Box') {
                     obj.type = 'PHYSICS';
@@ -82,8 +91,20 @@ OPsceneExporter.prototype = {
                     rotation: [ m.rotation.x, m.rotation.y, m.rotation.z ],
                     children: [],
                     gameType: m.gameType,
-                    boundingBox: bounds
+                    boundingBox: bounds,
+                    scripts: {}
                 };
+
+                if(m.OnActivate) {
+                  obj.scripts.OnActivate = m.OnActivate;
+                }
+
+                var scripts = editor.scripts[m.uuid];
+                if(scripts) {
+                  for(var j = 0; j < scripts.length; j++) {
+                    obj.scripts[scripts[j].name] = scripts[j].source;
+                  }
+                }
 
                 if(parent) {
                     parent.children.push(obj);

@@ -341,6 +341,7 @@ Sidebar.Object = function ( editor ) {
 
 	container.add( objectVisibleRow );
 
+
 	// user data
 
 	var timeout;
