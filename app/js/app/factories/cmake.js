@@ -10,7 +10,7 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
             var root = require('os').homedir() + '/.opengine';
             args.push('-DOPIFEX_MARKETPLACE=' + root + '/marketplace');
 
-            args.push('-DCMAKE_BUILD_TYPE=Release');
+            //args.push('-DCMAKE_BUILD_TYPE=Release');
 
 
             var toolchain = configuration.getValue(config, 'OPIFEX_OPTION_EMSCRIPTEN');
