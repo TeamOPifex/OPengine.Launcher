@@ -32,6 +32,25 @@ Sidebar.Script = function ( editor ) {
 	} );
 	container.add( newScript );
 
+
+
+
+
+	// opm
+
+	var objectScriptOnActivateRow = new UI.Row();
+	var objectScriptOnActivate = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+
+		editor.execute( new SetValueCommand( editor.selected, 'OnActivate', objectScriptOnActivate.getValue() ) );
+
+	} );
+
+	objectScriptOnActivateRow.add( new UI.Text( 'OnActivate' ).setWidth( '90px' ) );
+	objectScriptOnActivateRow.add( objectScriptOnActivate );
+
+	container.add( objectScriptOnActivateRow );
+
+
 	/*
 	var loadScript = new UI.Button( 'Load' );
 	loadScript.setMarginLeft( '4px' );
@@ -42,9 +61,11 @@ Sidebar.Script = function ( editor ) {
 
 	function update() {
 
+
 		scriptsContainer.clear();
 
 		var object = editor.selected;
+		objectScriptOnActivate.setValue( object.OnActivate || '' );
 
 		if ( object === null ) {
 

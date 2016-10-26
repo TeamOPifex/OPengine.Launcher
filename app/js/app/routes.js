@@ -61,6 +61,10 @@ angular.module('engineApp').config(['$routeProvider',
         templateUrl: 'js/app/partials/marketplace.html',
         controller: 'MarketplaceCtrl'
       }).
+      when('/marketplace/new', {
+        templateUrl: 'js/app/partials/newAddon.html',
+        controller: 'NewAddonCtrl'
+      }).
       when('/marketplace/addon/:addonName', {
         templateUrl: 'js/app/partials/addon.html',
         controller: 'AddonCtrl'
@@ -83,6 +87,10 @@ angular.module('engineApp').config(['$routeProvider',
       }).
       when('/games', {
         templateUrl: 'js/app/partials/games.html',
+        controller: 'GamesCtrl'
+      }).
+      when('/games/SetInStone', {
+        templateUrl: 'js/app/partials/games/SetInStone.html',
         controller: 'GamesCtrl'
       }).
       otherwise({
