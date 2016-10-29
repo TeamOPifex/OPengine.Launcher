@@ -135,8 +135,11 @@ OPIFEX.Utils = {
               passedNode.position = [ 0, 0, 0];
               passedNode.position.x = passedNode.position.y = passedNode.position.z = 0;
 
-              OPIFEX.Utils.SetNode(editor, passedNode, object.children[i], cb);
+              OPIFEX.Utils.SetNode(editor, passedNode, object.children[i], function(obj) {
+
+              });
             }
+            cb && cb(object);
           } else {
           	if(!node.material.texture && object.meta && object.meta['albedo']) {
           		node.material.texture = object.meta['albedo'];
@@ -232,7 +235,9 @@ OPIFEX.Utils = {
               }
               if(node.children) {
                   for(var i = 0; i < node.children.length; i++) {
-                      //OPIFEX.Utils.LoadSceneNode(editor, node.children[i], result);
+                    if(node.children[i].gameType && node.children[i].gameType != '' && node.children[i].gameType != ' ') {
+                      OPIFEX.Utils.LoadSceneNode(editor, node.children[i], result);
+                    }
                   }
               }
           }
