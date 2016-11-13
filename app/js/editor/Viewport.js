@@ -330,7 +330,7 @@ var Viewport = function ( editor ) {
 				}
 			}
 
-			var node = { name: data, opm: data, material: null };
+			var node = { name: data, opm: data, material: null, gameType: window.defaultGameType };
 			if(selected != null) {
 				console.log('Dropping mesh on', selected);
 				selected.geometry.computeBoundingBox();
