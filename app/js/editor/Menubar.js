@@ -14,7 +14,7 @@ var Menubar = function ( editor ) {
 	//container.add( new Menubar.Examples( editor ) );
 	//container.add( new Menubar.Help( editor ) );
 
-    var option = new UI.Panel();
+  var option = new UI.Panel();
 	option.setClass( 'option' );
 	option.setTextContent( 'Add Bounding Box' );
 	option.onClick( function () {
@@ -47,6 +47,23 @@ var Menubar = function ( editor ) {
         editor.signals.sceneGraphChanged.dispatch();
 	} );
 	container.add( option );
+
+
+	var objectGameTypes = new UI.Select().setFontSize( '11px' );
+	window.defaultGameType = ' ';
+
+	objectGameTypes.setClass( 'Select option' );
+	var gameTypeOptions = { " ": " " };
+	for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
+		gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+	}
+	objectGameTypes.setOptions( gameTypeOptions );
+
+	objectGameTypes.onChange( function () {
+		window.defaultGameType = objectGameTypes.getValue();
+	});
+	console.log(objectGameTypes);
+	container.add( objectGameTypes );
 
 	//container.add( new Menubar.Status( editor ) );
 
