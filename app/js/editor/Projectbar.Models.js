@@ -33,6 +33,7 @@ Projectbar.Models = function ( editor ) {
 	    model.setAttribute('draggable', 'true');
 	    model.setAttribute('model-name', models[i]);
 	    model.setAttribute('model-type', 'model');
+			model.setAttribute('style', "background-size: cover; background-image: url('" + window.projectPath + '/Assets/Models/' + models[i] + ".png')");
 	    model.textContent = models[i];
 
 	  	model.addEventListener( 'dragstart', function(event) {
