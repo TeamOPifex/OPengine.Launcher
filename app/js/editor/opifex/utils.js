@@ -13,7 +13,8 @@ OPIFEX.Utils = {
         node.scale = node.scale || [ 1, 1, 1 ];
         node.rotation = node.rotation || [ 0, 0, 0 ];
 
-        object.name = node.name.split('.')[0];
+        object.name = node.name.split('/');
+        object.name = object.name[object.name.length -1].split('.')[0];
         object.opm = node.opm;
         object.position.x = node.position[0];
         object.position.y = node.position[1];
@@ -71,7 +72,8 @@ OPIFEX.Utils = {
           // OPM doesn't exist, assume it's a cube for now
           var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
           var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
-          mesh.name = node.name.split('.')[0];
+          mesh.name = node.name.split('/');
+          mesh.name = mesh.name[mesh.name.length -1].split('.')[0];
           mesh.opm = meshFileName;
 
           editor.execute( new AddObjectCommand( mesh ) );
@@ -181,8 +183,22 @@ OPIFEX.Utils = {
     },
 
     SetTexture: function(editor, object, textureFileName) {
+      textureFileName = textureFileName.split('\\').join('/').split('/');
+      textureFileName = textureFileName[textureFileName.length - 1];
         var textureFilePath = window.projectPath + '/Assets/Textures/' + textureFileName;
-        if(!require('fs').existsSync(textureFilePath)) return;
+        console.log(textureFilePath);
+        if(!require('fs').existsSync(textureFilePath)) {
+          if(textureFilePath.endsWith('.psd')) {
+            textureFilePath = textureFilePath.split('.psd')[0] + '.png';
+            if(!require('fs').existsSync(textureFilePath)) {
+              return;
+            } else {
+              textureFileName = textureFileName.split('.psd')[0] + '.png';
+            }
+          } else {
+            return;
+          }
+        }
 
   			var image = document.createElement( 'img' );
   			image.addEventListener( 'load', function( event ) {
@@ -273,13 +289,15 @@ OPIFEX.Utils = {
         window.activeScene = sceneFileName;
     },
 
-    Walk: function(filePath, callback) {
+    Walk: function(filePath, callback, notInRoot) {
+        filePath = filePath.split('\\').join('/');
         fs.readdirSync(filePath).forEach(function(name) {
             var fullFilePath = path.join(filePath, name);
             var stat = fs.statSync(fullFilePath);
-            callback(fullFilePath, name, stat);
+            fullFilePath = fullFilePath.split('\\').join('/');
+            callback(fullFilePath, name, stat, notInRoot || false, filePath);
             if(stat.isDirectory()) {
-                OPIFEX.Utils.Walk(filePath, callback);
+                OPIFEX.Utils.Walk(fullFilePath, callback, true);
             }
         });
     }
