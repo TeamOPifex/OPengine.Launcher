@@ -5,6 +5,7 @@ import MenuBuilder from './menuBuilder.js';
 import LoginWindow from './loginWindow.js';
 import InstallWindow from './installWindow.js';
 import ProjectHelperWindow from './projectHelperWindow.js';
+import ConvertHelperWindow from './convertHelperWindow.js';
 import Download from './download-file.js';
 import SceneEditorWindow from './sceneEditorWindow.js';
 import LauncherConfig from './launcher-config.js';
@@ -259,6 +260,17 @@ function launcherWindow(app, token) {
 	ipcMain.on('project-helper-tool', projectHelperToolFn);
 	ipcMain.on('engine-helper-tool', engineHelperToolFn);
 
+	function projectConvertToolFn(event, arg) {
+		console.log('Open project convert tool');
+			ConvertHelperWindow(app, arg, true);
+
+	}
+	function engineConvertToolFn(event, arg) {
+			ConvertHelperWindow(app, arg, false);
+	}
+	ipcMain.on('project-convert-tool', projectConvertToolFn);
+	ipcMain.on('engine-convert-tool', engineConvertToolFn);
+
 	function signout() {
 		ipcMain.removeListener('signout', signout);
 		ipcMain.removeListener('folder', folder);
@@ -273,6 +285,8 @@ function launcherWindow(app, token) {
 		ipcMain.removeListener('msvc', msvc);
 		ipcMain.removeListener('project-helper-tool', projectHelperToolFn);
 		ipcMain.removeListener('engine-helper-tool', engineHelperToolFn);
+		ipcMain.removeListener('project-convert-tool', projectConvertToolFn);
+		ipcMain.removeListener('engine-convert-tool', engineConvertToolFn);
 		ipcMain.removeListener('exit', exit);
 		removeShortcuts();
 		console.log(LoginWindow);

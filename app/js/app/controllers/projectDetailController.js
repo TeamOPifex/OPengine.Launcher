@@ -58,6 +58,10 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
           ipc.send('project-helper-tool', $scope.project.path);
         }
 
+        $scope.convertTool = function() {
+          ipc.send('project-convert-tool', $scope.project.path);
+        }
+
         // On KeyBind events coming from the underlining application
         ipc.on('build', function() { $scope.make(); });
         ipc.on('forceBuild', function() { $scope.make(true); });

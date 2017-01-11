@@ -134,7 +134,8 @@ var bundleApplication = function () {
         bundle(srcDir.path('loginWindow.js'), destDir.path('loginWindow.js')),
         bundle(srcDir.path('app.js'), destDir.path('app.js')),
         appBundle('js/app/', destDir.path('appBundle')),
-        appBundle('js/projectHelper/', destDir.path('projectHelperBundle'))
+        appBundle('js/projectHelper/', destDir.path('projectHelperBundle')),
+        appBundle('js/convertHelper/', destDir.path('convertHelperBundle'))
     ]);
 };
 
