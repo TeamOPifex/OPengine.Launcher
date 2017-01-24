@@ -57,6 +57,13 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
         CreateRepo: false
     };
 
+    $scope.tab = function(t) {
+        $('#newProjectModal li').removeClass('active');
+        $('#newProjectModal li#' + t).addClass('active');
+        $('#newProjectModal .tab').hide();
+        $('#newProjectModal .tab-' + t).show();
+    }
+
     $scope.engineVersions = engines;
     $scope.projects = projects;
 
