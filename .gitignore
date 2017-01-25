@@ -9,3 +9,4 @@ Thumbs.db
 /tmp/
 app/bower_components/bootstrap/less/mixins/forms.less
 app/bower_components/
+bower_components/
