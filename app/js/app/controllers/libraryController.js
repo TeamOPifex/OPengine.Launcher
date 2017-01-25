@@ -1,8 +1,8 @@
 var ipc = require('electron').ipcRenderer;
 var fs = require('fs');
 
-angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config',
-  function ($scope, $http, user, git, engines, projects, engineReleases, config) {
+angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config', '$sce',
+  function ($scope, $http, user, git, engines, projects, engineReleases, config, $sce) {
 
 
     $scope.token = window.localStorage['githubToken'];
@@ -46,6 +46,24 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
   //     }
   // });
 
+  $scope.templates = [];
+  $scope.templates.push({
+    id: 1,
+    name: "Blank Template",
+    desc: "<img class=\"template-image\" src=\"content/imgs/OPengineLogoWhite.png\" /><div>An empty blank project.</div>",
+    repo: "OPengine.AppTemplate"
+  });
+  $scope.templates.push({
+    id: 2,
+    name: "Scripted V8",
+    desc: "<img class=\"template-image\" src=\"https://pbs.twimg.com/media/C15FIgXVIAA_BbA.jpg:large\" /><div>Uses Chrome V8 Engine.</div>",
+    repo: "OPengine.AppTemplate.Scripting"
+  });
+  $scope.templateSelected = $scope.templates[0];
+  $scope.templateSelect = function(temp) {
+    $scope.templateSelected = temp;
+  };
+  //$sce.trustAsHtml($scope.templateSelected.desc);
 
 
 	$scope.engineVersions = [ ];
@@ -56,6 +74,13 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
         RepoName: '',
         CreateRepo: false
     };
+
+    $scope.tab = function(t) {
+        $('#newProjectModal li').removeClass('active');
+        $('#newProjectModal li#' + t).addClass('active');
+        $('#newProjectModal .tab').hide();
+        $('#newProjectModal .tab-' + t).show();
+    }
 
     $scope.engineVersions = engines;
     $scope.projects = projects;
@@ -230,7 +255,7 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
 
         $scope.projects.push(clone);
 
-        git.CLI.cloneProject('TeamOPifex', 'OPengine.AppTemplate', safeName, function(err, repo) {
+        git.CLI.cloneProject('TeamOPifex', $scope.templateSelected.repo, safeName, function(err, repo) {
             clone.cloning = false;
 
             var path = nodePath.resolve(global.root + "/repos/projects/" + safeName);
