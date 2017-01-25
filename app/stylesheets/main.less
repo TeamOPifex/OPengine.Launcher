@@ -1578,6 +1578,14 @@ h2 {
             background-image: url('../content/imgs/OverlayHover.png');
           }
         }
+        a.active {
+          .overlay {
+            background-image: url('../content/imgs/OverlayHover.png');
+          }
+          .overlay-content {
+            color: @active-color;
+          }
+        }
     }
 
     .engine-version.new-project {
@@ -2453,4 +2461,19 @@ a.game {
   width: 260px;
   height: 32px;
   margin-bottom: 0px;
+}
+
+
+
+
+.modal-large .modal-dialog {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+img.template-image {
+  max-width: 100%;
+  border-radius: 3px;
+  padding-bottom: 5px;
 }
