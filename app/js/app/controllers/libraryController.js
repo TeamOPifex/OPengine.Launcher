@@ -1,4 +1,4 @@
-var ipc = require('electron').ipcRenderer;
+﻿var ipc = require('electron').ipcRenderer;
 var fs = require('fs');
 
 angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config', '$sce',
@@ -54,10 +54,16 @@ angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http'
     repo: "OPengine.AppTemplate"
   });
   $scope.templates.push({
-    id: 2,
-    name: "Scripted V8",
-    desc: "<img class=\"template-image\" src=\"https://pbs.twimg.com/media/C15FIgXVIAA_BbA.jpg:large\" /><div>Uses Chrome V8 Engine.</div>",
-    repo: "OPengine.AppTemplate.Scripting"
+      id: 2,
+      name: "Scripted V8",
+      desc: "<img class=\"template-image\" src=\"https://pbs.twimg.com/media/C15FIgXVIAA_BbA.jpg:large\" /><div>Uses Chrome V8 Engine.</div>",
+      repo: "OPengine.AppTemplate.Scripting"
+  });
+  $scope.templates.push({
+      id: 3,
+      name: "Basic 3D Game",
+      desc: "<img class=\"template-image\" src=\"content/imgs/PhysXScripting.png\" /><div>Uses Chrome V8 Engine and NVidia's PhysX Engine along with some basic game structure.</div>",
+      repo: "OPengine.AppTemplate.PhysXScripting"
   });
   $scope.templateSelected = $scope.templates[0];
   $scope.templateSelect = function(temp) {
