@@ -1,4 +1,4 @@
-Projectbar.Models = function ( editor ) {
+﻿Projectbar.Models = function ( editor ) {
 
 	var signals = editor.signals;
 
