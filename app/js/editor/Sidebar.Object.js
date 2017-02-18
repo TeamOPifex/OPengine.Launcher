@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @author mrdoob / http://mrdoob.com/
  */
 
@@ -557,11 +557,11 @@ Sidebar.Object = function ( editor ) {
 
 			}
 
-			//if ( object.physics !== undefined ) {
+			if ( object.physics !== undefined ) {
 
 				editor.execute( new SetValueCommand( object, 'physics', objectUsePhysics.getValue() ) );
 
-			//}
+			}
 
 			try {
 
@@ -597,8 +597,9 @@ Sidebar.Object = function ( editor ) {
 			'penumbra' : objectPenumbraRow,
 			'decay' : objectDecayRow,
 			'castShadow' : objectShadowRow,
-			'receiveShadow' : objectReceiveShadow,
-			'shadow': objectShadowRadius
+            'receiveShadow': objectReceiveShadow,
+            'shadow': objectShadowRadius,
+            'userData': objectUserData
 		};
 
 		for ( var property in properties ) {
@@ -801,7 +802,7 @@ Sidebar.Object = function ( editor ) {
 
 		try {
 
-			//objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
+			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 
 		} catch ( error ) {
 
