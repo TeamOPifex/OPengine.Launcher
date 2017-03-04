@@ -1,6 +1,8 @@
 angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
 
+      console.log('LOGIN');
+
     	var Github = require('github-api');
 
       var qs = (function(a) {
@@ -43,6 +45,7 @@ angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routePa
               });
     		user.token = $scope.token;
 
+        //window.location = 'app.html#!/library';
     		// user.githubUser = user.github.getUser();
     		// user.githubUser.orgs(function(err, results) {
     		// 	if(err) {
@@ -68,7 +71,7 @@ angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routePa
     		// 			user.orgRepos = results;
     		// 		});
         //
-    		// 		window.location = 'app.html#/library';
+    		// 		window.location = 'app.html#!/library';
     		// 	}
     		// });
 

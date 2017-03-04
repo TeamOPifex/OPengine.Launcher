@@ -4,6 +4,7 @@ var fs = require('fs');
 angular.module('engineControllers').controller('LibraryCtrl', ['$scope', '$http', 'user', 'git', 'engines', 'projects', 'engineReleases', 'config', '$sce',
   function ($scope, $http, user, git, engines, projects, engineReleases, config, $sce) {
 
+    console.log('LIBRARY');
 
     $scope.token = window.localStorage['githubToken'];
     $scope.root = require('os').homedir() + '/.opengine';
