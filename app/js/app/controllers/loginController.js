@@ -43,34 +43,34 @@ angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routePa
               });
     		user.token = $scope.token;
 
-    		user.githubUser = user.github.getUser();
-    		user.githubUser.orgs(function(err, results) {
-    			if(err) {
-    				if(err.error == 401) {
-    					alert('Failed to authenticate');
-    					return;
-    				}
-    			}
-
-    			user.orgs = results;
-    			for(var i = 0; i < user.orgs.length; i++) {
-    				if(user.orgs[i].login == 'TeamOPifex') {
-    					user.OPifex = true;
-    					break;
-    				}
-    			}
-
-    			if(!user.OPifex) {
-    				alert('Not a part of the Github Organization TeamOPifex');
-    			} else {
-    				user.githubUser.orgRepos('teamopifex', function(err, results) {
-    					//console.log('org repos', err, results);
-    					user.orgRepos = results;
-    				});
-
-    				window.location = 'app.html#/library';
-    			}
-    		});
+    		// user.githubUser = user.github.getUser();
+    		// user.githubUser.orgs(function(err, results) {
+    		// 	if(err) {
+    		// 		if(err.error == 401) {
+    		// 			alert('Failed to authenticate');
+    		// 			return;
+    		// 		}
+    		// 	}
+        //
+    		// 	user.orgs = results;
+    		// 	for(var i = 0; i < user.orgs.length; i++) {
+    		// 		if(user.orgs[i].login == 'TeamOPifex') {
+    		// 			user.OPifex = true;
+    		// 			break;
+    		// 		}
+    		// 	}
+        //
+    		// 	if(!user.OPifex) {
+    		// 		alert('Not a part of the Github Organization TeamOPifex');
+    		// 	} else {
+    		// 		user.githubUser.orgRepos('teamopifex', function(err, results) {
+    		// 			//console.log('org repos', err, results);
+    		// 			user.orgRepos = results;
+    		// 		});
+        //
+    		// 		window.location = 'app.html#/library';
+    		// 	}
+    		// });
 
     		//console.log(user);
 
