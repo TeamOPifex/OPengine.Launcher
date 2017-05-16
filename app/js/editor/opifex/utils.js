@@ -4,7 +4,7 @@ var fs = require('fs'), path = require('path');
 
 OPIFEX.Utils = {
 
-    SetNode: function(editor, node, object, cb) {
+    SetNode: function(editor, node, object, cb, metaData) {
         if(object == null || object == undefined) {
             return;
         }
@@ -34,6 +34,15 @@ OPIFEX.Utils = {
           editor.execute( new SetValueCommand( object, 'gameType', node.gameType ) );
         } else {
           editor.execute( new SetValueCommand( object, 'gameType', ' ' ) );
+        }
+
+        if(metaData) {
+          if(metaData.gameType) {
+            editor.execute( new SetValueCommand( object, 'gameType', metaData.gameType ) );
+          }
+          if(metaData.boundingBoxes) {
+            // add bounding boxes
+          }
         }
 
         if(node.scripts) {
@@ -84,6 +93,14 @@ OPIFEX.Utils = {
         }
 
         var fileData = fs.readFileSync(file);
+        var metaData = {};
+        if(fs.existsSync(file + '.meta')) {
+          try{
+            metaData = JSON.parse(fs.readFileSync(file + '.meta'));
+          }catch(ex) {
+            alert('Failed to parse meta: ' + file + '.meta');
+          }
+        }
 
         editor.loader.loadFile({
           name: meshFileName,
@@ -139,14 +156,14 @@ OPIFEX.Utils = {
 
               OPIFEX.Utils.SetNode(editor, passedNode, object.children[i], function(obj) {
 
-              });
+              }, metaData);
             }
             cb && cb(object);
           } else {
           	if(!node.material.texture && object.meta && object.meta['albedo']) {
           		node.material.texture = object.meta['albedo'];
           	}
-            OPIFEX.Utils.SetNode(editor, node, object, cb);
+            OPIFEX.Utils.SetNode(editor, node, object, cb, metaData);
           }
         });
     },

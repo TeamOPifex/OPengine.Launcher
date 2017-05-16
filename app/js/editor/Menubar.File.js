@@ -18,19 +18,19 @@ Menubar.File = function ( editor ) {
 
 	// New
 
-	var option = new UI.Row();
-	option.setClass( 'option' );
-	option.setTextContent( 'New' );
-	option.onClick( function () {
-
-		if ( confirm( 'Any unsaved data will be lost. Are you sure?' ) ) {
-
-			editor.clear();
-
-		}
-
-	} );
-	options.add( option );
+	// var option = new UI.Row();
+	// option.setClass( 'option' );
+	// option.setTextContent( 'New' );
+	// option.onClick( function () {
+	//
+	// 	if ( confirm( 'Any unsaved data will be lost. Are you sure?' ) ) {
+	//
+	// 		editor.clear();
+	//
+	// 	}
+	//
+	// } );
+	// options.add( option );
 
 	//
 

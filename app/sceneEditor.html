@@ -53,12 +53,35 @@
 
 	</head>
 	<body ontouchstart="">
+
 		<link href="stylesheets/editor/main.css" rel="stylesheet" />
 		<link id="theme" href="stylesheets/editor/opifex.css" rel="stylesheet" />
 		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
 
+		<div id="newSceneModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">New Scene</h4>
+					</div>
+					<div class="modal-body text-left">
+							<div>
+								<input type="text" id="sceneName" class="form-control" placeholder="Scene Name" />
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="CreateSceneBtn">Create</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
     <script src="vendor/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+		<script src="vendor/bootstrap.min.js"></script>
 
 		<script src="js/editor/three.min.js"></script>
 		<script src="js/editor/libs/system.min.js"></script>
