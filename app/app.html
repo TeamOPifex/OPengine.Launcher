@@ -2,7 +2,7 @@
 <html ng-app="engineApp">
     <head>
         <meta charset="utf-8">
-        <title>Electron Boilerplate</title>
+        <title>OPengine</title>
 
         <script>
         var path = require('path');
@@ -112,22 +112,22 @@
             <div class="sections">
                 <ul>
                     <li class="news" ng-class="getClass('/news')">
-                        <a href="#!/news"><span class="icon-newspaper-o"></span><span class="text">News</span></a>
+                        <a href="#/news"><span class="icon-newspaper-o"></span><span class="text">News</span></a>
                     </li>
                     <li class="learn" ng-class="getClass('/learn')">
-                        <a href="#!/learn"><span class="icon-mortar-board2"></span><span class="text">Documentation</span></a>
+                        <a href="#/learn"><span class="icon-mortar-board2"></span><span class="text">Documentation</span></a>
                     </li>
                     <li class="marketplace" ng-class="getClass('/marketplace')">
-                        <a href="#!/marketplace"><span class="icon-rocket"></span><span class="text">Marketplace</span></a>
+                        <a href="#/marketplace"><span class="icon-rocket"></span><span class="text">Marketplace</span></a>
                     </li>
                     <li class="library" ng-class="getClass('/library')" id="menu-library">
-                        <a href="#!/library"><span class="icon-books"></span><span class="text">Library</span></a>
+                        <a href="#/library"><span class="icon-books"></span><span class="text">Library</span></a>
                     </li>
                     <li class="games" ng-class="getClass('/games')">
-                        <a href="#!/games"><span class="icon-gamepad2"></span><span class="text">OPifex Games</span></a>
+                        <a href="#/games"><span class="icon-gamepad2"></span><span class="text">OPifex Games</span></a>
                     </li>
                     <li class="tools" ng-class="getClass('/tools')">
-                        <a href="#!/tools"><span class="icon-tools"></span><span class="text">Tools</span></a>
+                        <a href="#/tools"><span class="icon-tools"></span><span class="text">Tools</span></a>
                     </li>
                 </ul>
             </div>
@@ -138,13 +138,13 @@
                         <a href="" ng-click="toggleConsole()"><span class="icon-terminal"></span><span class="text">Terminal</span></a>
                     </li>
                     <li class="bug" ng-class="getClass('/bug')">
-                        <a href="#!/bug"><span class="icon-bug"></span><span class="text">Report a bug</span></a>
+                        <a href="#/bug"><span class="icon-bug"></span><span class="text">Report a bug</span></a>
                     </li>
                     <li class="slack" ng-class="getClass('/slack')">
-                        <a href="#!/slack"><span class="icon-slack"></span><span class="text">Join the conversation!</span></a>
+                        <a href="#/slack"><span class="icon-slack"></span><span class="text">Join the conversation!</span></a>
                     </li>
                     <li class="settings" ng-class="getClass('/settings')">
-                        <a href="#!/settings"><span class="icon-gear"></span><span class="text">Settings</span></a>
+                        <a href="#/settings"><span class="icon-gear"></span><span class="text">Settings</span></a>
                     </li>
                 </ul>
             </div>
@@ -171,9 +171,9 @@
                         {{user.firstName}} {{user.lastName}} ({{user.subscription || 'personal'}}) <span class="icon-chevron-down"></span>
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#!/license">Change Subscription</a></li>
-                        <li><a href="#!/account">Account Settings</a></li>
-                        <li><a href="#!/slack"><span class="icon-slack"></span> Slack</a></li>
+                        <li><a href="#/license">Change Subscription</a></li>
+                        <li><a href="#/account">Account Settings</a></li>
+                        <li><a href="#/slack"><span class="icon-slack"></span> Slack</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="javascript:void(0)" ng-click="signout()">Sign out</a></li>
                       </ul>

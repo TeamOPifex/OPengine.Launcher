@@ -65,9 +65,9 @@ function convertHelperWindow(app, path, isProject) {
 	// in offline mode without negatively affecting the User
 	// Experience
   if(isProject) {
-	   mainWindow.loadURL(global.webRoot + '/convertHelper.html?path=' + path + '&currentWindow=' + currentWindow + '#!/project');
+	   mainWindow.loadURL(global.webRoot + '/convertHelper.html?path=' + path + '&currentWindow=' + currentWindow + '#/project');
   } else {
-	   mainWindow.loadURL(global.webRoot + '/convertHelper.html?path=' + path + '&currentWindow=' + currentWindow + '#!/engine');
+	   mainWindow.loadURL(global.webRoot + '/convertHelper.html?path=' + path + '&currentWindow=' + currentWindow + '#/engine');
   }
 
 
