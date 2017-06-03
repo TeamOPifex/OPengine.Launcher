@@ -1,4 +1,4 @@
-var OPIFEX = OPIFEX || {};
+﻿var OPIFEX = OPIFEX || {};
 
 function OPsceneExporter(editor) {
     this.result = {
@@ -28,7 +28,14 @@ OPsceneExporter.prototype = {
                     gameType: m.gameType
                 };
 
+                var tempRotX = m.rotation.x;
+                var tempRotY = m.rotation.y;
+                var tempRotZ = m.rotation.z;
+                m.rotation.x = m.rotation.y = m.rotation.z = 0;
                 m.geometry.computeBoundingBox();
+                m.rotation.x = tempRotX;
+                m.rotation.y = tempRotY;
+                m.rotation.z = tempRotZ;
                 obj.boundingBox = {
                   min: [ m.geometry.boundingBox.min.x, m.geometry.boundingBox.min.y, m.geometry.boundingBox.min.z ],
                   max: [ m.geometry.boundingBox.max.x, m.geometry.boundingBox.max.y, m.geometry.boundingBox.max.z ]
