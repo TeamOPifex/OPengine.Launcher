@@ -1,4 +1,4 @@
-<div class="row extrapadding section detail">
+﻿<div class="row extrapadding section detail">
     <div class="col-xs-12 text-left">
       <p><b><i>The marketplace is in very early beta. Don't assume anything will work correctly yet.</i></b></p>
         <h2 class="title">
@@ -7,7 +7,7 @@
 
         <div class="row">
           <div class="col-sm-4" ng-repeat="addon in addons">
-            <a class="addon" href="#/marketplace/addon/{{addon.name}}">
+            <a class="addon" href="#!/marketplace/addon/{{addon.name}}">
               <div class="addon-title">{{addon.name}}</div>
               <div class="addon-category">{{addon.category}}</div>
               <div class="addon-installed" ng-if="addon.installed">{{addon.installedVersion}} Installed</div>
@@ -17,7 +17,7 @@
         </div>
 
         <div>
-            <a href="#/marketplace/new" class="btn btn-lg btn-default">Create an Addon</a>
+            <a href="#!/marketplace/new" class="btn btn-lg btn-default">Create an Addon</a>
         </div>
 	</div>
 </div>
