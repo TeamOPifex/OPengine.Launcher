@@ -1,10 +1,6 @@
-angular.module('engineApp').config(['$routeProvider',
+﻿angular.module('engineApp').config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/login', {
-        templateUrl: 'js/app/partials/notyet.html',
-        controller: 'LoginCtrl'
-      }).
       when('/settings', {
         templateUrl: 'js/app/partials/settings.html',
         controller: 'SettingsCtrl'
@@ -93,7 +89,11 @@ angular.module('engineApp').config(['$routeProvider',
         templateUrl: 'js/app/partials/games/SetInStone.html',
         controller: 'GamesCtrl'
       }).
+      when('/login', {
+          templateUrl: 'js/app/partials/notyet.html',
+          controller: 'LoginCtrl'
+      }).
       otherwise({
-        redirectTo: '/login'
+         redirectTo: '/login'
       });
   }]);

@@ -1,8 +1,8 @@
-var ipc = require('electron').ipcRenderer;
+﻿var ipc = require('electron').ipcRenderer;
 angular.module('engineApp').controller('engineCtrl', ['$scope', 'user', 'console', '$timeout', 'run', '$location', function($scope, user, appConsole, $timeout, run, $location) {
 	console.log('engineAPP');
 	if(!user.OPifex) {
-	  window.location = '#/library';
+	  window.location = '#!/library';
 	}
 
 	var shortcuts = [

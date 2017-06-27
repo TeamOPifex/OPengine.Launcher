@@ -1,4 +1,4 @@
-angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$routeParams', 'user',
+﻿angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$routeParams', 'user',
     function($scope, $routeParams, user) {
         $('.current-tab .tab-text').text('Subscription');
 
@@ -92,7 +92,7 @@ angular.module('engineControllers').controller('LicenseCtrl', ['$scope', '$route
                   if(data.success) {
                     alert('Subscribed successfully');
                   	$(window).trigger('update-account');
-                    window.location = '#/account';
+                    window.location = '#!/account';
 
                   } else {
                     alert('There was a problem: ' + data.message);

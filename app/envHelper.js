@@ -1,6 +1,22 @@
 ﻿import os from 'os';
 import env from './env';
 
+var fs = require('fs');
+
+function getConfig() {
+    var root = require('os').homedir() + '/.opengine';
+    var configFilePath = root + '/opifex.json';
+    if (!fs.existsSync(configFilePath)) {
+        return {
+            engines: [],
+            projects: [],
+            paths: []
+        };
+    }
+    var content = fs.readFileSync(configFilePath);
+    return JSON.parse(content);
+}
+
 // This will add paths to the environment when we're not running it through
 // the console. (AKA production release build)
 var envHelper = function() {
@@ -33,7 +49,14 @@ var envHelper = function() {
 	    process.env.Path += ';C:\\Program Files (x86)\\MSBuild\\10.0\\Bin\\';
 	    process.env.Path += ';C:\\Windows\\Microsoft.NET\\Framework\\v4.5\\';
 	    process.env.Path += ';C:\\Windows\\Microsoft.NET\\Framework\\v4.0\\';
-	}
+    }
+
+    var config = getConfig();
+    console.log(__dirname, config);
+    if (config.path) {
+        config.path.map(p => process.env.Path += ';' + p);
+    }
+
 }
 
 export default envHelper;
