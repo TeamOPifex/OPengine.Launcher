@@ -7,7 +7,7 @@
 
         <div class="row">
           <div class="col-sm-4" ng-repeat="addon in addons">
-            <a class="addon" href="#!/marketplace/addon/{{addon.id}}">
+            <a class="addon" href="#/marketplace/addon/{{addon.id}}">
               <div class="addon-title">{{addon.name}} | {{addon.id}}</div>
               <div class="addon-category">
                 <span ng-repeat="addon in addon.category">#{{addon}} </span>
@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <a href="#!/marketplace/new" class="btn btn-lg btn-default">Create an Addon</a>
+            <a href="#/marketplace/new" class="btn btn-lg btn-default">Create an Addon</a>
         </div>
 	</div>
 </div>
