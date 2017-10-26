@@ -1,5 +1,5 @@
-angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routeParams', 'user',
-    function($scope, $routeParams, user) {
+﻿angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routeParams', 'user', '$location',
+    function($scope, $routeParams, user, $location) {
 
       console.log('LOGIN');
 
@@ -45,7 +45,9 @@ angular.module('engineControllers').controller('LoginCtrl', ['$scope', '$routePa
               });
     		user.token = $scope.token;
 
-        //window.location = 'app.html#/library';
+
+            //window.location = '#/library';
+
     		// user.githubUser = user.github.getUser();
     		// user.githubUser.orgs(function(err, results) {
     		// 	if(err) {
