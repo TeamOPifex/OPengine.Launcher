@@ -150,7 +150,8 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
             // Zip up the addon
             var zip = new require('node-zip')();
             for( var i = 0; i < $scope.files.length; i++ ) {
-                zip.file($scope.files[i].name, fs.readFileSync( $scope.folder + $scope.files[i].name));
+                var zipFileName = $scope.files[i].name.split('\\').join('/');
+                zip.file(zipFileName, fs.readFileSync( $scope.folder + $scope.files[i].name));
             }
             
             var data = zip.generate({ base64:false, compression: 'DEFLATE' });
