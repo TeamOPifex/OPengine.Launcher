@@ -61,7 +61,10 @@ angular.module('engineControllers').controller('MarketplaceCtrl', ['$scope', '$r
                       return;
                     }
 
-                    ipc.send('install', data.result);
+                    ipc.send('install', {
+                        id: '',
+                        url: data.result
+                    });
                 }
             })
         }

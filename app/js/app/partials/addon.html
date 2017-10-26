@@ -1,1 +1,17 @@
-AN ADDON APPEARED!
+<h1>Addon {{addon.name}}</h1>
+
+<img style="max-width: 100px" src="{{imageUrl}}" />
+<br />
+<br />
+<div ng-if="!addon.installed">
+        <label>Install</label>
+        <br />
+        <a class="btn btn-primary" ng-click="Install()">Latest {{addon.latest}}</a>
+</div>
+<div ng-if="addon.installed">
+    <div><label>Installed:<b> {{addon.installedVersion}}</b></label></div>
+    <br />
+    <label>Re-install Fresh</label>
+    <br />
+    <a class="btn btn-primary" ng-click="Install()">Latest {{addon.latest}}</a>
+</div>

@@ -181,14 +181,15 @@ function launcherWindow(app, token) {
 		}
 	  ipcMain.on('sceneEditor', sceneEditor);
 
-		function install(event, file) {
+		function install(event, data) {
 
 					// mainWindow.webContents.send('progress', file);
 
 					var Spawn = require('child_process').spawn;
 					var Exec = require('child_process').exec;
 
-					Download(file, function(err, result) {
+					console.log('INSTALL', data);
+					Download(data.url, function(err, result) {
 							if(err) {
 									return;
 							}
@@ -196,12 +197,26 @@ function launcherWindow(app, token) {
 
 
 							var root = require('os').homedir() + '/.opengine';
-							var folder = root + '/marketplace/';
+							var folder = root + '/marketplace/' + data.id + '/';
+							var fs = require('fs');
+							if(!fs.existsSync(folder)) {
+								fs.mkdirSync(folder);
+							}
+
 							var unzipExtractor = require('unzip').Extract({ path: folder });
 							unzipExtractor.on('close', function() {
-									mainWindow.webContents.send('finished', result);
+								mainWindow.webContents.send('finished', result);
 							});
 							require('fs').createReadStream(result.folder + result.file).pipe(unzipExtractor);
+
+							// var nodezip = require('node-zip');
+							// var zipdata = fs.readFileSync(result.folder + result.file);
+							// var zip = nodezip(zipdata, {base64: false, checkCRC32: true});
+							
+							// var files = Object.keys(zip.files);
+							// for(var i = 0; i < files.length; i++) {
+							// 	console.log(files[i], zip.files[files[i]].name);
+							// }
 							//
 							// switch(require('os').platform()) {
 							// 	case 'win32': {

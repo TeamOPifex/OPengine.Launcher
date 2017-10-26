@@ -20,6 +20,7 @@
     "mkdirp": "^0.5.1",
     "node-watch": "^0.4.1",
     "node-xcode-opifex": "^0.8.5",
+    "node-zip": "^1.1.1",
     "open": "0.0.5",
     "psd": "^3.1.0",
     "request": "^2.72.0",

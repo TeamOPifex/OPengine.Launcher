@@ -12,7 +12,7 @@
         <br />
         <div class="row">
             <div class="col-xs-12">
-                <div class="fileSelection" style="width: 100%; height: 300px; overflow-y: scroll;">
+                <div class="fileSelection" style="width: 100%; height: 100%; overflow-y: scroll;">
                   <table class="table">
                     <tr ng-repeat="file in files" ng-if="file.selected">
                       <td>
@@ -40,74 +40,12 @@
                 </div>
             </div>
         </div>
-        <br />
-
-        <div class="row">
-          <div ng-class="{ 'col-xs-4': selectedOS == 'Windows', 'col-xs-6': selectedOS != 'Windows'}">
-            <div class="styled-select">
-              <select class="form-control" ng-model="selectedOS">
-                <option ng-repeat="opt in osOptions" value="{{opt.name}}">{{opt.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-xs-4" ng-show="selectedOS == 'Windows'">
-            <div class="styled-select">
-              <select class="form-control" ng-model="selectedVS">
-                <option ng-repeat="opt in vsOptions" value="{{opt.name}}">{{opt.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div ng-class="{ 'col-xs-4': selectedOS == 'Windows', 'col-xs-6': selectedOS != 'Windows'}">
-            <a style="width: 100%" ng-click="addBinary()" href="javascript:void(0);" class="btn btn-lg btn-default">
-                Add Package
-            </a>
-          </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-xs-12">
-                <div ng-repeat="binary in binaries">
-                    <div>
-                        <h1 ng-if="binary.vs">{{binary.vs}} Package</h1>
-                        <h1 ng-if="!binary.vs">{{binary.os}} Package</h1>
-                    </div>
-                    <div>
-                        <div class="fileSelection" style="width: 100%; height: 300px; overflow-y: scroll;">
-                          <table class="table">
-                            <tr ng-repeat="file in binary.files" ng-if="file.selected">
-                              <td>
-                                <label class="text">{{file.name}}</label>
-                              </td>
-                              <td>
-                                <div class="checkbox">
-                                    <input ng-model="file.selected" type="checkbox" id="file_{{file.id}}" />
-                                    <label class="check" for="file_{{file.id}}"></label>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr ng-repeat="file in binary.files" ng-if="!file.selected">
-                              <td>
-                                <label class="text">{{file.name}}</label>
-                              </td>
-                              <td>
-                                <div class="checkbox">
-                                    <input ng-model="file.selected" type="checkbox" id="file_{{file.id}}" />
-                                    <label class="check" for="file_{{file.id}}"></label>
-                                </div>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col-xs-4 text-left" style="border-left: 1px solid #ccc">
       <br />
       <div class="row">
         <div class="col-xs-4">
-          <img src="#" />
+          <img src="{{image}}" style="width: 100%" />
         </div>
         <div class="col-xs-8">
           <div><input placeholder="Addon Name" class="form-control" type="text" ng-model="addon" /></div>
@@ -123,7 +61,7 @@
           <h3>Images</h3>
         </div>
         <div class="col-xs-12">
-          <a href="javascript:void(0)" class="btn btn-primary form-control">Create</a>
+          <a href="javascript:void(0)" class="btn btn-primary form-control" ng-click="Create()">Create Addon</a>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
 
             var toolchain = configuration.getValue(config, 'OPIFEX_OPTION_EMSCRIPTEN');
             if(toolchain) {
-                args.push('-DCMAKE_TOOLCHAIN_FILE=~/emsdk_portable/emscripten/1.35.0/cmake/Modules/Platform/Emscripten.cmake');
+                args.push('-DCMAKE_TOOLCHAIN_FILE=~/repos/external/emsdk/emscripten/incoming/cmake/Modules/Platform/Emscripten.cmake');
                 //args.push('-DEMSCRIPTEN_ROOT_PATH=~/emsdk_portable/')
                 args.push('-DCMAKE_BUILD_TYPE=Release');
                 //args.push('-G "Unix Makefiles"');

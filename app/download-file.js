@@ -15,49 +15,49 @@ function Download(files, cb, cbProgress) {
       url = files;
     } else {
 
-      var platform = null;
-      switch(os.platform()) {
-        case 'win32':{
-          platform = files.windows;
-          break;
-        }
-        case 'darwin': {
-          platform = files.osx;
-          break;
-        }
-        case 'linux': {
-          platform = files.linux;
-          break;
-        }
-      }
+    //   var platform = null;
+    //   switch(os.platform()) {
+    //     case 'win32':{
+    //       platform = files.windows;
+    //       break;
+    //     }
+    //     case 'darwin': {
+    //       platform = files.osx;
+    //       break;
+    //     }
+    //     case 'linux': {
+    //       platform = files.linux;
+    //       break;
+    //     }
+    //   }
 
-      if(platform == null) {
-        console.log('WARNING: platform was not found');
-        return;
-      }
+    //   if(platform == null) {
+    //     console.log('WARNING: platform was not found');
+    //     return;
+    //   }
 
-      if(!platform.x86_x64) {
-        switch(os.arch()) {
-          case 'x64': {
-            file = platform.x64.file;
-            url = platform.x64.url;
-            break;
-          }
-          case 'ia32': {
-            file = platform.x86.file;
-            url = platform.x86.url;
-            break;
-          }
-          default: {
-            console.log('WARNING: architecture not supported');
-            return;
-          }
-        }
-      } else {
-        file = platform.x86_x64.file;
-        url = platform.x86_x64.url;
-      }
-    }
+    //   if(!platform.x86_x64) {
+    //     switch(os.arch()) {
+    //       case 'x64': {
+    //         file = platform.x64.file;
+    //         url = platform.x64.url;
+    //         break;
+    //       }
+    //       case 'ia32': {
+    //         file = platform.x86.file;
+    //         url = platform.x86.url;
+    //         break;
+    //       }
+    //       default: {
+    //         console.log('WARNING: architecture not supported');
+    //         return;
+    //       }
+    //     }
+    //   } else {
+    //     file = platform.x86_x64.file;
+    //     url = platform.x86_x64.url;
+    //   }
+     }
 
     if(file == null || url == null) {
       console.log('WARNING: file/url was not found');
@@ -77,6 +77,7 @@ function Download(files, cb, cbProgress) {
       var req = request(url);
       req.on('error', function (err) {
           fs.unlink(dest);
+          console.log(err.message);
 
           if (cb) {
               return cb(true, err.message);
@@ -90,6 +91,7 @@ function Download(files, cb, cbProgress) {
       });
 
       stream.on('finish', function() {
+        console.log('finished download');
           stream.close(function() {
               cb(false, {
                   file: file,
@@ -100,7 +102,7 @@ function Download(files, cb, cbProgress) {
 
       stream.on('error', function(err) { // Handle errors
           fs.unlink(dest); // Delete the file async. (But we don't check the result)
-
+          console.log(err.message);
           if (cb) {
               return cb(true, err.message);
           }
