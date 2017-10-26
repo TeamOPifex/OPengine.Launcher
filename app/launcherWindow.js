@@ -205,9 +205,18 @@ function launcherWindow(app, token) {
 
 							var unzipExtractor = require('unzip').Extract({ path: folder });
 							unzipExtractor.on('close', function() {
-									mainWindow.webContents.send('finished', result);
+								mainWindow.webContents.send('finished', result);
 							});
 							require('fs').createReadStream(result.folder + result.file).pipe(unzipExtractor);
+
+							// var nodezip = require('node-zip');
+							// var zipdata = fs.readFileSync(result.folder + result.file);
+							// var zip = nodezip(zipdata, {base64: false, checkCRC32: true});
+							
+							// var files = Object.keys(zip.files);
+							// for(var i = 0; i < files.length; i++) {
+							// 	console.log(files[i], zip.files[files[i]].name);
+							// }
 							//
 							// switch(require('os').platform()) {
 							// 	case 'win32': {
