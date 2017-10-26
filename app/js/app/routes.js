@@ -65,7 +65,7 @@ angular.module('engineApp').config(['$routeProvider',
         templateUrl: 'js/app/partials/newAddon.html',
         controller: 'NewAddonCtrl'
       }).
-      when('/marketplace/addon/:addonName', {
+      when('/marketplace/addon/:id', {
         templateUrl: 'js/app/partials/addon.html',
         controller: 'AddonCtrl'
       }).

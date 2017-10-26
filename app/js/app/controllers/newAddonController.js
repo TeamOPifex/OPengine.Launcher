@@ -7,6 +7,7 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
         $scope.allFiles = [];
         $scope.binaries = [];
         $scope.osOptions = [
+          { name: "All" },
           { name: "Windows" },
           { name: "Linux" },
           { name: "OS X" }
@@ -25,6 +26,10 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
 
         var binaryExtensions = [
           'lib', 'dll', 'exe', 'a', 'dylib'
+        ];
+
+        var excludeByDefault = [
+            'ds_store', 'obj', 'tmp'
         ];
 
         var fs = require('fs'), path = require('path');
@@ -61,9 +66,12 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
                     });
                     if(root.indexOf('\\.git') != -1) return;
                     var selected = true;
-                    if((ext && binaryExtensions.indexOf(ext.toLowerCase()) > -1)) {
+                    if((ext && excludeByDefault.indexOf(ext.toLowerCase()) > -1)) {
                       selected = false;
                     }
+                    // if((ext && binaryExtensions.indexOf(ext.toLowerCase()) > -1)) {
+                    //   selected = false;
+                    // }
                     $scope.files.push({
                         id: $scope.files.length,
                         name: root,
@@ -71,6 +79,20 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
                         ext: ext
                     });
                 });
+
+                console.log($scope.folder + '/package.json');
+                if(fs.existsSync($scope.folder + '/package.json')) {
+                    var data = fs.readFileSync($scope.folder + '/package.json');
+                    console.log(data, data + '');
+                    var package = JSON.parse(data + '');
+                    console.log(package);
+                    $scope.package = package;
+                    $scope.addon = package.name || '';
+                    $scope.version = package.version || '';
+                    $scope.description = package.description || '';
+                    $scope.image = 'file:///' + $scope.folder + '/' + package.image || '';
+                }
+
             }
         }
 
@@ -121,5 +143,52 @@ angular.module('engineControllers').controller('NewAddonCtrl', ['$scope', '$rout
                     });
                 }
             }
+        }
+
+        $scope.Create = function() {
+
+            // Zip up the addon
+            var zip = new require('node-zip')();
+            for( var i = 0; i < $scope.files.length; i++ ) {
+                zip.file($scope.files[i].name, fs.readFileSync( $scope.folder + $scope.files[i].name));
+            }
+            
+            var data = zip.generate({ base64:false, compression: 'DEFLATE' });
+            var pathToZip = global.root + '/temp/addon.zip';
+            fs.writeFileSync(pathToZip, data, 'binary');
+
+            var pathToCover = $scope.folder + '/' + $scope.package.image;
+            // Upload to opifex server
+
+            var request = require('request');
+
+            const req = request.post('http://api.opengine.io/api/v1/packages', function (err, resp, body) {
+                if (err) {
+                    console.log('Error!');
+                } else {
+                    console.log('URL: ' + body);
+                }
+            });
+            const form = req.form();
+            form.append('token', window.localStorage['login-token']);
+            form.append('id', $scope.addon.toLowerCase());
+            form.append('version', $scope.version);
+            form.append('name', $scope.addon);
+            form.append('description', $scope.description || '');
+            form.append('package', fs.createReadStream(pathToZip));
+            form.append('image', fs.createReadStream(pathToCover));
+
+
+            // var req = request.post('http://localhost:8081/api/v1/packages', function (err, resp, body) {
+            //     if (err) {
+            //       console.log('Error!');
+            //     } else {
+            //       console.log('URL: ' + body);
+            //     }
+            // });
+            // var form = req.form();
+            // form.append('file', fs.createReadStream(pathToZip));
+            // form.append('id', $scope.addon);
+
         }
     }]);
