@@ -92,7 +92,7 @@
                   if(data.success) {
                     alert('Subscribed successfully');
                   	$(window).trigger('update-account');
-                    window.location = '#/account';
+                    window.location = '#!/account';
 
                   } else {
                     alert('There was a problem: ' + data.message);

@@ -46,7 +46,7 @@
     		user.token = $scope.token;
 
 
-            //window.location = '#/library';
+            //window.location = '#!/library';
 
     		// user.githubUser = user.github.getUser();
     		// user.githubUser.orgs(function(err, results) {
