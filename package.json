@@ -25,7 +25,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "concat-files": "^0.1.0",
-    "electron-prebuilt": "^1.4.12",
+    "electron-prebuilt": "^1.4.13",
     "filewatcher": "^3.0.1",
     "fs-jetpack": "^0.8.0",
     "github-api": "^1.1.0",

@@ -315,8 +315,8 @@ input.Number {
 
 	a.Model {
 		display: inline-block;
-		width: 120px;
-		height: 60px;
+		width: 260px;
+		height: 130px;
 		margin: 10px;
 		padding: 5px;
 		overflow: hidden;
@@ -325,6 +325,7 @@ input.Number {
 
 	a.Model.Texture {
 		background-size: contain;
+		width: 120px;
 		height: 120px;
 		margin: 0;
 		padding: 0;

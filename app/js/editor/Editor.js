@@ -70,7 +70,9 @@ var Editor = function () {
 		showGridChanged: new Signal(),
 		refreshSidebarObject3D: new Signal(),
 		historyChanged: new Signal(),
-		refreshScriptEditor: new Signal()
+		refreshScriptEditor: new Signal(),
+
+		gameTypesUpdate: new Signal()
 
 	};
 

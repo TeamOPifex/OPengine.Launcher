@@ -1078,7 +1078,7 @@ h2 {
     .tabs {
       position: absolute;
       left: 0;
-      width: 50%;
+      width: 100%;
       text-align: left;
       .tab {
         height: 47px;
@@ -1089,6 +1089,8 @@ h2 {
         font-size: 20px;
         -webkit-app-region: no-drag;
         cursor: pointer;
+        max-width: 50%;
+        overflow: hidden;
 
         .tab-state {
           height: 3px;

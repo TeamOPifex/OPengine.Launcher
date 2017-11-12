@@ -83,7 +83,7 @@ Sidebar.Object = function ( editor ) {
 	// name
 
 	var objectNameRow = new UI.Row();
-	var objectName = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+	var objectName = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onKeyUp( function () {
 
 		editor.execute( new SetValueCommand( editor.selected, 'name', objectName.getValue() ) );
 
@@ -97,7 +97,7 @@ Sidebar.Object = function ( editor ) {
 		// opm
 
 		var objectOPMRow = new UI.Row();
-		var objectOPM = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+		var objectOPM = new UI.Input().setWidth( '150px' ).setFontSize( '12px' ).onKeyUp( function () {
 
 			editor.execute( new SetValueCommand( editor.selected, 'opm', objectOPM.getValue() ) );
 
@@ -115,11 +115,17 @@ Sidebar.Object = function ( editor ) {
 	objectGameTypeRow.add( new UI.Text( 'GameType' ).setWidth( '90px' ) );
 
 	var objectGameTypes = new UI.Select().setPosition('absolute').setRight( '8px' ).setFontSize( '11px' );
-	var gameTypeOptions = { " ": " " };
-	for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
-		gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+
+	function SetGameOptions() {
+		var gameTypeOptions = { " ": " " };
+		for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
+			gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+		}
+		objectGameTypes.setOptions( gameTypeOptions );
 	}
-	objectGameTypes.setOptions( gameTypeOptions );
+	SetGameOptions();
+	editor.signals.gameTypesUpdate.add(SetGameOptions);
+
 	// 	{
 	// 	'Static': 'Static',
 	// 	'Static Triangle': 'Static Triangle',
@@ -347,22 +353,34 @@ Sidebar.Object = function ( editor ) {
 	var timeout;
 
 	var objectUserDataRow = new UI.Row();
-	var objectUserData = new UI.TextArea().setWidth( '150px' ).setHeight( '40px' ).setFontSize( '12px' ).onChange( update );
+	var objectUserData = new UI.TextArea().setWidth( '150px' ).setHeight( '40px' ).setFontSize( '12px' );
+
+	var userSaveDataTimer = null;
+
 	objectUserData.onKeyUp( function () {
 
-		try {
-
-			JSON.parse( objectUserData.getValue() );
-
-			objectUserData.dom.classList.add( 'success' );
-			objectUserData.dom.classList.remove( 'fail' );
-
-		} catch ( error ) {
-
-			objectUserData.dom.classList.remove( 'success' );
-			objectUserData.dom.classList.add( 'fail' );
-
+		if(userSaveDataTimer != null) {
+			clearTimeout(userSaveDataTimer);
+			userSaveDataTimer = null;
 		}
+
+		userSaveDataTimer = setTimeout(function() {
+			try {
+	
+				JSON.parse( objectUserData.getValue() );
+	
+				objectUserData.dom.classList.add( 'success' );
+				objectUserData.dom.classList.remove( 'fail' );
+	
+			} catch ( error ) {
+	
+				objectUserData.dom.classList.remove( 'success' );
+				objectUserData.dom.classList.add( 'fail' );
+	
+			}
+	
+			update();
+		}, 500);
 
 	} );
 
