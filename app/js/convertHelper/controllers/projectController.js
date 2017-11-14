@@ -99,35 +99,35 @@ angular.module('convertHelperApp').controller('ProjectCtrl', ['$scope', '$routeP
           });
         }
 
-        // if(evt.isFile && evt.eventType == 'change' && evt.filename.endsWith('.fbx')) {
-        //   console.log('TIME TO DO THE PROCESSING!');
-        //   var spawn = require('child_process').spawn;
-        //   var cmd = 'C:\\Program Files\\Autodesk\\FBX\\FBX Converter\\2013.3\\bin\\FbxConverter.exe';
-        //   var dest = evt.filename.split('.fbx').join('') + '.dae';
-        //   var args = [evt.filename, dest, '/sffFBX', '/dffCOLLADA'];
-        //   var child = spawn(cmd, args, {
-        //       cwd: evt.dir,
-        //       env: process.env
-        //   });
+        if(evt.isFile && evt.eventType == 'change' && evt.filename.endsWith('.fbx')) {
+          console.log('TIME TO DO THE PROCESSING!');
+          var spawn = require('child_process').spawn;
+          var cmd = 'C:\\Program Files\\Autodesk\\FBX\\FBX Converter\\2013.3\\bin\\FbxConverter.exe';
+          var dest = evt.filename.split('.fbx').join('') + '.dae';
+          var args = [evt.filename, dest, '/sffFBX', '/dffCOLLADA'];
+          var child = spawn(cmd, args, {
+              cwd: evt.dir,
+              env: process.env
+          });
 
-        //   child.stdout.on('data', function(data) {
-        //       console.log('stdout: ' + data);
-        //   });
+          child.stdout.on('data', function(data) {
+              console.log('stdout: ' + data);
+          });
 
-        //   child.stderr.on('data', function (data) {
-        //       console.log('stderr: ' + data);
-        //   });
+          child.stderr.on('data', function (data) {
+              console.log('stderr: ' + data);
+          });
 
-        //   child.on('close', function (code) {
-        //       console.log('child process exited with code ' + code);
-        //       $scope.lastChanged = evt.filename;
-        //       $scope.$digest();
-        //   });
+          child.on('close', function (code) {
+              console.log('child process exited with code ' + code);
+              $scope.lastChanged = evt.filename;
+              $scope.$digest();
+          });
 
-        //   child.on('error', function(code) {
-        //       console.log('error: ' + code);
-        //   });
-        // }
+          child.on('error', function(code) {
+              console.log('error: ' + code);
+          });
+        }
       });
       $scope.watch.add($scope.project.repo.absolute, true);
     }
