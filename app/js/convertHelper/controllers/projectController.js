@@ -72,6 +72,36 @@ angular.module('convertHelperApp').controller('ProjectCtrl', ['$scope', '$routeP
         if(evt.isFile && evt.eventType == 'change' && evt.filename.endsWith('.fbx')) {
           console.log('TIME TO DO THE PROCESSING!');
           var spawn = require('child_process').spawn;
+          var cmd = 'C:\\Users\\ghoofman\\.opengine\\build\\OPengine.Tool.OPM_build\\Debug\\Tool-OPM.exe';
+          //var dest = evt.filename.split('.fbx').join('') + '.dae';
+          var args = [ evt.dir + evt.filename ];
+          var child = spawn(cmd, args, {
+              cwd: evt.dir,
+              env: process.env
+          });
+
+          child.stdout.on('data', function(data) {
+              console.log('stdout: ' + data);
+          });
+
+          child.stderr.on('data', function (data) {
+              console.log('stderr: ' + data);
+          });
+
+          child.on('close', function (code) {
+              console.log('child process exited with code ' + code);
+              $scope.lastChanged = evt.filename;
+              $scope.$digest();
+          });
+
+          child.on('error', function(code) {
+              console.log('error: ' + code);
+          });
+        }
+
+        if(evt.isFile && evt.eventType == 'change' && evt.filename.endsWith('.fbx')) {
+          console.log('TIME TO DO THE PROCESSING!');
+          var spawn = require('child_process').spawn;
           var cmd = 'C:\\Program Files\\Autodesk\\FBX\\FBX Converter\\2013.3\\bin\\FbxConverter.exe';
           var dest = evt.filename.split('.fbx').join('') + '.dae';
           var args = [evt.filename, dest, '/sffFBX', '/dffCOLLADA'];

@@ -53,15 +53,23 @@ var Menubar = function ( editor ) {
 	window.defaultGameType = ' ';
 
 	objectGameTypes.setClass( 'Select option' );
-	var gameTypeOptions = { " ": " " };
-	for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
-		gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+	function SetGameTypes() {
+		var gameTypeOptions = { " ": " " };
+		for(var i = 0; i < window.editorSettings.GameTypes.length; i++) {
+			gameTypeOptions[window.editorSettings.GameTypes[i]] = window.editorSettings.GameTypes[i];
+		}
+		objectGameTypes.setOptions( gameTypeOptions );
 	}
-	objectGameTypes.setOptions( gameTypeOptions );
+	SetGameTypes();
 
 	objectGameTypes.onChange( function () {
 		window.defaultGameType = objectGameTypes.getValue();
 	});
+
+	editor.signals.gameTypesUpdate.add(SetGameTypes);
+
+	
+
 	console.log(objectGameTypes);
 	container.add( objectGameTypes );
 

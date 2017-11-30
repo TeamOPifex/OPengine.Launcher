@@ -41,6 +41,68 @@ Sidebar.Settings = function ( editor ) {
 
 	container.add( themeRow );
 
+
+
+	
+	// editor.json
+
+	var objectEditorSettingsDataRow = new UI.Row();
+	var objectEditorSettingsData = new UI.TextArea().setWidth( '150px' ).setHeight( '40px' ).setFontSize( '12px' );
+
+	// Read editor.json & setValue
+	var fs = require('fs');
+	var filePath = window.projectPath + '/editor.json';
+	if(fs.existsSync(filePath)) {
+		
+		var fileData = fs.readFileSync(filePath);
+		objectEditorSettingsData.setValue(fileData + '');
+	} else {
+		objectEditorSettingsData.setValue('{}');
+	}
+
+	var editSettingsSaveDataTimer = null;
+	objectEditorSettingsData.onKeyUp( function () {
+
+		if(editSettingsSaveDataTimer != null) {
+			clearTimeout(editSettingsSaveDataTimer);
+			editSettingsSaveDataTimer = null;
+		}
+		
+		editSettingsSaveDataTimer = setTimeout(function() {
+			try {
+	
+				var result = JSON.parse( objectEditorSettingsData.getValue() );
+	
+				objectEditorSettingsData.dom.classList.add( 'success' );
+				objectEditorSettingsData.dom.classList.remove( 'fail' );
+
+				// Save to editor.json
+				var dataToFile = JSON.stringify( result, null, 4 );
+				fs.writeFileSync( filePath, dataToFile );
+				objectEditorSettingsData.setValue(dataToFile);
+
+				window.editorSettings = result;
+
+				editor.signals.gameTypesUpdate.dispatch( result );
+	
+			} catch ( error ) {
+	
+				objectEditorSettingsData.dom.classList.remove( 'success' );
+				objectEditorSettingsData.dom.classList.add( 'fail' );
+	
+			}
+	
+			
+		}, 500);
+
+	} );
+
+	objectEditorSettingsDataRow.add( new UI.Text( 'User data' ).setWidth( '90px' ) );
+	objectEditorSettingsDataRow.add( objectEditorSettingsData );
+
+	container.add( objectEditorSettingsDataRow );
+
+
 	return container;
 
 };
