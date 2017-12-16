@@ -95,6 +95,34 @@ angular.module('launcherFactories').factory("Engine", [ 'config', 'run', 'git', 
         },
 
         openSolution: function() {
+            // If it's set to Android, open with Android Studio
+            if(this.OS.value.id == "OPIFEX_ANDROID") {
+                var path = this.build.relative + '/Android';
+                var args = [ path ];
+                var cmd = '';
+
+                // if this system is Windows
+                switch(require('os').type()) {
+                    case 'Darwin': {
+                        args = [ '-a', '/Applications/Android Studio.app', path];
+                        cmd = 'open';
+                        break;
+                    }
+                    case 'Windows_NT': {
+                        cmd = 'C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe';
+                        break;
+                    }
+                    case 'Unix': {
+                        cmd = '';
+                        break;
+                    }
+                    default:
+                        cmd = '';
+                }
+
+                run.cmd('open ' + path, cmd, args, this.build.relative, function() { });
+                return;
+            }
             shell.openItem(this.build.relative + '/OPifexEngine.sln');
         },
 

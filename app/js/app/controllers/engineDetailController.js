@@ -70,6 +70,14 @@ angular.module('engineControllers').controller('EngineDetailCtrl', ['$scope', '$
           if(!$scope.windows) return true;
           return $scope.engine.solutionExists();
         }
+        
+        $scope.canBuild = function() {
+          return $scope.canOpen() && $scope.os.value.id != 'OPIFEX_ANDROID';
+        }
+        
+        $scope.canRun = function() {
+          return $scope.canBuild();
+        }
         $scope.openSLN = function() { $scope.engine.openSolution(); };
         $scope.openWith = function(program) { $scope.engine.repo.openWith(program); };
         $scope.openWithAtom = function() {

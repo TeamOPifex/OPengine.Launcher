@@ -39,8 +39,8 @@
               </div>
 
         			<!-- <a ng-click="cmake()" href="javascript:void();" class="btn btn-primary">Generate</a> -->
-        			<a ng-click="make()" href="javascript:void();" class="btn btn-primary"> <span class="icon-calculate"></span> Build</a>
-        			<a ng-click="run()" href="javascript:void();" class="btn btn-primary">Run&nbsp;&nbsp;<span class="icon-play2"></span></a>
+        			<a ng-click="make()" ng-disabled="!canBuild()" href="javascript:void();" class="btn btn-primary"> <span class="icon-calculate"></span> Build</a>
+        			<a ng-click="run()" ng-disabled="!canRun()" href="javascript:void();" class="btn btn-primary">Run&nbsp;&nbsp;<span class="icon-play2"></span></a>
             </div>
           </div>
           <div class="col-xs-5 text-right">

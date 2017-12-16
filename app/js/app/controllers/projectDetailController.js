@@ -49,6 +49,14 @@ angular.module('engineControllers').controller('ProjectDetailCtrl', ['$scope', '
           if(!$scope.windows) return true;
           return $scope.project.solutionExists();
         }
+        
+        $scope.canBuild = function() {
+          return $scope.canOpen() && $scope.os.value.id != 'OPIFEX_ANDROID';
+        }
+        
+        $scope.canRun = function() {
+          return $scope.canBuild();
+        }
 
         $scope.editor = function() {
           ipc.send('sceneEditor', $routeParams.versionId, $scope.project.repo.absolute);

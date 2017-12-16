@@ -120,6 +120,10 @@ angular.module('launcherFactories').factory("cmake",['console', '$rootScope', 'c
 
                     break;
                 }
+                case 'OPIFEX_ANDROID': {
+                    args.push('-DOPIFEX_ANDROID_SETUP=ON');
+                    break;
+                }
             }
 
         },
