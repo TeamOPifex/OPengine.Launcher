@@ -154,9 +154,11 @@ angular.module('launcherFactories').factory("Project", [ 'config', 'run', 'git',
             config.saveProject(this.repo.relative, this.config);
             var lastBuildConfig = config.getBuildConfig(this.config.engine);
 
+            var isAndroid = this.OS.value.id == 'OPIFEX_ANDROID';
+
             // Check to see if the OPengine needs rebuilding
             //   Likely due to options that have been turned on/off
-            if(this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) {
+            if((this.rebuild || force || !config.isEqual(lastBuildConfig, this.config)) && !isAndroid) {
 
                 // CMake OPengine
                 config.saveEngine(this.config.engine.id, this.config, true);
