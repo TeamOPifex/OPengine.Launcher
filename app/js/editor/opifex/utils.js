@@ -104,7 +104,8 @@ OPIFEX.Utils = {
 
         editor.loader.loadFile({
           name: meshFileName,
-          data: fileData
+          data: fileData,
+          text: fileData.toString()
         }, true, function(object) {
 
           if(!node.material) {

@@ -17,6 +17,18 @@
 
 	var modelsContainer = new UI.Panel();
 
+	function checkFileName(name) {
+		var lower = name.toLowerCase();
+		var match = false;
+		var availableExtensions = ['.opm', '.obj', '.fbx'];
+		availableExtensions.map(function(f) {
+			if(name.endsWith(f)) {
+				match = true;
+			}
+		});
+		return match;
+	}
+
     function GatherModels(pathToLoad) {
         rootFolders = {};
         models = [];
@@ -37,7 +49,8 @@
 
 		rootPath = rootPath.split('\\').join('/');
 	    OPIFEX.Utils.Walk(rootPath, function(result, name, stat, notInRoot, path) {
-			if(!stat.isDirectory() && !name.endsWith('.opm')) return;
+
+			if(!stat.isDirectory() && !checkFileName(name)) return;
 
 			if(notInRoot) {
 				if(!rootFolders[path]) {
